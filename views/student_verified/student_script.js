@@ -444,6 +444,51 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 
+    // Dynamic URL builders pointing to official templates in docs_dynamic
+    function getDynamicPermissionUrl(data) {
+        if (!data) return '/docs_dynamic/dynamic_permission_letter.html';
+        const studentName = data.studentName || 'Student';
+        const enrollmentNo = (data.enrollmentNo || getCurrentEnrollmentNo()).toUpperCase();
+        const course = data.course || data.studentCourse || 'SDSF Program';
+        const semester = data.semester || data.studentSemester || 'Sem I';
+        const companyName = data.companyName || 'Host Organization';
+        const mode = data.internshipMode || 'Off Campus';
+        const ref = data.refNum || data.id || Math.floor(100 + Math.random() * 900);
+        let dateStr = data.date;
+        if (!dateStr && data.submittedAt) {
+            try {
+                dateStr = new Date(data.submittedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            } catch(e) {}
+        }
+        if (!dateStr) {
+            dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        return `/docs_dynamic/dynamic_permission_letter.html?studentName=${encodeURIComponent(studentName)}&enrollmentNo=${encodeURIComponent(enrollmentNo)}&course=${encodeURIComponent(course)}&semester=${encodeURIComponent(semester)}&companyName=${encodeURIComponent(companyName)}&mode=${encodeURIComponent(mode)}&ref=${encodeURIComponent(ref)}&date=${encodeURIComponent(dateStr)}`;
+    }
+
+    function getDynamicNocUrl(data) {
+        if (!data) return '/docs_dynamic/dynamic_noc_letter.html';
+        const studentName = data.studentName || 'Student';
+        const enrollmentNo = (data.enrollmentNo || getCurrentEnrollmentNo()).toUpperCase();
+        const course = data.course || data.studentCourse || 'SDSF Program';
+        const semester = data.semester || data.studentSemester || 'Sem I';
+        const companyName = data.companyName || 'Host Organization';
+        const mode = data.internshipMode || 'Off Campus';
+        const ref = data.refNum || data.id || Math.floor(100 + Math.random() * 900);
+        let dateStr = data.date;
+        if (!dateStr && data.submittedAt) {
+            try {
+                dateStr = new Date(data.submittedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+            } catch(e) {}
+        }
+        if (!dateStr) {
+            dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        return `/docs_dynamic/dynamic_noc_letter.html?studentName=${encodeURIComponent(studentName)}&enrollmentNo=${encodeURIComponent(enrollmentNo)}&course=${encodeURIComponent(course)}&semester=${encodeURIComponent(semester)}&companyName=${encodeURIComponent(companyName)}&mode=${encodeURIComponent(mode)}&ref=${encodeURIComponent(ref)}&date=${encodeURIComponent(dateStr)}`;
+    }
+
     // Render Section 2: Offer / NOC Letter
     function renderOfferLetterSection(data) {
         if (!offerLetterContainer) return;
@@ -461,6 +506,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const isApproved = data.status === "Approved";
         const isDisapproved = data.status === "Rejected" || data.status === "Disapproved";
+        const permDocUrl = getDynamicPermissionUrl(data);
+        const nocDocUrl = getDynamicNocUrl(data);
 
         // Section 1 HTML: Automatic Offer Letter (Always Available when applied)
         let html = `
@@ -477,12 +524,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         </h4>
                         <p style="margin: 0; font-size: 13.5px; color: #475569;">
                             <strong>Applicant:</strong> ${escapeHtml(data.studentName)} | <strong>Course:</strong> ${escapeHtml(data.studentCourse)} (${escapeHtml(data.studentSemester || 'Sem III')}) | <strong>Mode:</strong> ${escapeHtml(data.internshipMode || 'Off Campus')}
+                            <strong>Applicant:</strong> ${escapeHtml(data.studentName)} | <strong>Course:</strong> ${escapeHtml(data.studentCourse || data.course || 'SDSF Course')} (${escapeHtml(data.studentSemester || data.semester || 'Sem I')}) | <strong>Mode:</strong> ${escapeHtml(data.internshipMode || 'Off Campus')}
                         </p>
                     </div>
                     <div>
                         <button type="button" class="btn-download-noc" onclick="showPrintableOfferLetter()" style="background: #0284c7;">
                             <i class="fas fa-eye"></i> View & Print Offer Letter
                         </button>
+                        <a href="${permDocUrl}" target="_blank" class="btn-download-noc" style="background: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-external-link-alt"></i> View & Print Offer Letter
+                        </a>
                     </div>
                 </div>
 
@@ -522,6 +573,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div style="margin-top: 12px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; font-family: 'Poppins', sans-serif;">
                         <span><i class="fas fa-file-contract text-blue-600"></i> Dynamic Template: <a href="/docs_dynamic/dynamic_permission_letter.html" target="_blank" class="text-blue-600 font-semibold hover:underline">docs_dynamic/dynamic_permission_letter.html</a></span>
                         <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold border border-emerald-200">✓ Real-time Letter</span>
+                        <span><i class="fas fa-file-contract text-blue-600"></i> Dynamic Document: <a href="${permDocUrl}" target="_blank" class="text-blue-600 font-semibold hover:underline">dynamic_permission_letter.html</a></span>
+                        <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold border border-emerald-200">✓ Synchronized Template</span>
                     </div>
                 </div>
             </div>
@@ -540,6 +593,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                         <button type="button" class="btn-download-noc" onclick="showPrintableNoc()"><i class="fas fa-file-pdf"></i> View & Print Official NOC Letter</button>
+                        <a href="${nocDocUrl}" target="_blank" class="btn-download-noc" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-file-pdf"></i> View & Print Official NOC Letter
+                        </a>
                     </div>
                 </div>
 
@@ -628,6 +684,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Show printable/downloadable Offer Letter modal
+    // Open dynamic permission letter in new tab
     window.showPrintableOfferLetter = function () {
         const savedData = localStorage.getItem("sdsf_student_noc");
         const data = savedData ? JSON.parse(savedData) : {
@@ -711,6 +768,8 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
         document.body.appendChild(modal);
+        const data = savedData ? JSON.parse(savedData) : null;
+        window.open(getDynamicPermissionUrl(data), '_blank');
     };
 
     window.closePrintableOffer = function () {
@@ -719,6 +778,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Show printable/downloadable NOC Letter modal
+    // Open dynamic NOC letter in new tab
     window.showPrintableNoc = function () {
         const savedData = localStorage.getItem("sdsf_student_noc");
         const data = savedData ? JSON.parse(savedData) : {
@@ -824,6 +884,8 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
         document.body.appendChild(modal);
+        const data = savedData ? JSON.parse(savedData) : null;
+        window.open(getDynamicNocUrl(data), '_blank');
     };
 
     window.closePrintableOffer = function () {
