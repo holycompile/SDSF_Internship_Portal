@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | SDSF DAVV Indore</title>
+    
+    <!-- Font Styles Importing -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Scoped Website Header/Footer Styles -->
+    <link rel="stylesheet" href="/log_in_page_folder/header_footer.css">
+    
+    <!-- Student Portal Specific Stylesheet -->
+    <link rel="stylesheet" href="/student_verified/student_style.css">
+</head>
+<body id="top">
+
+    <!-- Top Dark Navy Copyright Bar with Gold Divider -->
+    <div style="background-color: #121b38; color: #e2e8f0; font-size: 12px; padding: 8px 16px; text-align: center; font-family: 'Montserrat', sans-serif; border-bottom: 4px solid #f2b300;">
+        © SDSF – School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.
+    </div>
+
+    <!-- Institutional Header Strip -->
+    <header style="background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 12px 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" style="height: 60px; width: auto; object-fit: contain;">
+                <div>
+                    <h1 style="font-size: 16px; font-weight: 700; color: #162b57; font-family: 'Oswald', sans-serif; margin: 0; text-transform: uppercase;">
+                        DEVI AHILYA VISHWAVIDYALAYA, INDORE
+                    </h1>
+                    <h2 style="font-size: 13px; font-weight: 600; color: #475569; font-family: 'Oswald', sans-serif; margin: 0; text-transform: uppercase;">
+                        School of Data Science and Forecasting (SDSF)
+                    </h2>
+                    <p style="font-size: 11px; color: #64748b; margin: 0;">Student Internship Portal</p>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="text-align: right; background: #f1f5f9; padding: 6px 14px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <span style="display: block; font-size: 12px; font-weight: 700; color: #162b57;">
+                        <i class="fas fa-user-check" style="color: #10b981;"></i> <%= typeof student !== 'undefined' && student.studentName ? student.studentName : 'Student' %>
+                    </span>
+                    <span style="font-size: 11px; color: #64748b; font-family: monospace;">
+                        <%= typeof student !== 'undefined' && student.enrollmentNo ? student.enrollmentNo : '' %>
+                    </span>
+                </div>
+                <a href="/login" style="background: #ef4444; color: #ffffff; text-decoration: none; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 6px; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Student Portal Container -->
+    <main class="noc-container">
+
+        <div class="student-portal-wrapper">
+            <!-- Left Sidebar with Navigation -->
+            <aside class="student-sidebar">
+                <div class="sidebar-header">
+                    <i class="fas fa-id-card"></i> APPLICANT DETAILS
+                </div>
+                <nav class="sidebar-menu">
+                    <button type="button" class="sidebar-tab active" data-tab="secApplicationForm">
+                        <i class="fas fa-file-alt"></i> APPLICATION FORM
+                    </button>
+                    <button type="button" class="sidebar-tab" data-tab="secOfferLetter">
+                        <i class="fas fa-envelope-open-text"></i> OFFER / NOC LETTER
+                    </button>
+                </nav>
+            </aside>
+
+            <!-- Right Content Panel -->
+            <section class="student-content-panel">
+
+                <!-- SECTION 1: APPLICATION FORM -->
+                <div class="tab-content-section active" id="secApplicationForm">
+                    <div class="panel-section-title" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
+                        <div>
+                            <h3><i class="fas fa-edit"></i> Student Internship NOC Application</h3>
+                            <p>Fill in your details below to submit your No Objection Certificate (NOC) request to the department.</p>
+                        </div>
+                    </div>
+
+                    <form id="studentNocForm">
+                        <input type="hidden" id="studentEnrollment" value="<%= typeof student !== 'undefined' && student.enrollmentNo ? student.enrollmentNo : '' %>">
+                        
+                        <!-- Registration & Personal Details Header -->
+                        <div class="panel-sub-header">Registration & Applicant Details</div>
+
+                        <div class="form-grid-row">
+                            <!-- 1. Student Name -->
+                            <div class="noc-form-group">
+                                <label for="studentName"><i class="fas fa-user"></i> Full Name of Applicant</label>
+                                <input type="text" id="studentName" value="<%= typeof student !== 'undefined' && student.studentName ? student.studentName : '' %>" placeholder="Enter your full name" required>
+                            </div>
+
+                            <!-- 2. Course -->
+                            <div class="noc-form-group">
+                                <label for="studentCourse"><i class="fas fa-graduation-cap"></i> Course / Program</label>
+                                <input type="text" id="studentCourse" value="<%= typeof student !== 'undefined' && student.course ? student.course : '' %>" placeholder="Your Course" required>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-row">
+                            <!-- 3. Semester (Semester X) -->
+                            <div class="noc-form-group">
+                                <label for="studentSemester"><i class="fas fa-layer-group"></i> Semester</label>
+                                <input type="text" id="studentSemester" value="Semester X" readonly style="background-color: #f8fafc; cursor: default;">
+                            </div>
+
+                            <!-- 4. Company Name -->
+                            <div class="noc-form-group">
+                                <label for="companyName"><i class="fas fa-building"></i> Company / Organization</label>
+                                <input type="text" id="companyName" placeholder="Enter company name (e.g. TCS, Deloitte)" required>
+                            </div>
+                        </div>
+
+                        <!-- Internship Details Header -->
+                        <div class="panel-sub-header">Internship Details & Documents</div>
+
+                        <div class="form-grid-row">
+                            <!-- 5. Internship Mode -->
+                            <div class="noc-form-group">
+                                <label><i class="fas fa-briefcase"></i> Internship Mode</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="internshipMode" value="On Campus" required>
+                                        <span>On Campus</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="internshipMode" value="Off Campus" checked required>
+                                        <span>Off Campus</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- 6. Multi-Document Upload with + Add More Button -->
+                            <div class="noc-form-group" style="grid-column: 1 / -1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <label style="margin-bottom: 0;"><i class="fas fa-file-pdf"></i> Upload Offer & Supporting Documents (PDF)</label>
+                                    <button type="button" id="btnAddMoreDocs" style="background: #1e3a8a; color: white; border: none; padding: 5px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                                        <i class="fas fa-plus"></i> Add Document
+                                    </button>
+                                </div>
+
+                                <div id="documentsListContainer" style="display: flex; flex-direction: column; gap: 10px;">
+                                    <div class="doc-upload-row" style="display: flex; gap: 10px; align-items: center; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1;">
+                                        <input type="file" class="internship-doc-file" accept=".pdf,.doc,.docx" required style="flex-grow: 1;">
+                                        <input type="text" class="internship-doc-label" placeholder="Label (e.g. Offer Letter)" value="Offer Letter" style="width: 170px; padding: 7px; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                                        <button type="button" class="btn-remove-doc" style="background: #ef4444; color: white; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: none; align-items: center; justify-content: center;" title="Remove document">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <small class="file-hint" style="margin-top: 6px; display: block;"><i class="fas fa-info-circle"></i> Click <strong>+ Add Document</strong> to attach multiple files (e.g., Offer Letter, Resume, Annexure). All uploaded files will be visible on the Faculty Desk.</small>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-submit-noc">
+                            <i class="fas fa-paper-plane"></i> Submit NOC Application
+                        </button>
+                    </form>
+                </div>
+
+                <!-- SECTION 2: OFFER / NOC LETTER -->
+                <div class="tab-content-section" id="secOfferLetter">
+                    <div class="panel-section-title">
+                        <h3><i class="fas fa-file-signature"></i> Internship Offer & Department NOC Letter</h3>
+                        <p>Your Internship Offer Letter is generated automatically upon application. The official No Objection Certificate (NOC) will be generated once approved by SDSF Faculty.</p>
+                    </div>
+
+                    <div id="offerLetterContainer">
+                        <!-- Rendered dynamically by student_script.js -->
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Official SDSF Website Footer -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-top-bar">
+            <div class="footer-top-line"></div>
+            <a href="#" class="footer-search-btn" aria-label="Search website" title="Search">
+                <i class="fas fa-search"></i>
+            </a>
+        </div>
+
+        <div class="footer-container">
+            <!-- Column 1: Address -->
+            <div class="footer-col footer-col-address">
+                <h3>UNIVERSITY ADDRESS</h3>
+                <p class="univ-title">School of Data Science and Forecasting</p>
+                <p>Devi Ahilya Vishwavidyalaya</p>
+                <p>DAVV Takshila Campus, Khandwa Road</p>
+                <p>Indore, Madhya Pradesh – 452001</p>
+                <p class="contact-info"><strong>Phone:</strong> +91 0731 2470330</p>
+                <p class="contact-info"><strong>Email:</strong> govind_maheshwari2001@yahoo.com</p>
+                <br>
+                <p class="univ-subtitle">SDSF Information Center</p>
+                <p>Indore</p>
+            </div>
+
+            <!-- Column 2: Social Media -->
+            <div class="footer-col footer-col-social">
+                <h3>SOCIAL MEDIA</h3>
+                <ul class="social-list">
+                    <li><a href="https://www.facebook.com/dauniv/" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                    <li><a href="https://twitter.com/dauniv_indore" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="https://www.youtube.com/@deviahilyavishwavidyalayain5656" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    <li><a href="https://www.linkedin.com/school/devi-ahilya-vishwavidyalaya/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                    <li><a href="https://www.instagram.com/dauniv_indore/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Quick Links -->
+            <div class="footer-col footer-col-links">
+                <h3>IMPORTANT LINKS</h3>
+                <ul class="footer-links">
+                    <li><a href="http://localhost:3000/admission.php">Admissions 2026</a></li>
+                    <li><a href="http://localhost:3000/academics.php">Academic Programs</a></li>
+                    <li><a href="http://localhost:3000/about.php">About Department</a></li>
+                    <li><a href="https://www.dauniv.ac.in/" target="_blank" rel="noopener noreferrer">DAVV Official Portal</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© SDSF – School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Server Provided Live Student Application State -->
+    <script id="serverStudentState" type="application/json">
+        <%- JSON.stringify({
+            student: typeof student !== 'undefined' ? student : {},
+            activeApplication: typeof activeApplication !== 'undefined' ? activeApplication : null
+        }) %>
+    </script>
+
+    <!-- Custom Student Script -->
+    <script src="/student_verified/student_script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official No Objection Certificate (NOC) | SDSF DAVV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lora', 'Times New Roman', serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .page-container {
+            width: 100%;
+            max-width: 820px;
+            background: #ffffff;
+            padding: 45px 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            position: relative;
+        }
+        
+        /* Letterhead Header matching the Department Official Format */
+        .letterhead {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #1e3a8a;
+        }
+        .logo-davv {
+            height: 75px;
+            width: auto;
+            object-fit: contain;
+        }
+        .logo-sdsf {
+            height: 75px;
+            width: auto;
+            object-fit: contain;
+        }
+        .header-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .header-text h1 {
+            font-size: 19px;
+            font-weight: 700;
+            color: #1e3a8a;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+        .header-text h2 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 2px;
+        }
+        .header-text p {
+            font-size: 12px;
+            font-style: italic;
+            color: #475569;
+        }
+
+        /* Top Blue Border Strip */
+        .blue-divider {
+            height: 3px;
+            background: #1e3a8a;
+            margin-top: 2px;
+            margin-bottom: 15px;
+        }
+
+        /* Reference & Date Line */
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #0f172a;
+            margin: 18px 0 15px 0;
+        }
+        .meta-row strong {
+            font-weight: 700;
+        }
+
+        /* Certificate Title */
+        .cert-title-box {
+            border-top: 1.5px solid #1e3a8a;
+            border-bottom: 1.5px solid #1e3a8a;
+            padding: 8px 0;
+            margin: 15px 0 25px 0;
+            text-align: center;
+        }
+        .cert-title-box h3 {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* Certificate Body */
+        .cert-body {
+            font-size: 14.5px;
+            line-height: 1.85;
+            text-align: justify;
+            color: #1e293b;
+        }
+        .cert-body p {
+            margin-bottom: 18px;
+        }
+        .highlight-text {
+            font-weight: 700;
+            color: #000000;
+        }
+
+        /* Signature Section */
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 60px;
+            padding-top: 20px;
+        }
+        .sig-col {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .sig-line {
+            width: 180px;
+            border-top: 1px solid #64748b;
+            margin-bottom: 6px;
+        }
+        .sig-col.right {
+            text-align: right;
+        }
+        .sig-col.right .sig-line {
+            margin-left: auto;
+            border-top: 1.5px solid #0f172a;
+        }
+
+        /* Print Controls Bar */
+        .print-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+            max-width: 820px;
+            width: 100%;
+        }
+        .btn-action {
+            background: #1e3a8a;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.2s ease;
+        }
+        .btn-action:hover {
+            background: #172554;
+        }
+        .btn-close {
+            background: #64748b;
+        }
+        .btn-close:hover {
+            background: #475569;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .page-container {
+                box-shadow: none;
+                border: none;
+                padding: 20px;
+                max-width: 100%;
+            }
+            .print-toolbar {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        
+        <!-- Action Toolbar (Hidden in Print) -->
+        <div class="print-toolbar">
+            <button type="button" onclick="window.print()" class="btn-action">
+                <i class="fas fa-print"></i> Print / Save as PDF
+            </button>
+            <button type="button" onclick="window.close()" class="btn-action btn-close">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+
+        <div class="page-container">
+            <!-- Official Header with Left & Right Logos -->
+            <div class="letterhead">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="logo-davv">
+                <div class="header-text">
+                    <h1>DEVI AHILYA VISHWAVIDYALAYA, INDORE</h1>
+                    <h2>SCHOOL OF DATA SCIENCE AND FORECASTING (SDSF)</h2>
+                    <p>Takshila Campus, Khandwa Road, Indore – 452001 (M.P.)</p>
+                </div>
+                <img src="/photoes/departmentlogo_transparent.png" alt="SDSF Logo" class="logo-sdsf">
+            </div>
+            
+            <div class="blue-divider"></div>
+
+            <!-- Reference Number & Date Line -->
+            <div class="meta-row">
+                <div>Ref No: SDSF/NOC/2026/<span id="nocRefNum" class="highlight-text">756</span></div>
+                <div>Date: <span id="nocDate" class="highlight-text">24 August 2026</span></div>
+            </div>
+
+            <!-- Certificate Title -->
+            <div class="cert-title-box">
+                <h3>OFFICIAL NO OBJECTION CERTIFICATE (NOC)</h3>
+            </div>
+
+            <!-- Main Body -->
+            <div class="cert-body">
+                <p>
+                    This is to certify that <span id="nocStudentName" class="highlight-text">Nikhil Agarwal</span> (Enrollment / Roll No: <span id="nocEnrollmentNo" class="highlight-text">MB2402285</span>) is a bonafide student of the <span id="nocCourse" class="highlight-text">MBA (Business Analytics)</span> program (<span id="nocSemester" class="highlight-text">Sem II</span>) at the School of Data Science and Forecasting (SDSF), Devi Ahilya Vishwavidyalaya, Indore.
+                </p>
+
+                <p>
+                    The Department has <strong>NO OBJECTION</strong> for the candidate to undergo internship / professional project training at <span id="nocCompany" class="highlight-text">Tata Consultancy Services</span> (<span id="nocMode" class="highlight-text">Off-Campus</span>) for the current academic session.
+                </p>
+
+                <p>
+                    During the period of internship, the student is expected to adhere to all the rules, regulations, academic discipline, and confidentiality standards of the host organization and the university.
+                </p>
+
+                <p>
+                    We wish the student all success in their professional endeavor.
+                </p>
+            </div>
+
+            <!-- Signatures -->
+            <div class="signature-section">
+                <div class="sig-col">
+                    <div class="sig-line"></div>
+                    <div style="font-weight: 700;">Signature of Student</div>
+                    <div style="color: #475569;">Student Name: <span id="nocSigName" class="highlight-text">Nikhil Agarwal</span></div>
+                </div>
+                <div class="sig-col right">
+                    <div class="sig-line"></div>
+                    <div style="font-weight: 700; text-transform: uppercase;">Head of Department</div>
+                    <div style="color: #475569; font-weight: 600;">School of Data Science & Forecasting</div>
+                    <div style="color: #475569;">DAVV, Indore</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Extract query parameters or dynamic state
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('studentName')) document.getElementById('nocStudentName').innerText = urlParams.get('studentName');
+        if (urlParams.has('studentName')) document.getElementById('nocSigName').innerText = urlParams.get('studentName');
+        if (urlParams.has('enrollmentNo')) document.getElementById('nocEnrollmentNo').innerText = urlParams.get('enrollmentNo');
+        if (urlParams.has('course')) document.getElementById('nocCourse').innerText = urlParams.get('course');
+        if (urlParams.has('semester')) document.getElementById('nocSemester').innerText = urlParams.get('semester');
+        if (urlParams.has('companyName')) document.getElementById('nocCompany').innerText = urlParams.get('companyName');
+        if (urlParams.has('mode')) document.getElementById('nocMode').innerText = urlParams.get('mode');
+        if (urlParams.has('ref')) document.getElementById('nocRefNum').innerText = urlParams.get('ref');
+        if (urlParams.has('date')) document.getElementById('nocDate').innerText = urlParams.get('date');
+    </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Verification | SDSF DAVV Indore</title>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Scoped Website Footer Styles -->
+    <link rel="stylesheet" href="/log_in_page_folder/header_footer.css">
+
+    <!-- Tailwind CSS (Fast Synchronous CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        heading: ['Oswald', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .font-heading { font-family: 'Oswald', sans-serif; }
+        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+        
+        /* Critical Instant Layout */
+        .portal-card {
+            width: 100% !important;
+            max-width: 720px !important;
+        }
+
+        .portal-input {
+            width: 100% !important;
+            padding: 10px 14px 10px 42px !important;
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 6px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            color: #1e293b !important;
+            background-color: #ffffff !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            box-sizing: border-box !important;
+        }
+        .portal-input:focus {
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+        }
+        .portal-input-readonly {
+            background-color: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #334155 !important;
+            cursor: not-allowed !important;
+            font-weight: 600 !important;
+        }
+    </style>
+</head>
+<body id="top" class="bg-[#f8fafc] text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Top Dark Navy Copyright Bar with Gold Divider -->
+    <div class="bg-[#121b38] text-slate-200 text-xs py-2 px-4 text-center font-montserrat tracking-wide border-b-4 border-[#f2b300]">
+        © SDSF – School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.
+    </div>
+
+    <!-- Clean White Institutional Header Strip -->
+    <header class="bg-white border-b border-slate-200 shadow-sm py-3.5 px-6 sm:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <!-- Left Side: DAVV Logo & Department Names -->
+            <div class="flex items-center gap-4">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-16 w-auto object-contain shrink-0">
+                <div>
+                    <h1 class="text-sm sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
+                        DEVI AHILYA VISHWAVIDYALAYA, INDORE
+                    </h1>
+                    <h2 class="text-xs sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
+                        School of Data Science and Forecasting (SDSF)
+                    </h2>
+                    <p class="text-[11px] text-slate-500">Takshila Campus, Khandwa Road, Indore - 452001 (M.P.)</p>
+                </div>
+            </div>
+
+            <!-- Right Side: Department Logo & Back Button -->
+            <div class="flex items-center gap-6">
+                <img src="/photoes/deplogo.png" onerror="this.src='/photoes/departmentlogo_transparent.png'" alt="SDSF Logo" class="h-14 w-auto object-contain hidden md:block">
+                <a href="http://localhost:3000" class="inline-flex items-center gap-2 bg-[#162b57] hover:bg-[#0b132b] text-white text-xs font-semibold px-4 py-2.5 rounded-md shadow-sm transition">
+                    <i class="fas fa-arrow-left"></i> Back to Main Website
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Container with Enrollment Verification Card -->
+    <main class="py-8 px-4 flex items-center justify-center flex-grow">
+        <div class="portal-card w-full max-w-[720px] bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden flex flex-col">
+            
+            <!-- Top Dark Navy Card Banner -->
+            <div class="bg-[#16223e] text-white py-4 px-6 text-center border-b-4 border-[#f2b300]">
+                <span class="inline-block bg-emerald-500/20 border border-emerald-400 text-emerald-400 text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
+                    <i class="fas fa-check-circle mr-1"></i> VERIFIED ENROLLMENT RECORD
+                </span>
+                <h2 class="text-2xl sm:text-[28px] font-bold tracking-wider uppercase font-heading text-white leading-tight">ENROLLMENT VERIFICATION</h2>
+                <p class="text-slate-300 text-xs">Student record verified successfully in the SDSF department database</p>
+            </div>
+
+            <!-- Card Content Panel -->
+            <div class="px-6 py-6 sm:px-10">
+                
+                <div class="max-w-lg mx-auto">
+                    
+                    <!-- Verified Banner -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3.5 mb-5 flex items-center justify-between text-xs text-emerald-800 shadow-sm">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fas fa-check-circle text-emerald-600 text-lg"></i>
+                            <div>
+                                <span class="font-bold block">Record Found & Verified!</span>
+                                <span class="text-[11px] text-emerald-700">Enrolled in: <strong><%= typeof student !== 'undefined' && student.course ? student.course : 'SDSF Department' %></strong></span>
+                            </div>
+                        </div>
+                        <a href="/login" class="text-blue-600 font-semibold hover:underline text-xs flex items-center gap-1">
+                            <i class="fas fa-redo-alt text-[10px]"></i> Change
+                        </a>
+                    </div>
+
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <!-- Error Alert Banner -->
+                        <div class="bg-rose-50 border border-rose-200 text-rose-700 px-4 py-3 rounded-md text-xs flex items-center gap-2.5 mb-4 shadow-sm">
+                            <i class="fas fa-exclamation-circle text-rose-500 text-base shrink-0"></i>
+                            <span class="font-medium"><%= error %></span>
+                        </div>
+                    <% } %>
+
+                    <form action="/login" method="POST" class="space-y-3.5">
+                        <input type="hidden" name="role" value="student_verified">
+                        
+                        <!-- Grid: Full Name & Enrollment No. (Autofilled) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- Student Name -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                    STUDENT NAME
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                                    <input type="text" name="studentName" value="<%= typeof student !== 'undefined' ? student.studentName : '' %>" readonly class="portal-input portal-input-readonly">
+                                </div>
+                            </div>
+
+                            <!-- Enrollment No -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                    ENROLLMENT NO.
+                                </label>
+                                <div class="relative">
+                                    <i class="fas fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                                    <input type="text" name="enrollmentNo" value="<%= typeof student !== 'undefined' ? student.enrollmentNo : '' %>" readonly class="portal-input portal-input-readonly uppercase">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Course / Program -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                COURSE / PROGRAM
+                            </label>
+                            <div class="relative">
+                                <i class="fas fa-graduation-cap absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                                <input type="text" name="course" value="<%= typeof student !== 'undefined' ? student.course : '' %>" readonly class="portal-input portal-input-readonly">
+                            </div>
+                        </div>
+
+                        <!-- Student Email ID -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                                EMAIL ADDRESS
+                            </label>
+                            <div class="relative">
+                                <i class="fas fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                                <input type="email" name="email" value="<%= typeof student !== 'undefined' && student.email ? student.email : '' %>" placeholder="Enter your email address" class="portal-input <%= typeof student !== 'undefined' && student.email ? 'portal-input-readonly' : '' %>" <%= typeof student !== 'undefined' && student.email ? 'readonly' : 'required' %>>
+                            </div>
+                        </div>
+
+                        <!-- Verification Code Notice Banner -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-md p-2.5 flex items-center gap-2.5 text-xs text-blue-800">
+                            <i class="fas fa-info-circle text-blue-600 text-sm shrink-0"></i>
+                            <span>A verification code has been sent to your registered email address (<strong class="text-blue-950"><%= typeof student !== 'undefined' && student.email ? student.email : 'your email address' %></strong>).</span>
+                        </div>
+
+                        <!-- Verification Code Entry (UI) -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    VERIFICATION CODE <span class="text-red-500">*</span>
+                                </label>
+                                <button type="button" class="text-xs text-blue-600 hover:underline font-semibold cursor-pointer" onclick="alert('Verification code sent to your email address!')">
+                                    <i class="fas fa-paper-plane mr-1"></i> Resend Code
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <i class="fas fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                                <input type="text" name="verificationCode" required maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit verification code" class="portal-input font-mono tracking-widest uppercase" autocomplete="off">
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">Enter the verification code sent to your email.</p>
+                        </div>
+
+                        <!-- Submit & Action Buttons -->
+                        <div class="pt-2 space-y-2.5">
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-md transition flex items-center justify-center gap-2 shadow-sm text-sm cursor-pointer">
+                                <i class="fas fa-check-circle"></i> Verify
+                            </button>
+                            
+                            <div class="text-center pt-1.5">
+                                <a href="/login" class="text-xs text-slate-500 hover:text-blue-600 font-medium inline-flex items-center gap-1.5">
+                                    <i class="fas fa-arrow-left"></i> Back to Log In
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Official SDSF Website Footer -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-top-bar">
+            <div class="footer-top-line"></div>
+            <a href="#" class="footer-search-btn" aria-label="Search website" title="Search">
+                <i class="fas fa-search"></i>
+            </a>
+        </div>
+
+        <div class="footer-container">
+            <!-- Column 1: Address -->
+            <div class="footer-col footer-col-address">
+                <h3>UNIVERSITY ADDRESS</h3>
+                <p class="univ-title">School of Data Science and Forecasting</p>
+                <p>Devi Ahilya Vishwavidyalaya</p>
+                <p>DAVV Takshila Campus, Khandwa Road</p>
+                <p>Indore, Madhya Pradesh – 452001</p>
+                <p class="contact-info"><strong>Phone:</strong> +91 0731 2470330</p>
+                <p class="contact-info"><strong>Email:</strong> govind_maheshwari2001@yahoo.com</p>
+                <br>
+                <p class="univ-subtitle">SDSF Information Center</p>
+                <p>Indore</p>
+            </div>
+
+            <!-- Column 2: Social Media -->
+            <div class="footer-col footer-col-social">
+                <h3>SOCIAL MEDIA</h3>
+                <ul class="social-list">
+                    <li>
+                        <a href="https://www.linkedin.com/school/school-of-data-science-and-forecasting-davv-university/" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-linkedin-in"></i> <span>LinkedIn</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/davv_sdsf/" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-instagram"></i> <span>Instagram</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Quick Links -->
+            <div class="footer-col footer-col-links">
+                <h3>QUICK LINKS</h3>
+                <ul class="footer-links-list">
+                    <li><a href="http://localhost:3000/admission.php">Careers</a></li>
+                    <li><a href="https://www.dauniv.ac.in/ragging" target="_blank" rel="noopener noreferrer">Anti-Ragging Committee</a></li>
+                    <li><a href="https://www.dauniv.ac.in/grievance-redressal-system" target="_blank" rel="noopener noreferrer">Grievance Redressal Committee</a></li>
+                    <li><a href="https://www.dauniv.ac.in/digital-lib" target="_blank" rel="noopener noreferrer">Digital Library</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Parents -->
+            <div class="footer-col footer-col-parents">
+                <h3>PARENTS</h3>
+                <ul class="footer-links-list">
+                    <li><a href="https://www.google.com/maps/dir/22.6891486,75.867182/davv+takshila+campus/@22.6898923,75.8673051,18z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x3962fcef50d20ba3:0x592abbfe7172123e!2m2!1d75.8704159!2d22.6892814" target="_blank" rel="noopener noreferrer">How to Reach</a></li>
+                    <li><a href="https://www.google.com/maps/search/nearby+hotels+in+DAVV+Takshila+campus/@22.6899046,75.8634427,16z/data=!3m1!4b1" target="_blank" rel="noopener noreferrer">Accommodation for Parents & Visitors near DAVV Takshila Campus</a></li>
+                    <li><a href="https://www.dauniv.ac.in" target="_blank" rel="noopener noreferrer">DAVV Official Portal</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-container">
+                <p class="copyright-text">&copy; SDSF - School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.</p>
+                <a href="#top" id="sdsfBackToTop" class="sdsf-back-to-top" aria-label="Back to top" title="Back to Top">
+                    <i class="fas fa-chevron-up"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const backToTopBtn = document.getElementById("sdsfBackToTop");
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+/* ==========================================================================
+   SDSF Teacher Internship Portal - Table & Export UI
+   School of Data Science & Forecasting, DAVV Indore
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-indigo: #1e1b4b;
+    --brand-indigo: #3730a3;
+    --accent-emerald: #059669;
+    --emerald-hover: #047857;
+    --gold-accent: #f2b300;
+    --light-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #cbd5e1;
+    --radius: 10px;
+    --shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--primary-indigo);
+}
+
+.teacher-container {
+    width: 98%;
+    max-width: 100%;
+    margin: 20px auto 40px auto;
+    padding: 0 10px;
+}
+
+.teacher-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 25px 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    border-top: 4px solid var(--accent-emerald);
+}
+
+.teacher-header {
+    text-align: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+}
+
+.teacher-header h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.teacher-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Filter Controls Toolbar */
+.filter-toolbar {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-group-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-select-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filter-select-wrapper label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-indigo);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-select-wrapper select,
+.filter-select-wrapper input {
+    padding: 9px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    font-family: inherit;
+    font-size: 13px;
+    background: #ffffff;
+    min-width: 180px;
+}
+
+/* Export Buttons */
+.export-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-export {
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-export-excel {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.btn-export-excel:hover {
+    background: #15803d;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+}
+
+.btn-export-pdf {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.btn-export-pdf:hover {
+    background: #b91c1c;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+/* Table Styling */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13.5px;
+}
+
+.student-table th {
+    background: var(--primary-indigo);
+    color: #ffffff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13.5px;
+    letter-spacing: 0.5px;
+    padding: 12px 10px;
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.student-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.student-table td:nth-child(2) {
+    white-space: nowrap;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.student-table td:nth-child(4) {
+    white-space: nowrap;
+}
+
+.student-table td:nth-child(5) {
+    white-space: nowrap;
+}
+
+.student-table td:nth-child(6) {
+    white-space: nowrap;
+}
+
+.student-table td:nth-child(8) {
+    white-space: nowrap;
+}
+
+.student-table td:nth-child(9) {
+    white-space: nowrap;
+}
+
+.student-table td:nth-child(10) {
+    white-space: nowrap;
+}
+
+.student-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+/* Badges & Actions */
+.badge-mode {
+    background: #e0e7ff;
+    color: var(--brand-indigo);
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-pending { background: #fef3c7; color: #b45309; }
+.status-approved { background: #dcfce7; color: #15803d; }
+.status-rejected { background: #fee2e2; color: #b91c1c; }
+
+.btn-action-approve {
+    background: var(--accent-emerald);
+    color: #ffffff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action-approve:hover {
+    background: var(--emerald-hover);
+}
+
+.btn-action-reject {
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action-reject:hover {
+    background: #dc2626;
+}
+
+/* Change Status Button for Misclick Prevention */
+.btn-change-status {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-change-status:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    border-color: #94a3b8;
+}
+
+/* Document View & Download Buttons */
+.btn-doc-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 9px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-doc-view {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.btn-doc-view:hover {
+    background: #bae6fd;
+    color: #0284c7;
+}
+
+.btn-doc-download {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.btn-doc-download:hover {
+    background: #bbf7d0;
+    color: #166534;
+}
+
+.btn-doc-noc {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.btn-doc-noc:hover {
+    background: #fde68a;
+    color: #92400e;
+}
+
+/* Official NOC Printable Letter Window / Modal for Teacher */
+.printable-noc-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.printable-noc-paper {
+    background: #ffffff;
+    width: 100%;
+    max-width: 750px;
+    padding: 40px 50px;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-family: 'Times New Roman', Times, serif;
+    color: #000000;
+    line-height: 1.6;
+    position: relative;
+}
+
+.noc-letter-header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.noc-letter-header h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    margin: 0 0 5px 0;
+    color: #000;
+}
+
+.noc-letter-header h3 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    margin: 0 0 5px 0;
+    color: #000;
+}
+
+.noc-letter-body {
+    font-size: 15px;
+    text-align: justify;
+    margin-bottom: 40px;
+}
+
+.noc-letter-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 60px;
+}
+
+.noc-print-actions {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Modal Popup for Viewing PDF Document */
+.pdf-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.pdf-modal-container {
+    background: #ffffff;
+    width: 100%;
+    max-width: 850px;
+    height: 85vh;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.pdf-modal-header {
+    background: var(--primary-indigo);
+    color: #ffffff;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pdf-modal-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-modal-body {
+    flex: 1;
+    background: #f1f5f9;
+    padding: 15px;
+    overflow: auto;
+}
+
+.pdf-modal-body iframe,
+.pdf-modal-body embed {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Print Only Styles for PDF Export */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    body.noc-printing-active .teacher-card,
+    body.noc-printing-active .teacher-card *,
+    body:has(.printable-noc-paper) .teacher-card,
+    body:has(.printable-noc-paper) .teacher-card * {
+        visibility: hidden !important;
+        display: none !important;
+    }
+
+    .printable-noc-overlay {
+        visibility: visible !important;
+        position: static !important;
+        background: transparent !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .printable-noc-overlay *,
+    .printable-noc-paper,
+    .printable-noc-paper * {
+        visibility: visible !important;
+    }
+
+    .printable-noc-paper {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 20px 40px !important;
+        background: #ffffff !important;
+        margin: 0 !important;
+    }
+
+    .noc-print-actions {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    body:not(.noc-printing-active):not(:has(.printable-noc-paper)) .teacher-card,
+    body:not(.noc-printing-active):not(:has(.printable-noc-paper)) .teacher-card * {
+        visibility: visible;
+    }
+
+    body:not(.noc-printing-active):not(:has(.printable-noc-paper)) .teacher-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        padding: 0;
+        border: none;
+    }
+
+    .filter-toolbar, .btn-action-approve, .btn-action-reject, .btn-doc-action, .btn-change-status {
+        display: none !important;
+    }
+}
+
+/* Small Subtle Logout Button */
+.btn-logout-small {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-logout-small:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    border-color: #94a3b8;
+}

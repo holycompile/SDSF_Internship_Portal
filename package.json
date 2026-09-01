@@ -1,0 +1,38 @@
+{
+  "name": "sdsf-official-website",
+  "version": "1.0.0",
+  "description": "> [!IMPORTANT]\r > This repository is shared **solely for portfolio and demonstration purposes**.\r > It was developed for the **School of Data Science and Forecasting (SDSF), DAVV**.\r > Please do not reuse, redistribute, or deploy this code without prior permission from the department.\r >\r > Visit the official website: https://dsf.dauniv.ac.in/\r >\r > © SDSF - School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.",
+  "homepage": "https://github.com/holycompile/SDSF-Official-Website#readme",
+  "bugs": {
+    "url": "https://github.com/holycompile/SDSF-Official-Website/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holycompile/SDSF-Official-Website.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"nodemon app.js\" \"npm run tailwind\"",
+    "tailwind": "npx @tailwindcss/cli -i ./tailwind/input.css -o ./tailwind/output.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.9.3",
+    "nodemailer": "^9.0.5",
+    "nodemon": "^3.1.14",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

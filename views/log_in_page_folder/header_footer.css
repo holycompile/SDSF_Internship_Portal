@@ -1,0 +1,478 @@
+/* ==========================================================================
+   SDSF Main Website Header & Footer Styles (Scoped for Internship Portal)
+   ========================================================================== */
+
+/* ===== Top Copyright Bar ===== */
+.header-top-bar {
+    background-color: #162b57;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 12px;
+    text-align: center;
+    padding: 6px 15px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Pro Header ===== */
+.pro-header {
+    width: 100%;
+    height: 260px;
+    position: relative;
+    z-index: 999;
+    overflow-x: clip;
+    overflow-y: visible;
+    border-top: 5px solid #f2b300;
+    border-bottom: 5px solid rgba(255, 255, 255, 0.8);
+    isolation: isolate;
+}
+
+.header-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo-box {
+    width: 200px;
+}
+
+.logo {
+    width: 95%;
+    padding-right: 30px;
+    margin-left: -20px;
+    object-fit: contain;
+}
+
+.title-section {
+    margin-left: -45px;
+    margin-top: -30px;
+}
+
+.college-name h1 {
+    color: white;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 40px;
+    margin-bottom: 0;
+}
+
+.department-name h2 {
+    color: #f2b300;
+    font-size: 50px;
+    line-height: 1;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 850px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.address h3 {
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+.contact-item a {
+    text-decoration: none;
+    color: #ffebeb;
+    font-size: 16.5px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.contact-item a:hover {
+    color: #f44c4c;
+    text-decoration: underline;
+}
+
+.divider {
+    width: 2px;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.right-section-dep-logo {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 50px;
+}
+
+.right-image-dep-logo {
+    width: 140px;
+    height: auto;
+    object-fit: contain;
+    margin-right: 80px;
+    margin-left: 20px;
+}
+
+/* ===== Dropdowns ===== */
+.scholarship-item,
+.workspace-item {
+    position: relative;
+    z-index: 9999;
+    list-style: none;
+}
+
+.scholarship-toggle,
+.workspace-toggle {
+    padding: 0px;
+    list-style: none;
+    cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
+    color: #ffebeb !important;
+    font-size: 16.5px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+}
+
+.scholarship-menu,
+.workspace-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    list-style: none;
+    display: none;
+    min-width: 220px;
+    z-index: 99999;
+}
+
+.scholarship-menu li a,
+.workspace-menu li a {
+    display: block;
+    padding: 8px 0;
+    color: #2d3748 !important;
+    font-size: 18px !important;
+    font-family: 'Oswald', sans-serif !important;
+    font-weight: 500 !important;
+    letter-spacing: 0px !important;
+    text-decoration: none !important;
+    line-height: 1.2 !important;
+}
+
+.scholarship-menu li a:hover,
+.workspace-menu li a:hover {
+    color: #4a68ff !important;
+    text-decoration: none !important;
+}
+
+.scholarship-item:hover .scholarship-menu,
+.workspace-item:hover .workspace-menu {
+    display: block;
+}
+
+/* ===== Responsive Header ===== */
+@media (max-width: 1200px) {
+    .right-image-dep-logo {
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .pro-header {
+        height: auto;
+        padding: 20px 0;
+    }
+    .header-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .right-image-dep-logo {
+        margin-right: 0;
+        margin-left: 0;
+        width: 100px;
+    }
+    .department-name h2 {
+        font-size: 32px;
+        width: auto;
+    }
+    .title-section {
+        margin-left: 0;
+        margin-top: 0;
+    }
+    .logo-box {
+        width: 140px;
+    }
+    .logo {
+        padding-right: 15px;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        height: auto;
+    }
+    .left-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .logo-box {
+        width: 80px;
+    }
+    .logo {
+        padding-right: 0;
+        margin-left: 0;
+    }
+    .title-section {
+        margin-left: 0;
+        margin-top: 0;
+        align-items: center;
+    }
+    .college-name h1 {
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    .department-name h2 {
+        font-size: 24px;
+        width: auto;
+        text-align: center;
+    }
+    .address h3 {
+        font-size: 13px;
+        text-align: center;
+    }
+    .contact-row {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px 15px;
+    }
+    .contact-item a {
+        font-size: 14px;
+    }
+    .right-section-dep-logo {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   SDSF Main Website Footer Styles
+   ========================================================================== */
+.main-footer {
+    background-color: #181b34;
+    color: #8e99bc;
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    position: relative;
+    padding: 0;
+    margin-top: 50px;
+    border-top: 3px double rgba(255, 255, 255, 0.85);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.footer-top-bar {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 15px 30px 5px;
+}
+
+.footer-search-btn {
+    color: #ffffff;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 5px;
+}
+
+.footer-search-btn:hover {
+    color: #a0acdb;
+    transform: scale(1.1);
+}
+
+.footer-container {
+    width: 92%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr 1fr 0.8fr;
+    gap: 40px;
+    padding: 15px 0 45px 0;
+}
+
+.footer-col h3 {
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    line-height: 1.4;
+}
+
+.footer-col p {
+    color: #8e99bc;
+    font-size: 0.86rem;
+    line-height: 1.7;
+    margin: 4px 0;
+    font-weight: 400;
+}
+
+.footer-col p.univ-title {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+}
+
+.footer-col p.univ-subtitle {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.footer-col p.contact-info {
+    color: #a4b0d8;
+    margin-top: 6px;
+}
+
+.footer-col p.contact-info strong {
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.social-list,
+.footer-links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-list li,
+.footer-links-list li {
+    margin-bottom: 10px;
+}
+
+.social-list a,
+.footer-links-list a {
+    color: #8e99bc;
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 400;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.social-list a:hover,
+.footer-links-list a:hover {
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+.footer-bottom-bar {
+    background-color: #111327;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 18px 0;
+}
+
+.footer-bottom-container {
+    width: 92%;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copyright-text {
+    color: #6c789d;
+    font-size: 0.82rem;
+    margin: 0;
+}
+
+.sdsf-back-to-top {
+    color: #ffffff;
+    background-color: #3730a3;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.sdsf-back-to-top:hover {
+    background-color: #4f46e5;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 992px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    .footer-bottom-container {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+}

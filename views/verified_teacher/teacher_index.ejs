@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Portal | SDSF DAVV Indore</title>
+    
+    <!-- Font Styles Importing -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Scoped Website Header/Footer Styles -->
+    <link rel="stylesheet" href="/log_in_page_folder/header_footer.css">
+    <link rel="stylesheet" href="/verified_teacher/teacher_style.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        heading: ['Oswald', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .font-heading { font-family: 'Oswald', sans-serif; }
+        .tab-btn.active {
+            background-color: #0d9488 !important;
+            color: #ffffff !important;
+            border-color: #0d9488 !important;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25) !important;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 16px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        /* Print Media Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableSection, #printableSection * {
+                visibility: visible;
+            }
+            #printableSection {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 20px;
+                background: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body id="top" class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Top Dark Navy Copyright Bar with Gold Divider -->
+    <div class="bg-[#121b38] text-slate-200 text-xs py-2 px-4 text-center font-montserrat tracking-wide border-b-4 border-[#f2b300] no-print">
+        © SDSF – School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.
+    </div>
+
+    <!-- Institutional Header Strip -->
+    <header class="bg-white border-b border-slate-200 px-6 py-3.5 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-4">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-16 w-auto object-contain shrink-0">
+                <div>
+                    <h1 class="text-sm sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
+                        DEVI AHILYA VISHWAVIDYALAYA, INDORE
+                    </h1>
+                    <h2 class="text-xs sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
+                        School of Data Science and Forecasting (SDSF)
+                    </h2>
+                    <p class="text-[11px] text-teal-700 font-semibold flex items-center gap-1.5 mt-0.5">
+                        <i class="fas fa-chalkboard-teacher"></i> Faculty Management & NOC Approval Portal
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="text-right bg-slate-100 px-3.5 py-1.5 rounded-lg border border-slate-200">
+                    <span class="block text-xs font-bold text-slate-800">
+                        <i class="fas fa-user-shield text-teal-600 mr-1"></i> <%= typeof facultyId !== 'undefined' ? facultyId : 'Faculty' %>
+                    </span>
+                    <span class="text-[11px] text-emerald-600 font-semibold">● Active Session</span>
+                </div>
+                <a href="/login" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-4 py-2 rounded-md shadow-sm transition flex items-center gap-1.5">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Teacher Section -->
+    <main class="max-w-7xl mx-auto w-full px-4 py-8 flex-grow">
+
+        <div id="printableSection" class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+            
+            <!-- Header Toolbar -->
+            <div class="bg-gradient-to-r from-[#16223e] to-[#0f172a] text-white p-6 border-b-4 border-[#f2b300] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 no-print">
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold font-heading uppercase tracking-wider text-white">Faculty Records & NOC Approvals</h2>
+                    <p class="text-slate-300 text-xs mt-1">Real-time student verification data from MongoDB (Verified, Requested & Approved)</p>
+                </div>
+
+                <!-- 3 Main Tabs Navigation -->
+                <div class="flex items-center gap-2 bg-slate-800/60 p-1.5 rounded-lg border border-slate-700">
+                    <button type="button" onclick="switchTab('tabVerified')" id="btnTabVerified" class="tab-btn active px-3.5 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                        <i class="fas fa-user-check text-emerald-400"></i> Verified Students
+                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof verifiedStudents !== 'undefined' ? verifiedStudents.length : 0 %></span>
+                    </button>
+                    <button type="button" onclick="switchTab('tabRequested')" id="btnTabRequested" class="tab-btn px-3.5 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                        <i class="fas fa-clock text-amber-400"></i> Requested NOCs
+                        <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof requestedStudents !== 'undefined' ? requestedStudents.length : 0 %></span>
+                    </button>
+                    <button type="button" onclick="switchTab('tabApproved')" id="btnTabApproved" class="tab-btn px-3.5 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
+                        <i class="fas fa-check-double text-teal-400"></i> Approved Students
+                        <span class="bg-teal-500/20 text-teal-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof approvedStudents !== 'undefined' ? approvedStudents.length : 0 %></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Print Header Banner (Only visible during Print) -->
+            <div class="hidden print:block p-4 border-b-2 border-slate-800 text-center">
+                <h1 class="text-lg font-bold uppercase text-[#162b57]">DEVI AHILYA VISHWAVIDYALAYA, INDORE</h1>
+                <h2 class="text-sm font-semibold text-slate-700">School of Data Science and Forecasting (SDSF)</h2>
+                <p class="text-xs text-slate-500 font-mono mt-1" id="printReportTitle">Faculty Report Summary</p>
+            </div>
+
+            <!-- Filter Controls & Export Toolbar -->
+            <div class="p-5 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 no-print">
+                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                    <!-- Quick Search -->
+                    <div class="relative min-w-[240px]">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" id="filterSearch" oninput="filterCurrentTable()" placeholder="Search name or enrollment..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                    </div>
+
+                    <!-- Course Filter Dropdown -->
+                    <div class="flex items-center gap-1.5 bg-white border border-slate-300 rounded-md px-2.5 py-1 shadow-2xs">
+                        <i class="fas fa-graduation-cap text-teal-600 text-xs"></i>
+                        <select id="filterCourse" onchange="filterCurrentTable()" class="bg-transparent text-xs text-slate-700 font-medium focus:outline-none cursor-pointer">
+                            <option value="all">All Courses / Programs</option>
+                            <option value="ai">M.Tech (Artificial Intelligence & Data Science)</option>
+                            <option value="bigdata">M.Tech (Big Data Analytics)</option>
+                            <option value="datascience">M.Tech (Data Science)</option>
+                            <option value="executive">M.Tech (Executive Data Science)</option>
+                            <option value="mba">MBA (Business Analytics)</option>
+                            <option value="msc">M.Sc. (Data Science & Analytics)</option>
+                            <option value="tester">Testers / Trial Batch</option>
+                        </select>
+                    </div>
+
+                    <!-- Default Semester Badge -->
+                    <div class="hidden sm:flex items-center gap-1.5 bg-slate-200/80 border border-slate-300 rounded-md px-2.5 py-1 text-xs text-slate-700 font-semibold" title="Default Semester for all students">
+                        <i class="fas fa-layer-group text-slate-500"></i>
+                        <span>Semester: <strong class="text-slate-900 font-mono">Semester X</strong></span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btnBulkApprove" onclick="bulkApproveSelected()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-md shadow-sm transition items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-check-double"></i> Bulk Approve (<span id="bulkCount">0</span>)
+                    </button>
+                    <button type="button" onclick="exportCurrentTableToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-file-excel"></i> Export CSV
+                    </button>
+                    <button type="button" onclick="triggerPrint()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3.5 py-1.5 rounded-md shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-print"></i> Print Records
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 1: VERIFIED STUDENTS TABLE -->
+            <div id="tabVerified" class="tab-pane block overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider">
+                            <th class="py-3 px-4">#</th>
+                            <th class="py-3 px-4">Student Name</th>
+                            <th class="py-3 px-4">Enrollment No</th>
+                            <th class="py-3 px-4">Course / Program</th>
+                            <th class="py-3 px-4">Email ID</th>
+                            <th class="py-3 px-4">Verification Code</th>
+                            <th class="py-3 px-4">Verified Time</th>
+                            <th class="py-3 px-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableVerifiedBody" class="divide-y divide-slate-200">
+                        <% if (typeof verifiedStudents !== 'undefined' && verifiedStudents.length > 0) { %>
+                            <% verifiedStudents.forEach((st, idx) => { %>
+                                <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
+                                    <td class="py-3 px-4 font-mono text-slate-500"><%= idx + 1 %></td>
+                                    <td class="py-3 px-4 font-bold text-slate-800"><%= st.studentName %></td>
+                                    <td class="py-3 px-4 font-mono font-semibold text-blue-700 uppercase"><%= st.enrollmentNo %></td>
+                                    <td class="py-3 px-4 text-slate-600"><%= st.course || 'SDSF Department' %></td>
+                                    <td class="py-3 px-4 text-slate-600"><%= st.email || '—' %></td>
+                                    <td class="py-3 px-4 font-mono font-bold text-teal-700 bg-teal-50/50"><%= st.verificationCode || '—' %></td>
+                                    <td class="py-3 px-4 text-slate-500 text-[11px]">
+                                        <%= st.verifiedAt ? new Date(st.verifiedAt).toLocaleString() : (st.updatedAt ? new Date(st.updatedAt).toLocaleString() : 'Recent') %>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                            <i class="fas fa-check-circle text-[10px]"></i> Verified
+                                        </span>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8" class="text-center py-8 text-slate-400">
+                                    <i class="fas fa-users text-3xl mb-2 block"></i> No verified students in database yet.
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TAB 2: REQUESTED STUDENTS TABLE (WITH VIEW DOCUMENT & PREVIEW NOC & APPROVE) -->
+            <div id="tabRequested" class="tab-pane hidden overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider">
+                            <th class="py-3 px-3 w-8 text-center"><input type="checkbox" id="selectAllRequested" onchange="toggleSelectAllRequested(this)" class="rounded text-teal-600 focus:ring-teal-500 cursor-pointer" title="Select all visible requests"></th>
+                            <th class="py-3 px-3">#</th>
+                            <th class="py-3 px-4">Student Name</th>
+                            <th class="py-3 px-4">Enrollment No</th>
+                            <th class="py-3 px-4">Course</th>
+                            <th class="py-3 px-4">Semester</th>
+                            <th class="py-3 px-4">Company Name</th>
+                            <th class="py-3 px-4">Mode</th>
+                            <th class="py-3 px-4">Offer Document</th>
+                            <th class="py-3 px-4 text-center">Faculty Review & Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableRequestedBody" class="divide-y divide-slate-200">
+                        <% if (typeof requestedStudents !== 'undefined' && requestedStudents.length > 0) { %>
+                            <% requestedStudents.forEach((st, idx) => { %>
+                                <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
+                                    <td class="py-3 px-3 text-center"><input type="checkbox" class="requested-checkbox rounded text-teal-600 focus:ring-teal-500 cursor-pointer" value="<%= st.enrollmentNo %>" onchange="updateBulkApproveBtn()"></td>
+                                    <td class="py-3 px-3 font-mono text-slate-500"><%= idx + 1 %></td>
+                                    <td class="py-3 px-4 font-bold text-slate-800"><%= st.studentName %></td>
+                                    <td class="py-3 px-4 font-mono font-semibold text-blue-700 uppercase"><%= st.enrollmentNo %></td>
+                                    <td class="py-3 px-4 text-slate-600"><%= st.course %></td>
+                                    <td class="py-3 px-4 text-slate-600"><%= st.semester || 'Sem I' %></td>
+                                    <td class="py-3 px-4 font-semibold text-slate-800"><%= st.companyName || '—' %></td>
+                                    <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[11px]"><%= st.internshipMode || 'Off Campus' %></span></td>
+                                    <td class="py-3 px-4">
+                                        <button type="button" onclick="viewOfferDocByEnrollment('<%= st.enrollmentNo %>')" class="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-2 cursor-pointer bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md border border-blue-200 transition shadow-xs max-w-[240px]" title="Click to review uploaded offer documents">
+                                            <i class="fas fa-file-pdf text-red-500 text-base shrink-0"></i>
+                                            <div class="truncate text-left leading-tight">
+                                                <span class="block font-bold text-slate-800 truncate max-w-[170px] text-[11.5px]"><%= st.docName || (st.documents && st.documents[0] && st.documents[0].docName) || 'Offer Document.pdf' %></span>
+                                                <% if (st.documents && st.documents.length > 1) { %>
+                                                    <span class="text-[10px] text-blue-600 font-semibold">+<%= st.documents.length - 1 %> more attachment<%= (st.documents.length - 1) > 1 ? 's' : '' %></span>
+                                                <% } else { %>
+                                                    <span class="text-[10px] text-slate-500">Student Uploaded File</span>
+                                                <% } %>
+                                            </div>
+                                        </button>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <div class="inline-flex items-center gap-1.5">
+                                            <button type="button" onclick="previewNocByEnrollment('<%= st.enrollmentNo %>')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2.5 py-1 rounded-md shadow-sm transition inline-flex items-center gap-1 cursor-pointer" title="Preview NOC Document">
+                                                <i class="fas fa-file-signature"></i> Preview NOC
+                                            </button>
+                                            <button type="button" onclick="approveStudentNOC('<%= st.enrollmentNo %>')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded-md shadow-sm transition inline-flex items-center gap-1 cursor-pointer" title="Approve NOC">
+                                                <i class="fas fa-check"></i> Approve
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9" class="text-center py-10 text-slate-400">
+                                    <i class="fas fa-inbox text-3xl mb-2 block text-slate-300"></i>
+                                    <span>No pending NOC requests at the moment.</span>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TAB 3: APPROVED STUDENTS TABLE -->
+            <div id="tabApproved" class="tab-pane hidden overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider">
+                            <th class="py-3 px-4">#</th>
+                            <th class="py-3 px-4">Student Name</th>
+                            <th class="py-3 px-4">Enrollment No</th>
+                            <th class="py-3 px-4">Course</th>
+                            <th class="py-3 px-4">Semester</th>
+                            <th class="py-3 px-4">Company Name</th>
+                            <th class="py-3 px-4">Student Documents</th>
+                            <th class="py-3 px-4">Approval Date</th>
+                            <th class="py-3 px-4">Status</th>
+                            <th class="py-3 px-4 text-center">NOC Certificate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableApprovedBody" class="divide-y divide-slate-200">
+                        <% if (typeof approvedStudents !== 'undefined' && approvedStudents.length > 0) { %>
+                            <% approvedStudents.forEach((st, idx) => { %>
+                                <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
+                                    <td class="py-3 px-4 font-mono text-slate-500"><%= idx + 1 %></td>
+                                    <td class="py-3 px-4 font-bold text-slate-800"><%= st.studentName %></td>
+                                    <td class="py-3 px-4 font-mono font-semibold text-blue-700 uppercase"><%= st.enrollmentNo %></td>
+                                    <td class="py-3 px-4 text-slate-600"><%= st.course %></td>
+                                    <td class="py-3 px-4 text-slate-600"><%= st.semester || 'Sem I' %></td>
+                                    <td class="py-3 px-4 font-semibold text-slate-800"><%= st.companyName || '—' %></td>
+                                    <td class="py-3 px-4">
+                                        <button type="button" onclick="viewOfferDocByEnrollment('<%= st.enrollmentNo %>')" class="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-1.5 cursor-pointer bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded border border-blue-200 transition text-[11px]" title="View student uploaded documents">
+                                            <i class="fas fa-file-pdf text-red-500"></i>
+                                            <span class="truncate max-w-[120px]"><%= st.docName || 'View PDF' %></span>
+                                        </button>
+                                    </td>
+                                    <td class="py-3 px-4 text-slate-500 text-[11px]"><%= st.approvedAt ? new Date(st.approvedAt).toLocaleString() : 'Recent' %></td>
+                                    <td class="py-3 px-4">
+                                        <span class="inline-flex items-center gap-1 bg-teal-100 text-teal-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                            <i class="fas fa-check-double text-[10px]"></i> Approved
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <div class="inline-flex items-center gap-1.5">
+                                            <button type="button" onclick="previewNocByEnrollment('<%= st.enrollmentNo %>')" class="text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 font-semibold px-2.5 py-1 rounded border border-teal-200 transition inline-flex items-center gap-1 cursor-pointer">
+                                                <i class="fas fa-certificate text-teal-600"></i> View / Print NOC
+                                            </button>
+                                            <button type="button" onclick="revokeStudentApproval('<%= st.enrollmentNo %>')" class="text-rose-700 hover:text-rose-900 bg-rose-50 hover:bg-rose-100 font-semibold px-2.5 py-1 rounded border border-rose-200 transition inline-flex items-center gap-1 cursor-pointer" title="Revert to Not Approved / Requested">
+                                                <i class="fas fa-undo text-rose-500"></i> Revert / Not Approved
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9" class="text-center py-10 text-slate-400">
+                                    <i class="fas fa-clipboard-check text-3xl mb-2 block text-slate-300"></i>
+                                    <span>No approved students yet.</span>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MULTI-DOCUMENT SELECTOR MODAL (Opens document directly in new tab) -->
+    <div id="multiDocModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'multiDocModal')">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden" onclick="event.stopPropagation()">
+            <div class="bg-[#16223e] text-white px-5 py-4 flex items-center justify-between border-b-4 border-[#f2b300]">
+                <h3 class="font-heading font-bold text-sm uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-folder-open text-amber-400"></i> Student Attached Documents
+                </h3>
+                <button type="button" onclick="closeModal('multiDocModal')" class="text-slate-300 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+            <div class="p-5 space-y-4">
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-700">
+                    <div>Student: <strong id="multiDocStudentName" class="text-slate-900"></strong> (<span id="multiDocEnrollment" class="font-mono font-semibold text-blue-700"></span>)</div>
+                    <p class="text-slate-500 mt-1">Select a document below to view it directly in a full-screen new tab:</p>
+                </div>
+                
+                <div id="multiDocList" class="space-y-2 max-h-[280px] overflow-y-auto pr-1">
+                    <!-- Dynamic doc list injected here -->
+                </div>
+
+                <div class="pt-3 border-t border-slate-200 flex justify-between items-center">
+                    <button type="button" id="btnOpenAllDocs" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-1.5 rounded text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-external-link-alt text-[10px]"></i> Open All in New Tabs
+                    </button>
+                    <button type="button" onclick="closeModal('multiDocModal')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-3.5 py-1.5 rounded text-xs cursor-pointer">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOC CERTIFICATE PREVIEW MODAL -->
+    <div id="nocPreviewModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'nocPreviewModal')">
+        <div class="bg-white rounded-xl shadow-2xl max-w-3xl w-full border border-slate-200 overflow-hidden max-h-[90vh] flex flex-col" onclick="event.stopPropagation()">
+            <div class="bg-[#16223e] text-white px-6 py-4 flex items-center justify-between border-b-4 border-[#f2b300] no-print">
+                <h3 class="font-heading font-bold text-base uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-stamp text-amber-400"></i> Official No Objection Certificate (NOC) Preview
+                </h3>
+                <button type="button" onclick="closeModal('nocPreviewModal')" class="text-slate-300 hover:text-white text-xl font-bold">&times;</button>
+            </div>
+
+            <!-- Letter Content with Official Department Dual Logos & Header -->
+            <div id="nocCertificatePrintArea" class="p-8 overflow-y-auto flex-grow bg-white text-slate-800 text-xs sm:text-sm leading-relaxed" style="font-family: 'Times New Roman', serif;">
+                <!-- Letterhead with Left & Right Logos -->
+                <div class="flex items-center justify-between gap-4 pb-3 border-b-2 border-[#1e3a8a]">
+                    <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-16 w-auto object-contain">
+                    <div class="text-center flex-grow">
+                        <h2 class="text-base sm:text-lg font-bold uppercase tracking-wide text-[#1e3a8a] m-0">DEVI AHILYA VISHWAVIDYALAYA, INDORE</h2>
+                        <h3 class="text-xs sm:text-sm font-bold uppercase text-[#0f172a] mt-0.5 mb-0.5">SCHOOL OF DATA SCIENCE AND FORECASTING (SDSF)</h3>
+                        <p class="text-[11px] italic text-slate-500 m-0">Takshila Campus, Khandwa Road, Indore – 452001 (M.P.)</p>
+                    </div>
+                    <img src="/photoes/departmentlogo_transparent.png" alt="SDSF Logo" class="h-16 w-auto object-contain">
+                </div>
+
+                <div class="h-1 bg-[#1e3a8a] mt-0.5 mb-4"></div>
+
+                <div class="flex justify-between items-center mb-4 text-xs font-serif font-semibold">
+                    <div>Ref No: SDSF/NOC/<span id="nocRefYear">2026</span>/<span id="nocRefNum" class="font-bold text-black">101</span></div>
+                    <div>Date: <span id="nocCurrentDate" class="font-bold text-black"></span></div>
+                </div>
+
+                <!-- Certificate Title -->
+                <div class="border-t-2 border-b-2 border-[#1e3a8a] py-2 my-4 text-center">
+                    <h4 class="font-bold text-sm sm:text-base uppercase tracking-wider text-[#1e3a8a] m-0">
+                        OFFICIAL NO OBJECTION CERTIFICATE (NOC)
+                    </h4>
+                </div>
+
+                <div class="space-y-3.5 text-justify leading-relaxed text-[13.5px] mt-4">
+                    <p>
+                        This is to certify that <strong><span id="nocStudentName" class="font-bold text-black">Student Name</span></strong> (Enrollment / Roll No: <strong><span id="nocEnrollmentNo" class="font-bold font-mono text-black">ENROLL123</span></strong>) is a bonafide student of the <strong><span id="nocCourseName" class="font-bold text-black">Course Name</span></strong> program (<span id="nocSemesterName" class="font-bold text-black">Sem I</span>) at the School of Data Science and Forecasting (SDSF), Devi Ahilya Vishwavidyalaya, Indore.
+                    </p>
+
+                    <p>
+                        The Department has <strong>NO OBJECTION</strong> for the candidate to undergo internship / professional project training at <strong><span id="nocCompanyName" class="font-bold text-black">Company Name</span></strong> (<span id="nocModeName" class="font-bold text-black">Off-Campus</span>) for the current academic session.
+                    </p>
+
+                    <p>
+                        During the period of internship, the student is expected to adhere to all the rules, regulations, academic discipline, and confidentiality standards of the host organization and the university.
+                    </p>
+
+                    <p>
+                        We wish the student all success in their professional endeavor.
+                    </p>
+                </div>
+
+                <div class="flex justify-between items-end mt-12 pt-6 text-xs font-serif">
+                    <div>
+                        <div class="w-40 border-t border-slate-500 pt-1 font-bold">Signature of Student</div>
+                        <div class="text-slate-500">Student Name: <strong id="nocSigStudentName" class="text-black"></strong></div>
+                    </div>
+                    <div class="text-right">
+                        <div class="w-48 ml-auto border-t-2 border-slate-900 pt-1 font-bold uppercase">Head of Department</div>
+                        <div class="text-slate-700 font-semibold">School of Data Science & Forecasting</div>
+                        <div class="text-slate-500">DAVV, Indore</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center no-print">
+                <span class="text-xs text-slate-500">Official format synchronized with department dynamic document system.</span>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="closeModal('nocPreviewModal')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-1.5 rounded text-xs cursor-pointer">
+                        Close
+                    </button>
+                    <a id="nocOpenDynamicBtn" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-1.5 rounded text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-external-link-alt"></i> Open Full Document
+                    </a>
+                    <button type="button" onclick="printNocCertificateOnly()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-1.5 rounded text-xs inline-flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-print"></i> Print NOC Letter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official SDSF Website Footer -->
+    <footer class="main-footer mt-auto no-print" role="contentinfo">
+        <div class="footer-top-bar">
+            <div class="footer-top-line"></div>
+            <a href="#" class="footer-search-btn" aria-label="Search website" title="Search">
+                <i class="fas fa-search"></i>
+            </a>
+        </div>
+
+        <div class="footer-container">
+            <div class="footer-col footer-col-address">
+                <h3>UNIVERSITY ADDRESS</h3>
+                <p class="univ-title">School of Data Science and Forecasting</p>
+                <p>Devi Ahilya Vishwavidyalaya</p>
+                <p>DAVV Takshila Campus, Khandwa Road</p>
+                <p>Indore, Madhya Pradesh – 452001</p>
+                <p class="contact-info"><strong>Phone:</strong> +91 0731 2470330</p>
+                <p class="contact-info"><strong>Email:</strong> govind_maheshwari2001@yahoo.com</p>
+            </div>
+            <div class="footer-col footer-col-social">
+                <h3>SOCIAL MEDIA</h3>
+                <ul class="social-list">
+                    <li><a href="https://www.facebook.com/dauniv/" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a></li>
+                    <li><a href="https://twitter.com/dauniv_indore" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="https://www.linkedin.com/school/devi-ahilya-vishwavidyalaya/" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-col-links">
+                <h3>IMPORTANT LINKS</h3>
+                <ul class="footer-links">
+                    <li><a href="http://localhost:3000/admission.php">Admissions 2026</a></li>
+                    <li><a href="http://localhost:3000/academics.php">Academic Programs</a></li>
+                    <li><a href="https://www.dauniv.ac.in/" target="_blank">DAVV Official Portal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© SDSF – School of Data Science and Forecasting, DAVV Indore. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Embedded Server Data for Client-Side Lookups (Prevents HTML Attribute Truncation of Large PDF Data URLs) -->
+    <script id="serverTeacherRequestedData" type="application/json">
+        <%- JSON.stringify(typeof requestedStudents !== 'undefined' ? requestedStudents : []) %>
+    </script>
+    <script id="serverTeacherApprovedData" type="application/json">
+        <%- JSON.stringify(typeof approvedStudents !== 'undefined' ? approvedStudents : []) %>
+    </script>
+
+    <!-- Client Script for Tabs, Modal Preview, Approval, and Printing -->
+    <script>
+        const requestedStudentsData = JSON.parse(document.getElementById('serverTeacherRequestedData').textContent || '[]');
+        const approvedStudentsData = JSON.parse(document.getElementById('serverTeacherApprovedData').textContent || '[]');
+
+        function getStudentByEnrollment(enrollmentNo) {
+            const clean = (enrollmentNo || '').toLowerCase();
+            return requestedStudentsData.find(s => (s.enrollmentNo || '').toLowerCase() === clean)
+                || approvedStudentsData.find(s => (s.enrollmentNo || '').toLowerCase() === clean);
+        }
+
+        function viewOfferDocByEnrollment(enrollmentNo) {
+            const st = getStudentByEnrollment(enrollmentNo);
+            if (st) {
+                viewOfferDocument(st);
+            }
+        }
+
+        function previewNocByEnrollment(enrollmentNo) {
+            const st = getStudentByEnrollment(enrollmentNo);
+            if (st) {
+                previewNocCertificate(st);
+            }
+        }
+
+        let currentTabId = 'tabVerified';
+
+        function switchTab(tabId) {
+            currentTabId = tabId;
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            const targetPane = document.getElementById(tabId);
+            if (targetPane) targetPane.classList.remove('hidden');
+
+            if (tabId === 'tabVerified') document.getElementById('btnTabVerified').classList.add('active');
+            if (tabId === 'tabRequested') document.getElementById('btnTabRequested').classList.add('active');
+            if (tabId === 'tabApproved') document.getElementById('btnTabApproved').classList.add('active');
+
+            filterCurrentTable();
+        }
+
+        function filterCurrentTable() {
+            const query = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
+            const rawCourse = (document.getElementById('filterCourse').value || 'all').toLowerCase();
+            const courseKey = rawCourse.replace(/[\s_&.-]/g, '');
+            
+            const activePane = document.getElementById(currentTabId);
+            if (!activePane) return;
+
+            const rows = activePane.querySelectorAll('.data-row');
+            rows.forEach(row => {
+                const name = (row.getAttribute('data-name') || '').toLowerCase();
+                const enrollment = (row.getAttribute('data-enrollment') || '').toLowerCase();
+                const rowCourseRaw = (row.getAttribute('data-course') || '').toLowerCase();
+                const rowCourseKey = rowCourseRaw.replace(/[\s_&.-]/g, '');
+
+                const matchQuery = !query || name.includes(query) || enrollment.includes(query);
+                const matchCourse = (rawCourse === 'all') || rowCourseKey.includes(courseKey) || courseKey.includes(rowCourseKey);
+
+                if (matchQuery && matchCourse) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                    const cb = row.querySelector('.requested-checkbox');
+                    if (cb) cb.checked = false;
+                }
+            });
+
+            updateBulkApproveBtn();
+        }
+
+        function toggleSelectAllRequested(masterCb) {
+            const activePane = document.getElementById('tabRequested');
+            if (!activePane) return;
+            const rows = activePane.querySelectorAll('.data-row');
+            rows.forEach(row => {
+                if (row.style.display !== 'none') {
+                    const cb = row.querySelector('.requested-checkbox');
+                    if (cb) cb.checked = masterCb.checked;
+                }
+            });
+            updateBulkApproveBtn();
+        }
+
+        function updateBulkApproveBtn() {
+            const btn = document.getElementById('btnBulkApprove');
+            const masterCb = document.getElementById('selectAllRequested');
+            const activePane = document.getElementById('tabRequested');
+            if (!btn || !activePane) return;
+
+            if (currentTabId !== 'tabRequested') {
+                btn.classList.add('hidden');
+                btn.classList.remove('inline-flex');
+                return;
+            }
+
+            const visibleCheckboxes = Array.from(activePane.querySelectorAll('.data-row'))
+                .filter(row => row.style.display !== 'none')
+                .map(row => row.querySelector('.requested-checkbox'))
+                .filter(Boolean);
+
+            const checked = visibleCheckboxes.filter(cb => cb.checked);
+            const countEl = document.getElementById('bulkCount');
+            if (countEl) countEl.innerText = checked.length;
+
+            if (checked.length > 0) {
+                btn.classList.remove('hidden');
+                btn.classList.add('inline-flex');
+            } else {
+                btn.classList.add('hidden');
+                btn.classList.remove('inline-flex');
+            }
+
+            if (masterCb) {
+                masterCb.checked = visibleCheckboxes.length > 0 && checked.length === visibleCheckboxes.length;
+            }
+        }
+
+        async function bulkApproveSelected() {
+            const activePane = document.getElementById('tabRequested');
+            if (!activePane) return;
+
+            const checkedBoxes = Array.from(activePane.querySelectorAll('.requested-checkbox:checked'));
+            const enrollmentNos = checkedBoxes.map(cb => cb.value.trim()).filter(Boolean);
+
+            if (enrollmentNos.length === 0) {
+                alert('Please select at least one student NOC request to approve.');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to BULK APPROVE ${enrollmentNos.length} selected student NOC request(s)?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/teacher/bulk-approve-students', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enrollmentNos })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(`✓ Successfully approved ${data.count || enrollmentNos.length} students in bulk!`);
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + (data.message || 'Could not complete bulk approval.'));
+                }
+            } catch (err) {
+                console.error('Bulk approval error:', err);
+                alert('An error occurred while executing bulk approval.');
+            }
+        }
+
+        // Open a specific document in a full-screen new tab using the backend streaming endpoint
+        function openDocInNewTab(enrollmentNo, docIndex) {
+            const cleanEnrollment = encodeURIComponent((enrollmentNo || '').trim());
+            const idx = parseInt(docIndex, 10) || 0;
+            const url = `/api/view-document?enrollment=${cleanEnrollment}&docIndex=${idx}`;
+            window.open(url, '_blank');
+        }
+
+        // View Uploaded Document: Direct New Tab if 1 doc, or Selector Modal if multiple docs
+        function viewOfferDocument(student) {
+            const enrollmentNo = student.enrollmentNo || '';
+            let rawDocs = [];
+            if (Array.isArray(student.documents) && student.documents.length > 0) {
+                rawDocs = student.documents;
+            } else if (student.fileDataUrl) {
+                rawDocs = [{
+                    docName: student.docName || 'Offer_Document.pdf',
+                    label: 'Offer Document',
+                    fileDataUrl: student.fileDataUrl
+                }];
+            } else {
+                rawDocs = [{
+                    docName: 'SDSF_Permission_Letter_Format.pdf',
+                    label: 'Department Standard PDF',
+                    fileDataUrl: '/docs/SDSF_Internship_Permission_Letter.pdf'
+                }];
+            }
+
+            // If only 1 document is uploaded, open directly in a new tab!
+            if (rawDocs.length <= 1) {
+                openDocInNewTab(enrollmentNo, 0);
+                return;
+            }
+
+            // If multiple documents are attached, show the clean multi-doc selector modal
+            document.getElementById('multiDocStudentName').innerText = student.studentName || 'Student';
+            document.getElementById('multiDocEnrollment').innerText = student.enrollmentNo || '';
+
+            const listContainer = document.getElementById('multiDocList');
+            listContainer.innerHTML = '';
+
+            rawDocs.forEach((doc, idx) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-3 bg-slate-50 hover:bg-blue-50/60 border border-slate-200 rounded-lg transition';
+                row.innerHTML = `
+                    <div class="flex items-center gap-2.5 truncate mr-3">
+                        <i class="fas fa-file-pdf text-red-500 text-lg shrink-0"></i>
+                        <div class="truncate text-left">
+                            <span class="block text-xs font-bold text-slate-800 truncate">${doc.label || ('Document ' + (idx + 1))}</span>
+                            <span class="block text-[11px] text-slate-500 truncate">${doc.docName || 'Attachment.pdf'}</span>
+                        </div>
+                    </div>
+                    <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-3 py-1.5 rounded-md shadow-xs transition shrink-0 flex items-center gap-1.5 cursor-pointer">
+                        <i class="fas fa-external-link-alt text-[10px]"></i> Open in New Tab
+                    </button>
+                `;
+                row.querySelector('button').onclick = () => openDocInNewTab(enrollmentNo, idx);
+                listContainer.appendChild(row);
+            });
+
+            document.getElementById('btnOpenAllDocs').onclick = () => {
+                rawDocs.forEach((doc, idx) => openDocInNewTab(enrollmentNo, idx));
+            };
+
+            document.getElementById('multiDocModal').classList.add('active');
+        }
+
+        // Preview NOC Letter Certificate Modal
+        function previewNocCertificate(student) {
+            const studentName = student.studentName || 'Student Name';
+            const enrollmentNo = student.enrollmentNo || '—';
+            const course = student.course || 'School of Data Science';
+            const semester = student.semester || 'Sem I';
+            const companyName = student.companyName || 'Host Organization';
+            const mode = student.internshipMode || 'Off-Campus';
+            const refNum = Math.floor(100 + Math.random() * 900);
+            const dateStr = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            document.getElementById('nocStudentName').innerText = studentName;
+            document.getElementById('nocSigStudentName').innerText = studentName;
+            document.getElementById('nocEnrollmentNo').innerText = enrollmentNo;
+            document.getElementById('nocCourseName').innerText = course;
+            document.getElementById('nocSemesterName').innerText = semester;
+            document.getElementById('nocCompanyName').innerText = companyName;
+            document.getElementById('nocModeName').innerText = mode;
+            document.getElementById('nocRefNum').innerText = refNum;
+            document.getElementById('nocCurrentDate').innerText = dateStr;
+
+            const dynamicBtn = document.getElementById('nocOpenDynamicBtn');
+            if (dynamicBtn) {
+                dynamicBtn.href = `/docs_dynamic/dynamic_noc_letter.html?studentName=${encodeURIComponent(studentName)}&enrollmentNo=${encodeURIComponent(enrollmentNo)}&course=${encodeURIComponent(course)}&semester=${encodeURIComponent(semester)}&companyName=${encodeURIComponent(companyName)}&mode=${encodeURIComponent(mode)}&ref=${refNum}&date=${encodeURIComponent(dateStr)}`;
+            }
+
+            document.getElementById('nocPreviewModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            const el = document.getElementById(modalId);
+            if (el) el.classList.remove('active');
+        }
+
+        function closeModalOnOverlay(event, modalId) {
+            if (event.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        // Print Current Active Table Records
+        function triggerPrint() {
+            const titles = {
+                'tabVerified': 'Verified Students List',
+                'tabRequested': 'Pending NOC Applications List',
+                'tabApproved': 'Approved Students List'
+            };
+            document.getElementById('printReportTitle').innerText = `${titles[currentTabId]} — Generated on ${new Date().toLocaleString()}`;
+            window.print();
+        }
+
+        // Print NOC Certificate Only
+        function printNocCertificateOnly() {
+            const printContent = document.getElementById('nocCertificatePrintArea').innerHTML;
+            const printWindow = window.open('', '', 'width=800,height=900');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>SDSF NOC Certificate</title>
+                    <style>
+                        body { font-family: 'Times New Roman', serif; padding: 40px; color: #000; line-height: 1.6; }
+                        h2, h3 { margin: 2px 0; text-align: center; }
+                        .text-center { text-align: center; }
+                        .border-b { border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+                        .flex-between { display: flex; justify-content: space-between; margin-bottom: 20px; }
+                        .mt-12 { margin-top: 50px; }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+
+        async function approveStudentNOC(enrollmentNo) {
+            if (!confirm(`Are you sure you want to APPROVE the NOC request for student [${enrollmentNo}]?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/teacher/approve-student', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enrollmentNo })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(`✓ Successfully approved student [${enrollmentNo}]! Record moved to Approved Students.`);
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + (data.message || 'Could not approve student.'));
+                }
+            } catch (err) {
+                console.error('Approval error:', err);
+                alert('An error occurred while approving the NOC request.');
+            }
+        }
+
+        async function revokeStudentApproval(enrollmentNo) {
+            if (!confirm(`Are you sure you want to REVERT / DISAPPROVE approval for student [${enrollmentNo}]? The student will be moved back to Requested NOCs.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/teacher/revoke-student', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enrollmentNo })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert(`✓ Approval revoked for student [${enrollmentNo}]. Record moved back to Requested NOCs.`);
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + (data.message || 'Could not revoke approval.'));
+                }
+            } catch (err) {
+                console.error('Revoke error:', err);
+                alert('An error occurred while revoking student approval.');
+            }
+        }
+
+        function exportCurrentTableToCSV() {
+            const activePane = document.getElementById(currentTabId);
+            if (!activePane) return;
+
+            const table = activePane.querySelector('table');
+            let csv = [];
+            for (let row of table.rows) {
+                if (row.style.display === 'none') continue;
+                let rowData = [];
+                for (let cell of row.cells) {
+                    let text = cell.innerText.replace(/"/g, '""').trim();
+                    rowData.push(`"${text}"`);
+                }
+                csv.push(rowData.join(','));
+            }
+
+            const blob = new Blob([csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `SDSF_${currentTabId}_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+        }
+    </script>
+</body>
+</html>
