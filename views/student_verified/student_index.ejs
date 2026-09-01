@@ -40,7 +40,22 @@
                 </div>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <!-- Live Application Status Pill -->
+                <div id="headerStatusPill" class="profile-status-pill">
+                    <% if (typeof activeApplication !== 'undefined' && activeApplication) { %>
+                        <% if (activeApplication.status === 'Approved') { %>
+                            <span class="status-pill status-approved"><i class="fas fa-check-circle"></i> NOC Approved</span>
+                        <% } else if (activeApplication.status === 'Rejected' || activeApplication.status === 'Disapproved') { %>
+                            <span class="status-pill status-rejected"><i class="fas fa-times-circle"></i> NOC Disapproved</span>
+                        <% } else { %>
+                            <span class="status-pill status-pending"><i class="fas fa-clock"></i> Application Submitted</span>
+                        <% } %>
+                    <% } else { %>
+                        <span class="status-pill status-fresh"><i class="fas fa-info-circle"></i> Ready to Apply</span>
+                    <% } %>
+                </div>
+
                 <div style="text-align: right; background: #f1f5f9; padding: 6px 14px; border-radius: 8px; border: 1px solid #e2e8f0;">
                     <span style="display: block; font-size: 12px; font-weight: 700; color: #162b57;">
                         <i class="fas fa-user-check" style="color: #10b981;"></i> <%= typeof student !== 'undefined' && student.studentName ? student.studentName : 'Student' %>
@@ -86,6 +101,9 @@
                             <p>Fill in your details below to submit your No Objection Certificate (NOC) request to the department.</p>
                         </div>
                     </div>
+
+                    <!-- Dynamic Previous Submission Status & Details Bar -->
+                    <div id="previousSubmissionContainer"></div>
 
                     <form id="studentNocForm">
                         <input type="hidden" id="studentEnrollment" value="<%= typeof student !== 'undefined' && student.enrollmentNo ? student.enrollmentNo : '' %>">

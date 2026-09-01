@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const studentForm = document.getElementById("studentNocForm");
     const sidebarTabs = document.querySelectorAll(".sidebar-tab");
     const tabSections = document.querySelectorAll(".tab-content-section");
+    const offerLetterContainer = document.getElementById("offerLetterContainer");
+    const previousSubmissionContainer = document.getElementById("previousSubmissionContainer");
+    const headerStatusPill = document.getElementById("headerStatusPill");
 
     // Student Logout Handler
     const logoutBtn = document.getElementById("btnStudentLogout");
@@ -164,7 +167,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            const uploadedDocuments = (await Promise.all(filePromises)).filter(Boolean);
+            let uploadedDocuments = (await Promise.all(filePromises)).filter(Boolean);
+            
+            // If no new files chosen in this submission, retain existing documents if available
+            if (uploadedDocuments.length === 0) {
+                const savedJson = localStorage.getItem("sdsf_student_noc");
+                if (savedJson) {
+                    try {
+                        const saved = JSON.parse(savedJson);
+                        if (Array.isArray(saved.documents) && saved.documents.length > 0) {
+                            uploadedDocuments = saved.documents;
+                        } else if (saved.fileDataUrl) {
+                            uploadedDocuments = [{ docName: saved.docName || 'Offer_Document.pdf', fileDataUrl: saved.fileDataUrl, label: 'Offer Document' }];
+                        }
+                    } catch(e) {}
+                }
+            }
+
             const mainDoc = uploadedDocuments[0] || { docName: 'Offer_Document.pdf', fileDataUrl: '' };
             const enrollmentNo = getCurrentEnrollmentNo();
 
@@ -305,7 +324,143 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("sdsf_student_noc", JSON.stringify(requestData));
         }
 
+        renderPreviousSubmissionSection(requestData);
         renderOfferLetterSection(requestData);
+    }
+
+    // Render Previous Submission Status Bar & Details Card
+    function renderPreviousSubmissionSection(data) {
+        if (!previousSubmissionContainer) return;
+
+        if (!data || !data.companyName) {
+            previousSubmissionContainer.innerHTML = "";
+            if (headerStatusPill) {
+                headerStatusPill.innerHTML = `<span class="status-pill status-fresh"><i class="fas fa-info-circle"></i> Ready to Apply</span>`;
+            }
+            return;
+        }
+
+        const isApproved = data.status === "Approved" || data.isApproved;
+        const isDisapproved = data.status === "Rejected" || data.status === "Disapproved";
+        const enrollmentNo = getCurrentEnrollmentNo();
+
+        // Update header pill
+        if (headerStatusPill) {
+            if (isApproved) {
+                headerStatusPill.innerHTML = `<span class="status-pill status-approved"><i class="fas fa-check-circle"></i> NOC Approved</span>`;
+            } else if (isDisapproved) {
+                headerStatusPill.innerHTML = `<span class="status-pill status-rejected"><i class="fas fa-times-circle"></i> NOC Disapproved</span>`;
+            } else {
+                headerStatusPill.innerHTML = `<span class="status-pill status-pending"><i class="fas fa-clock"></i> NOC Under Review</span>`;
+            }
+        }
+
+        let borderClass = "pending-border";
+        let statusBadgeHtml = `<span class="status-pill status-pending"><i class="fas fa-clock"></i> Pending Faculty Review</span>`;
+
+        if (isApproved) {
+            borderClass = "approved-border";
+            statusBadgeHtml = `<span class="status-pill status-approved"><i class="fas fa-check-circle"></i> Approved by Faculty</span>`;
+        } else if (isDisapproved) {
+            borderClass = "rejected-border";
+            statusBadgeHtml = `<span class="status-pill status-rejected"><i class="fas fa-times-circle"></i> Disapproved</span>`;
+        }
+
+        // Format submission timestamp
+        let formattedDate = data.date || "Recently";
+        if (data.submittedAt) {
+            try {
+                formattedDate = new Date(data.submittedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            } catch (e) {
+                formattedDate = data.date || "Recently";
+            }
+        }
+
+        // Build document chips
+        let docsHtml = "";
+        const docs = (Array.isArray(data.documents) && data.documents.length > 0)
+            ? data.documents
+            : (data.docName ? [{ docName: data.docName, label: "Offer Document" }] : []);
+
+        if (docs.length > 0) {
+            const chips = docs.map((doc, idx) => {
+                const docLabel = doc.label || `Document ${idx + 1}`;
+                const docFileName = doc.docName || `Document_${idx + 1}.pdf`;
+                return `
+                    <div class="doc-chip-item">
+                        <i class="fas fa-file-pdf" style="color: #dc2626; font-size: 14px;"></i>
+                        <span><strong>${escapeHtml(docLabel)}:</strong> ${escapeHtml(docFileName)}</span>
+                        <a href="/api/view-document?enrollment=${encodeURIComponent(enrollmentNo)}&docIndex=${idx}" target="_blank" class="doc-chip-link" title="Open PDF in new tab">
+                            <i class="fas fa-external-link-alt"></i> View PDF
+                        </a>
+                    </div>
+                `;
+            }).join("");
+
+            docsHtml = `
+                <div class="submission-docs-wrap">
+                    <div class="box-label"><i class="fas fa-paperclip"></i> Attached Document(s) (${docs.length})</div>
+                    <div class="submission-docs-chips">${chips}</div>
+                </div>
+            `;
+        }
+
+        // Render the card HTML
+        previousSubmissionContainer.innerHTML = `
+            <div class="submission-status-card ${borderClass}">
+                <div class="submission-summary-header">
+                    <div>
+                        <h4><i class="fas fa-history" style="color: #0284c7;"></i> Previously Submitted NOC Application</h4>
+                        <span style="font-size: 12px; color: #64748b;">
+                            Submitted On: <strong>${escapeHtml(formattedDate)}</strong> | Ref: <strong>${escapeHtml(data.id || 'NOC-' + (enrollmentNo || 'REQ'))}</strong>
+                        </span>
+                    </div>
+                    <div>
+                        ${statusBadgeHtml}
+                    </div>
+                </div>
+
+                <div class="submission-details-grid">
+                    <div class="submission-detail-box">
+                        <div class="box-label"><i class="fas fa-building"></i> Company / Organization</div>
+                        <div class="box-value">${escapeHtml(data.companyName || '—')}</div>
+                    </div>
+                    <div class="submission-detail-box">
+                        <div class="box-label"><i class="fas fa-briefcase"></i> Internship Mode</div>
+                        <div class="box-value">${escapeHtml(data.internshipMode || 'Off Campus')}</div>
+                    </div>
+                    <div class="submission-detail-box">
+                        <div class="box-label"><i class="fas fa-graduation-cap"></i> Program & Semester</div>
+                        <div class="box-value">${escapeHtml(data.course || data.studentCourse || '—')} (${escapeHtml(data.semester || data.studentSemester || 'Semester X')})</div>
+                    </div>
+                </div>
+
+                ${docsHtml}
+
+                <div class="submission-actions-row">
+                    <button type="button" class="btn-sub-action btn-sub-view-letter" onclick="document.querySelector('[data-tab=\\'secOfferLetter\\']').click()">
+                        <i class="fas fa-envelope-open-text"></i> View Generated Offer / NOC Letter
+                    </button>
+                </div>
+            </div>
+        `;
+
+        // Pre-fill form fields with submitted data if available
+        const companyInput = document.getElementById("companyName");
+        if (companyInput && data.companyName && !companyInput.value) {
+            companyInput.value = data.companyName;
+        }
+
+        if (data.internshipMode) {
+            const modeRadio = document.querySelector(`input[name="internshipMode"][value="${data.internshipMode}"]`);
+            if (modeRadio) {
+                modeRadio.checked = true;
+            }
+        }
     }
 
     // Render Section 2: Offer / NOC Letter
