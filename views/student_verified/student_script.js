@@ -523,14 +523,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             <i class="fas fa-building" style="color: #0284c7; margin-right: 6px;"></i> Offer of Internship at ${escapeHtml(data.companyName)}
                         </h4>
                         <p style="margin: 0; font-size: 13.5px; color: #475569;">
-                            <strong>Applicant:</strong> ${escapeHtml(data.studentName)} | <strong>Course:</strong> ${escapeHtml(data.studentCourse)} (${escapeHtml(data.studentSemester || 'Sem III')}) | <strong>Mode:</strong> ${escapeHtml(data.internshipMode || 'Off Campus')}
                             <strong>Applicant:</strong> ${escapeHtml(data.studentName)} | <strong>Course:</strong> ${escapeHtml(data.studentCourse || data.course || 'SDSF Course')} (${escapeHtml(data.studentSemester || data.semester || 'Sem I')}) | <strong>Mode:</strong> ${escapeHtml(data.internshipMode || 'Off Campus')}
                         </p>
                     </div>
                     <div>
-                        <button type="button" class="btn-download-noc" onclick="showPrintableOfferLetter()" style="background: #0284c7;">
-                            <i class="fas fa-eye"></i> View & Print Offer Letter
-                        </button>
                         <a href="${permDocUrl}" target="_blank" class="btn-download-noc" style="background: #0284c7; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fas fa-external-link-alt"></i> View & Print Offer Letter
                         </a>
@@ -571,8 +567,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     </p>
 
                     <div style="margin-top: 12px; padding-top: 8px; border-top: 1px dashed #cbd5e1; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; font-family: 'Poppins', sans-serif;">
-                        <span><i class="fas fa-file-contract text-blue-600"></i> Dynamic Template: <a href="/docs_dynamic/dynamic_permission_letter.html" target="_blank" class="text-blue-600 font-semibold hover:underline">docs_dynamic/dynamic_permission_letter.html</a></span>
-                        <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold border border-emerald-200">✓ Real-time Letter</span>
                         <span><i class="fas fa-file-contract text-blue-600"></i> Dynamic Document: <a href="${permDocUrl}" target="_blank" class="text-blue-600 font-semibold hover:underline">dynamic_permission_letter.html</a></span>
                         <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold border border-emerald-200">✓ Synchronized Template</span>
                     </div>
@@ -592,7 +586,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     <p style="margin: 5px 0 15px 0;">Your No Objection Certificate (NOC) has been reviewed and official approval is granted by SDSF Faculty for <strong>${escapeHtml(data.companyName)}</strong>.</p>
                     
                     <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                        <button type="button" class="btn-download-noc" onclick="showPrintableNoc()"><i class="fas fa-file-pdf"></i> View & Print Official NOC Letter</button>
                         <a href="${nocDocUrl}" target="_blank" class="btn-download-noc" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fas fa-file-pdf"></i> View & Print Official NOC Letter
                         </a>
@@ -657,7 +650,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     <i class="fas fa-times-circle" style="font-size: 42px; color: #dc2626; margin-bottom: 12px;"></i>
                     <h4 style="font-size: 20px; font-family: 'Oswald', sans-serif; color: #991b1b; margin: 0 0 10px 0;">NOC Application Disapproved / Rejected</h4>
                     <p style="margin: 0 0 20px 0; font-size: 14px; color: #7f1d1d;">Your NOC Application for <strong>${escapeHtml(data.companyName)}</strong> has been reviewed and <strong>DISAPPROVED</strong> by the SDSF Faculty. Please contact the department or resubmit your application if required.</p>
-                    <button type="button" class="btn-download-noc" onclick="showPrintableNoc()" style="background: #dc2626; margin: 0 auto;"><i class="fas fa-file-pdf"></i> View Official Disapproval Notice</button>
                 </div>
             `;
         } else {
@@ -683,219 +675,18 @@ document.addEventListener("DOMContentLoaded", function () {
         offerLetterContainer.innerHTML = html;
     }
 
-    // Show printable/downloadable Offer Letter modal
     // Open dynamic permission letter in new tab
     window.showPrintableOfferLetter = function () {
         const savedData = localStorage.getItem("sdsf_student_noc");
-        const data = savedData ? JSON.parse(savedData) : {
-            id: "OFFER-1092",
-            studentName: "Student Name",
-            studentCourse: "M.Sc. Data Science & Analytics",
-            studentSemester: "Sem III",
-            companyName: "Organization",
-            internshipMode: "Off Campus",
-            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        };
-
-        const modal = document.createElement("div");
-        modal.className = "printable-noc-overlay";
-        modal.id = "printableOfferModal";
-        modal.onclick = function (e) {
-            if (e.target === modal) closePrintableOffer();
-        };
-        modal.innerHTML = `
-            <div class="printable-noc-paper" style="font-family: 'Times New Roman', serif; max-width: 820px; padding: 45px 50px;" onclick="event.stopPropagation()">
-                <div class="noc-print-actions" style="margin-bottom: 25px;">
-                    <button onclick="window.print()" style="background: #1e3a8a; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;"><i class="fas fa-print"></i> Print / Save as PDF</button>
-                    <button onclick="closePrintableOffer()" style="background: #64748b; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">Close</button>
-                </div>
-
-                <!-- Letterhead with Dual Logos -->
-                <div style="display: flex; align-items: center; justify-content: space-between; gap: 15px; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px;">
-                    <img src="/photoes/davvLogo.png" alt="DAVV Logo" style="height: 70px; width: auto; object-fit: contain;">
-                    <div style="text-align: center; flex-grow: 1;">
-                        <h2 style="font-family: 'Times New Roman', serif; margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a; text-transform: uppercase;">DEVI AHILYA VISHWAVIDYALAYA, INDORE</h2>
-                        <h3 style="font-family: 'Times New Roman', serif; margin: 3px 0; font-size: 14.5px; font-weight: bold; color: #0f172a; text-transform: uppercase;">SCHOOL OF DATA SCIENCE AND FORECASTING (SDSF)</h3>
-                        <p style="font-size: 11.5px; margin: 0; font-style: italic; color: #475569;">Takshila Campus, Khandwa Road, Indore – 452001 (M.P.)</p>
-                    </div>
-                    <img src="/photoes/departmentlogo_transparent.png" alt="SDSF Logo" style="height: 70px; width: auto; object-fit: contain;">
-                </div>
-
-                <div style="height: 3px; background: #1e3a8a; margin-top: 2px; margin-bottom: 16px;"></div>
-
-                <div style="display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 13.5px; font-weight: 600;">
-                    <div>Ref No: SDSF/PERMISSION/2026/${data.id || 'PERM-101'}</div>
-                    <div>Date: ${data.date}</div>
-                </div>
-
-                <div style="border-top: 1.5px solid #1e3a8a; border-bottom: 1.5px solid #1e3a8a; padding: 8px 0; margin-bottom: 22px; text-align: center;">
-                    <h4 style="font-size: 15.5px; font-weight: bold; color: #1e3a8a; text-transform: uppercase; margin: 0; letter-spacing: 0.5px;">
-                        OFFICIAL INTERNSHIP PERMISSION LETTER
-                    </h4>
-                </div>
-
-                <div class="noc-letter-body" style="font-size: 14.5px; line-height: 1.85; text-align: justify;">
-                    <p style="margin-bottom: 18px;">
-                        This is to certify that <strong>${escapeHtml(data.studentName)}</strong> (Enrollment / Roll No: <strong>${escapeHtml(data.enrollmentNo || '—')}</strong>) is a bonafide student of the School of Data Science and Forecasting, Devi Ahilya Vishwavidyalaya, Indore, pursuing <strong>${escapeHtml(data.course || data.studentCourse)}</strong> (${escapeHtml(data.semester || data.studentSemester || 'Sem I')}).
-                    </p>
-
-                    <p style="margin-bottom: 18px;">
-                        The candidate is hereby granted <strong>OFFICIAL PERMISSION</strong> to join and undergo an internship program at <strong>${escapeHtml(data.companyName)}</strong> (${escapeHtml(data.internshipMode || 'Off-Campus')}) for the current academic session.
-                    </p>
-
-                    <p style="margin-bottom: 18px;">
-                        During the period of internship, the student will abide by all rules, academic discipline, and code of conduct of both the host organization and the university.
-                    </p>
-
-                    <p style="margin-bottom: 18px;">
-                        We wish the student all success in their internship endeavor.
-                    </p>
-                </div>
-
-                <div class="noc-letter-footer" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; padding-top: 20px;">
-                    <div>
-                        <div style="width: 170px; border-top: 1px solid #64748b; margin-bottom: 5px;"></div>
-                        <p style="margin: 0; font-size: 13px; font-weight: bold;">Signature of Student</p>
-                        <p style="margin: 0; font-size: 12px; color: #555;">Student Name: <strong>${escapeHtml(data.studentName)}</strong></p>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="width: 190px; margin-left: auto; border-top: 1.5px solid #0f172a; margin-bottom: 5px;"></div>
-                        <p style="margin: 0; font-weight: bold; font-size: 14px; text-transform: uppercase;">Head of Department</p>
-                        <p style="margin: 0; font-size: 12.5px; color: #475569;">School of Data Science & Forecasting</p>
-                        <p style="margin: 0; font-size: 12px; color: #475569;">DAVV, Indore</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
         const data = savedData ? JSON.parse(savedData) : null;
         window.open(getDynamicPermissionUrl(data), '_blank');
     };
 
-    window.closePrintableOffer = function () {
-        const modal = document.getElementById("printableOfferModal");
-        if (modal) modal.remove();
-    };
-
-    // Show printable/downloadable NOC Letter modal
     // Open dynamic NOC letter in new tab
     window.showPrintableNoc = function () {
         const savedData = localStorage.getItem("sdsf_student_noc");
-        const data = savedData ? JSON.parse(savedData) : {
-            id: "NOC-1092",
-            studentName: "Student Name",
-            studentCourse: "M.Sc. Data Science & Analytics",
-            studentSemester: "Sem III",
-            companyName: "Organization",
-            internshipMode: "Off Campus",
-            date: new Date().toLocaleDateString()
-        };
-
-        const isDisapproved = data.status === "Rejected" || data.status === "Disapproved";
-
-        const modal = document.createElement("div");
-        modal.className = "printable-noc-overlay";
-        modal.id = "printableNocModal";
-        modal.onclick = function (e) {
-            if (e.target === modal) closePrintableNoc();
-        };
-        modal.innerHTML = `
-            <div class="printable-noc-paper" style="font-family: 'Times New Roman', serif; max-width: 820px; padding: 45px 50px;" onclick="event.stopPropagation()">
-                <div class="noc-print-actions" style="margin-bottom: 25px;">
-                    <button onclick="window.print()" style="background: ${isDisapproved ? '#ef4444' : '#1e3a8a'}; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;"><i class="fas fa-print"></i> Print / Save as PDF</button>
-                    <button onclick="closePrintableNoc()" style="background: #64748b; color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; cursor: pointer;">Close</button>
-                </div>
-
-                <!-- Letterhead with Dual Logos -->
-                <div style="display: flex; align-items: center; justify-content: space-between; gap: 15px; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px;">
-                    <img src="/photoes/davvLogo.png" alt="DAVV Logo" style="height: 70px; width: auto; object-fit: contain;">
-                    <div style="text-align: center; flex-grow: 1;">
-                        <h2 style="font-family: 'Times New Roman', serif; margin: 0; font-size: 18px; font-weight: bold; color: #1e3a8a; text-transform: uppercase;">DEVI AHILYA VISHWAVIDYALAYA, INDORE</h2>
-                        <h3 style="font-family: 'Times New Roman', serif; margin: 3px 0; font-size: 14.5px; font-weight: bold; color: #0f172a; text-transform: uppercase;">SCHOOL OF DATA SCIENCE AND FORECASTING (SDSF)</h3>
-                        <p style="font-size: 11.5px; margin: 0; font-style: italic; color: #475569;">Takshila Campus, Khandwa Road, Indore – 452001 (M.P.)</p>
-                    </div>
-                    <img src="/photoes/departmentlogo_transparent.png" alt="SDSF Logo" style="height: 70px; width: auto; object-fit: contain;">
-                </div>
-
-                <div style="height: 3px; background: #1e3a8a; margin-top: 2px; margin-bottom: 16px;"></div>
-
-                <div style="display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 13.5px; font-weight: 600;">
-                    <div>Ref No: SDSF/NOC/2026/${data.id || 'NOC-101'}</div>
-                    <div>Date: ${data.date}</div>
-                </div>
-
-                ${isDisapproved ? `
-                    <div style="border-top: 1.5px solid #dc2626; border-bottom: 1.5px solid #dc2626; padding: 8px 0; margin-bottom: 22px; text-align: center;">
-                        <h4 style="font-size: 15.5px; font-weight: bold; color: #dc2626; text-transform: uppercase; margin: 0; letter-spacing: 0.5px;">
-                            NOTICE OF NOC DISAPPROVAL
-                        </h4>
-                    </div>
-
-                    <div class="noc-letter-body" style="font-size: 14.5px; line-height: 1.85; text-align: justify;">
-                        <p>This is to inform that the No Objection Certificate (NOC) application submitted by <strong>${escapeHtml(data.studentName)}</strong> (Enrollment / Roll No: <strong>${escapeHtml(data.enrollmentNo || '—')}</strong>), a bonafide student of the School of Data Science and Forecasting, Devi Ahilya Vishwavidyalaya, Indore, pursuing <strong>${escapeHtml(data.course || data.studentCourse)}</strong> (${escapeHtml(data.semester || data.studentSemester || 'Sem I')}), has been <strong>REVIEWED AND DISAPPROVED</strong> by the SDSF Faculty Cell.</p>
-
-                        <p>The Department currently has <strong>DISAPPROVED / WITHHELD OBJECTION PERMISSION</strong> for the candidate to undergo the requested internship program at <strong>${escapeHtml(data.companyName)}</strong> (${escapeHtml(data.internshipMode || 'Off-Campus')}).</p>
-
-                        <div style="background: #fef2f2; border: 1px solid #fca5a5; border-left: 4px solid #ef4444; padding: 12px 15px; border-radius: 4px; font-weight: 500; color: #991b1b; margin: 15px 0;">
-                            <strong>Status:</strong> APPLICATION DISAPPROVED BY FACULTY AUTHORITY
-                        </div>
-
-                        <p>The candidate may contact the Head of Department or SDSF Internship Cell for clarification or resubmit a fresh NOC application if necessary.</p>
-                    </div>
-                ` : `
-                    <div style="border-top: 1.5px solid #1e3a8a; border-bottom: 1.5px solid #1e3a8a; padding: 8px 0; margin-bottom: 22px; text-align: center;">
-                        <h4 style="font-size: 15.5px; font-weight: bold; color: #1e3a8a; text-transform: uppercase; margin: 0; letter-spacing: 0.5px;">
-                            OFFICIAL NO OBJECTION CERTIFICATE (NOC)
-                        </h4>
-                    </div>
-
-                    <div class="noc-letter-body" style="font-size: 14.5px; line-height: 1.85; text-align: justify;">
-                        <p style="margin-bottom: 18px;">
-                            This is to certify that <strong>${escapeHtml(data.studentName)}</strong> (Enrollment / Roll No: <strong>${escapeHtml(data.enrollmentNo || '—')}</strong>) is a bonafide student of the School of Data Science and Forecasting, Devi Ahilya Vishwavidyalaya, Indore, pursuing <strong>${escapeHtml(data.course || data.studentCourse)}</strong> (${escapeHtml(data.semester || data.studentSemester || 'Sem I')}).
-                        </p>
-
-                        <p style="margin-bottom: 18px;">
-                            The Department has <strong>NO OBJECTION</strong> for the candidate to undergo an internship program at <strong>${escapeHtml(data.companyName)}</strong> (${escapeHtml(data.internshipMode || 'Off-Campus')}) for the current academic session.
-                        </p>
-
-                        <p style="margin-bottom: 18px;">
-                            During the period of internship, the student will abide by all rules, academic discipline, and code of conduct of both the host organization and the university.
-                        </p>
-
-                        <p style="margin-bottom: 18px;">
-                            We wish the student all success in their internship endeavor.
-                        </p>
-                    </div>
-                `}
-
-                <div class="noc-letter-footer" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px; padding-top: 20px;">
-                    <div>
-                        <div style="width: 170px; border-top: 1px solid #64748b; margin-bottom: 5px;"></div>
-                        <p style="margin: 0; font-size: 13px; font-weight: bold;">Signature of Student</p>
-                        <p style="margin: 0; font-size: 12px; color: #555;">Student Name: <strong>${escapeHtml(data.studentName)}</strong></p>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="width: 190px; margin-left: auto; border-top: 1.5px solid #0f172a; margin-bottom: 5px;"></div>
-                        <p style="margin: 0; font-weight: bold; font-size: 14px; text-transform: uppercase;">Head of Department</p>
-                        <p style="margin: 0; font-size: 12.5px; color: #475569;">School of Data Science & Forecasting</p>
-                        <p style="margin: 0; font-size: 12px; color: #475569;">DAVV, Indore</p>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
         const data = savedData ? JSON.parse(savedData) : null;
         window.open(getDynamicNocUrl(data), '_blank');
-    };
-
-    window.closePrintableOffer = function () {
-        const modals = document.querySelectorAll("#printableOfferModal, .printable-noc-overlay");
-        modals.forEach(m => m.remove());
-    };
-
-    window.closePrintableNoc = function () {
-        const modals = document.querySelectorAll("#printableNocModal, .printable-noc-overlay");
-        modals.forEach(m => m.remove());
     };
 
     function escapeHtml(str) {
