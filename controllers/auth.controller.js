@@ -215,11 +215,13 @@ const handleLogin = async (req, res) => {
                 { $set: { isVerified: true, verifiedAt: new Date() } }
             );
 
-            // Fetch live status from Approved_Student or Requested_Student
             const approvedRecord = await verificationDb.collection('Approved_Student').findOne({
                 enrollmentNo: new RegExp(`^${escapeRegex(targetEnrollment)}$`, 'i')
             });
             const requestedRecord = await verificationDb.collection('Requested_Student').findOne({
+                enrollmentNo: new RegExp(`^${escapeRegex(targetEnrollment)}$`, 'i')
+            });
+            const previousSubmission = await verificationDb.collection('Students_Previous_Submissions').findOne({
                 enrollmentNo: new RegExp(`^${escapeRegex(targetEnrollment)}$`, 'i')
             });
 
@@ -236,7 +238,8 @@ const handleLogin = async (req, res) => {
                     course: verifiedRecord.course || req.body.course,
                     email: verifiedRecord.email || email
                 },
-                activeApplication
+                activeApplication,
+                previousSubmission: previousSubmission || null
             });
         } catch (err) {
             console.error('Error verifying code:', err);
@@ -416,7 +419,15 @@ const submitStudentNoc = async (req, res) => {
             { upsert: true }
         );
 
-        console.log(`[NOC Application] Saved application for student [${cleanEnrollment}] to Verification.Requested_Student.`);
+        // Also store a copy into Verification.Students_Previous_Submissions
+        const prevSubmissionsCol = verificationDb.collection('Students_Previous_Submissions');
+        await prevSubmissionsCol.updateOne(
+            { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+            { $set: { ...applicationData, savedAt: new Date() } },
+            { upsert: true }
+        );
+
+        console.log(`[NOC Application] Saved application for student [${cleanEnrollment}] to Verification.Requested_Student and Verification.Students_Previous_Submissions.`);
         return res.json({ success: true, message: 'NOC Application submitted successfully!', application: applicationData });
     } catch (err) {
         console.error('Error in submitStudentNoc:', err);
@@ -465,16 +476,24 @@ const approveStudentNoc = async (req, res) => {
             { upsert: true }
         );
 
-        // 3. Remove from Requested_Student
+        // 3. Sync Approved status into Students_Previous_Submissions
+        const prevSubmissionsCol = verificationDb.collection('Students_Previous_Submissions');
+        await prevSubmissionsCol.updateOne(
+            { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+            { $set: { ...approvedData, isApproved: true, status: 'Approved', approvedAt: new Date() } },
+            { upsert: true }
+        );
+
+        // 4. Remove from Requested_Student
         await requestedCol.deleteOne({ enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') });
 
-        // 4. Update isApproved in Verified_Student
+        // 5. Update isApproved in Verified_Student
         await verifiedCol.updateOne(
             { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
             { $set: { isApproved: true, approvedAt: new Date() } }
         );
 
-        console.log(`[Approval Successful] Student [${cleanEnrollment}] moved to Verification.Approved_Student.`);
+        console.log(`[Approval Successful] Student [${cleanEnrollment}] moved to Verification.Approved_Student and synced to Students_Previous_Submissions.`);
         return res.json({ success: true, message: `Student ${cleanEnrollment} approved successfully!` });
     } catch (err) {
         console.error('Error approving student NOC:', err);
@@ -498,6 +517,7 @@ const revokeStudentNoc = async (req, res) => {
         const requestedCol = verificationDb.collection('Requested_Student');
         const approvedCol = verificationDb.collection('Approved_Student');
         const verifiedCol = verificationDb.collection('Verified_Student');
+        const prevSubmissionsCol = verificationDb.collection('Students_Previous_Submissions');
 
         const record = await approvedCol.findOne({ enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') });
         if (!record) {
@@ -519,16 +539,23 @@ const revokeStudentNoc = async (req, res) => {
             { upsert: true }
         );
 
-        // 2. Remove from Approved_Student
+        // 2. Sync Reverted status into Students_Previous_Submissions
+        await prevSubmissionsCol.updateOne(
+            { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+            { $set: { ...pendingData, isApproved: false, status: 'Pending Approval' }, $unset: { approvedAt: '' } },
+            { upsert: true }
+        );
+
+        // 3. Remove from Approved_Student
         await approvedCol.deleteOne({ enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') });
 
-        // 3. Mark isApproved: false in Verified_Student
+        // 4. Mark isApproved: false in Verified_Student
         await verifiedCol.updateOne(
             { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
             { $set: { isApproved: false }, $unset: { approvedAt: '' } }
         );
 
-        console.log(`[Revoke Successful] Student [${cleanEnrollment}] moved back to Verification.Requested_Student.`);
+        console.log(`[Revoke Successful] Student [${cleanEnrollment}] moved back to Verification.Requested_Student and synced to Students_Previous_Submissions.`);
         return res.json({ success: true, message: `Student ${cleanEnrollment} approval has been revoked and moved back to Requested NOCs.` });
     } catch (err) {
         console.error('Error revoking student NOC:', err);
@@ -554,12 +581,17 @@ const getStudentStatus = async (req, res) => {
             enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i')
         });
 
+        const previousRecord = await verificationDb.collection('Students_Previous_Submissions').findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i')
+        });
+
         if (approvedRecord) {
             return res.json({
                 success: true,
                 status: 'Approved',
                 isApproved: true,
-                application: approvedRecord
+                application: approvedRecord,
+                previousSubmission: previousRecord || null
             });
         }
 
@@ -573,7 +605,8 @@ const getStudentStatus = async (req, res) => {
                 success: true,
                 status: 'Pending Approval',
                 isApproved: false,
-                application: requestedRecord
+                application: requestedRecord,
+                previousSubmission: previousRecord || null
             });
         }
 
@@ -588,7 +621,8 @@ const getStudentStatus = async (req, res) => {
                 success: true,
                 status: verifiedRecord.isApproved ? 'Approved' : 'Not Applied',
                 isApproved: !!verifiedRecord.isApproved,
-                application: verifiedRecord
+                application: verifiedRecord,
+                previousSubmission: previousRecord || null
             });
         }
 
@@ -596,7 +630,8 @@ const getStudentStatus = async (req, res) => {
             success: false,
             status: 'Not Found',
             isApproved: false,
-            application: null
+            application: null,
+            previousSubmission: previousRecord || null
         });
     } catch (err) {
         console.error('Error fetching student status:', err);
@@ -619,6 +654,7 @@ const bulkApproveStudents = async (req, res) => {
         const approvedCol = verificationDb.collection('Approved_Student');
         const verifiedCol = verificationDb.collection('Verified_Student');
 
+        const prevSubmissionsCol = verificationDb.collection('Students_Previous_Submissions');
         let approvedCount = 0;
 
         for (const rawEnrollment of enrollmentNos) {
@@ -641,6 +677,13 @@ const bulkApproveStudents = async (req, res) => {
                 await approvedCol.updateOne(
                     { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
                     { $set: approvedData },
+                    { upsert: true }
+                );
+
+                // Sync to Students_Previous_Submissions
+                await prevSubmissionsCol.updateOne(
+                    { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+                    { $set: { ...approvedData, isApproved: true, status: 'Approved', approvedAt: new Date() } },
                     { upsert: true }
                 );
 

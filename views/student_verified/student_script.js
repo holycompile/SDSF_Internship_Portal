@@ -268,12 +268,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 1. Check embedded server state first
         let requestData = null;
+        let previousSubmission = null;
         const serverStateEl = document.getElementById("serverStudentState");
         if (serverStateEl) {
             try {
                 const parsed = JSON.parse(serverStateEl.textContent || "{}");
                 if (parsed.activeApplication) {
                     requestData = parsed.activeApplication;
+                }
+                if (parsed.previousSubmission) {
+                    previousSubmission = parsed.previousSubmission;
                 }
             } catch(e) {}
         }
@@ -288,6 +292,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     status: data.isApproved ? "Approved" : (data.status || "Pending Approval"),
                     date: data.application.submittedAt ? new Date(data.application.submittedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date().toLocaleDateString()
                 };
+            }
+            if (data.previousSubmission) {
+                previousSubmission = data.previousSubmission;
             }
         } catch(err) {
             console.warn("Could not fetch real-time student status from API, falling back to cached state:", err);
@@ -305,8 +312,148 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("sdsf_student_noc", JSON.stringify(requestData));
         }
 
+        // Check if student has a match in Students_Previous_Submissions and show popup modal
+        if (previousSubmission && previousSubmission.companyName) {
+            checkAndShowPreviousSubmissionPopup(previousSubmission);
+        }
+
         renderOfferLetterSection(requestData);
     }
+
+    // Popup Modal for Students with Matches in Students_Previous_Submissions
+    function checkAndShowPreviousSubmissionPopup(data) {
+        if (!data || !data.companyName) return;
+        
+        const enrollmentNo = (data.enrollmentNo || getCurrentEnrollmentNo()).toUpperCase();
+        const popupKey = "sdsf_prev_modal_seen_" + enrollmentNo;
+        
+        // Show once per session on login / reload
+        if (sessionStorage.getItem(popupKey)) return;
+        sessionStorage.setItem(popupKey, "true");
+
+        if (document.getElementById("previousSubmissionModal")) return;
+
+        const studentName = data.studentName || "Student";
+        const companyName = data.companyName || "Organization";
+        const course = data.course || "SDSF Program";
+        const semester = data.semester || "Semester X";
+        const mode = data.internshipMode || "Off Campus";
+
+        let formattedDate = data.date || "Recently";
+        if (data.submittedAt) {
+            try {
+                formattedDate = new Date(data.submittedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            } catch(e) {
+                formattedDate = data.date || "Recently";
+            }
+        }
+
+        let statusText = data.status || "Pending Approval";
+        let statusClass = "status-pending";
+        if (statusText === "Approved" || data.isApproved) {
+            statusClass = "status-approved";
+            statusText = "Approved";
+        } else if (statusText === "Rejected" || statusText === "Disapproved") {
+            statusClass = "status-rejected";
+            statusText = "Disapproved";
+        }
+
+        // Attached docs
+        let docListHtml = "";
+        const docs = (Array.isArray(data.documents) && data.documents.length > 0)
+            ? data.documents
+            : (data.docName ? [{ docName: data.docName, label: "Offer Document" }] : []);
+
+        if (docs.length > 0) {
+            docListHtml = `
+                <div style="margin-top: 12px; padding: 10px 14px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-paperclip"></i> Attached Document(s):
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${docs.map((d, idx) => `
+                            <a href="/api/view-document?enrollment=${encodeURIComponent(enrollmentNo)}&docIndex=${idx}" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #2563eb; background: #ffffff; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; text-decoration: none; font-weight: 600;">
+                                <i class="fas fa-file-pdf" style="color: #dc2626;"></i> ${escapeHtml(d.label || d.docName || 'Document')}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        const modal = document.createElement("div");
+        modal.className = "prev-sub-modal-overlay";
+        modal.id = "previousSubmissionModal";
+        modal.innerHTML = `
+            <div class="prev-sub-modal-card" onclick="event.stopPropagation()">
+                <div class="prev-sub-modal-header">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="background: #e0f2fe; color: #0284c7; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                        <div>
+                            <h3 style="margin: 0; font-size: 17px; color: #0f172a; font-family: 'Oswald', sans-serif;">Previous Submission Found</h3>
+                            <p style="margin: 0; font-size: 12px; color: #64748b;">Record matched in Students Previous Submissions</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close-prev-modal" onclick="closePreviousSubmissionModal()">&times;</button>
+                </div>
+
+                <div class="prev-sub-modal-body">
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #3b82f6; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px;">
+                        <p style="margin: 0; font-size: 13.5px; color: #1e40af; line-height: 1.5;">
+                            Hello <strong>${escapeHtml(studentName)}</strong> (<strong>${escapeHtml(enrollmentNo)}</strong>), our records show that you have previously submitted an internship application regarding <strong>${escapeHtml(companyName)}</strong>.
+                        </p>
+                    </div>
+
+                    <div class="prev-sub-details-grid">
+                        <div class="prev-sub-detail-item">
+                            <span class="detail-label"><i class="fas fa-building"></i> Company / Organization</span>
+                            <span class="detail-val">${escapeHtml(companyName)}</span>
+                        </div>
+                        <div class="prev-sub-detail-item">
+                            <span class="detail-label"><i class="fas fa-briefcase"></i> Internship Mode</span>
+                            <span class="detail-val">${escapeHtml(mode)}</span>
+                        </div>
+                        <div class="prev-sub-detail-item">
+                            <span class="detail-label"><i class="fas fa-graduation-cap"></i> Program & Semester</span>
+                            <span class="detail-val">${escapeHtml(course)} (${escapeHtml(semester)})</span>
+                        </div>
+                        <div class="prev-sub-detail-item">
+                            <span class="detail-label"><i class="fas fa-calendar-alt"></i> Submission Date</span>
+                            <span class="detail-val">${escapeHtml(formattedDate)}</span>
+                        </div>
+                        <div class="prev-sub-detail-item" style="grid-column: 1 / -1;">
+                            <span class="detail-label"><i class="fas fa-info-circle"></i> Review Status</span>
+                            <span class="status-pill ${statusClass}" style="margin-top: 4px;">${escapeHtml(statusText)}</span>
+                        </div>
+                    </div>
+
+                    ${docListHtml}
+                </div>
+
+                <div class="prev-sub-modal-footer">
+                    <button type="button" class="btn-prev-modal-secondary" onclick="closePreviousSubmissionModal()">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                    <button type="button" class="btn-prev-modal-primary" onclick="closePreviousSubmissionModal(); switchToTab('secOfferLetter');">
+                        <i class="fas fa-file-signature"></i> View Offer / NOC Letter
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+    }
+
+    window.closePreviousSubmissionModal = function() {
+        const modal = document.getElementById("previousSubmissionModal");
+        if (modal) modal.remove();
+    };
 
     // Render Section 2: Offer / NOC Letter
     function renderOfferLetterSection(data) {

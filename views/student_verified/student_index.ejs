@@ -243,7 +243,8 @@
     <script id="serverStudentState" type="application/json">
         <%- JSON.stringify({
             student: typeof student !== 'undefined' ? student : {},
-            activeApplication: typeof activeApplication !== 'undefined' ? activeApplication : null
+            activeApplication: typeof activeApplication !== 'undefined' ? activeApplication : null,
+            previousSubmission: typeof previousSubmission !== 'undefined' ? previousSubmission : null
         }) %>
     </script>
 
