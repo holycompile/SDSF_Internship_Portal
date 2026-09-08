@@ -121,12 +121,15 @@
             <div class="px-6 py-6 sm:px-10">
                 
                 <!-- Role Selector Tabs -->
-                <div class="flex bg-slate-100 p-1 rounded-md mb-6 max-w-sm mx-auto border border-slate-200">
-                    <button type="button" id="tab-student" onclick="switchTab('student')" class="flex-1 py-2 px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-2 bg-white text-blue-600 shadow-sm cursor-pointer">
+                <div class="flex bg-slate-100 p-1.5 rounded-lg mb-6 max-w-lg mx-auto border border-slate-200 gap-1.5">
+                    <button type="button" id="tab-student" onclick="switchTab('student')" class="flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-blue-600 shadow-sm cursor-pointer whitespace-nowrap">
                         <i class="fas fa-user-graduate"></i> Student Login
                     </button>
-                    <button type="button" id="tab-teacher" onclick="switchTab('teacher')" class="flex-1 py-2 px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-2 text-slate-500 hover:text-slate-800 cursor-pointer">
+                    <button type="button" id="tab-teacher" onclick="switchTab('teacher')" class="flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap">
                         <i class="fas fa-chalkboard-teacher"></i> Teacher Login
+                    </button>
+                    <button type="button" id="tab-help" onclick="switchTab('help')" class="flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap">
+                        <i class="fas fa-headset"></i> Help Desk
                     </button>
                 </div>
 
@@ -202,6 +205,86 @@
                             </button>
                         </div>
                     </form>
+                </div>
+
+                <!-- Help Desk Section -->
+                <div id="section-help" class="portal-form-box max-w-md mx-auto hidden">
+                    <div class="text-center mb-5">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 mb-2.5 border border-indigo-100 shadow-sm">
+                            <i class="fas fa-headset text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-800 font-heading">Student Help Desk</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm mt-0.5">Support &amp; Technical Assistance for SDSF Internship Portal</p>
+                    </div>
+
+                    <!-- Notice / Prompt Box -->
+                    <div class="bg-amber-50/90 border border-amber-200 border-l-4 border-l-amber-500 rounded-lg p-3.5 mb-5 text-slate-700 text-xs leading-relaxed shadow-sm">
+                        <div class="flex items-start gap-2.5">
+                            <i class="fas fa-info-circle text-amber-600 text-base mt-0.5 shrink-0"></i>
+                            <div>
+                                <p class="text-slate-800 leading-normal">
+                                    In case students facing any issue and trouble submitting their forms or NOC applications , they are kindly requested to mail or contact the details below.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact the Portal Developer Card -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 shadow-sm space-y-3.5">
+                        <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+                            <div class="w-11 h-11 rounded-full bg-[#16223e] flex items-center justify-center text-[#f2b300] font-bold text-lg shadow-sm shrink-0">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Contact the Portal Developer</span>
+                                <h4 class="text-base font-bold text-slate-800 font-heading">Joyobrata Das</h4>
+                                <p class="text-[11px] text-slate-500 font-medium">M.Tech AI &amp; DS &bull; Student Developer, SDSF DAVV</p>
+                            </div>
+                        </div>
+
+                        <!-- Email Detail -->
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200/70 hover:border-blue-200 transition">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <div class="w-8 h-8 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                                    <i class="fas fa-envelope text-sm"></i>
+                                </div>
+                                <div class="truncate">
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gmail Id</span>
+                                    <a href="mailto:joyobratadas.85912@gmail.com?subject=SDSF%20Internship%20Portal%20Issue" class="text-xs sm:text-sm font-semibold text-blue-600 hover:underline truncate block">
+                                        joyobratadas.85912@gmail.com
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="mailto:joyobratadas.85912@gmail.com?subject=SDSF%20Internship%20Portal%20Issue" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md shadow-sm transition shrink-0 flex items-center gap-1.5 ml-2">
+                                <i class="fas fa-paper-plane text-[10px]"></i> <span>Mail</span>
+                            </a>
+                        </div>
+
+                        <!-- Contact No Detail -->
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-slate-50 border border-slate-200/70 hover:border-emerald-200 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                                    <i class="fas fa-phone-alt text-sm"></i>
+                                </div>
+                                <div>
+                                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contact No</span>
+                                    <a href="tel:+918910366038" class="text-xs sm:text-sm font-semibold text-emerald-700 hover:underline block font-mono">
+                                        +91 8910366038
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="tel:+918910366038" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-md shadow-sm transition shrink-0 flex items-center gap-1.5 ml-2">
+                                <i class="fas fa-phone text-[10px]"></i> <span>Call</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Back to Login Navigation -->
+                    <div class="pt-4 text-center">
+                        <button type="button" onclick="switchTab('student')" class="text-xs text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center gap-1.5 cursor-pointer">
+                            <i class="fas fa-arrow-left"></i> Back to Student Login
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Guidelines & Downloads Section -->
@@ -345,19 +428,34 @@
         function switchTab(role) {
             const studentTab = document.getElementById('tab-student');
             const teacherTab = document.getElementById('tab-teacher');
+            const helpTab = document.getElementById('tab-help');
             const studentForm = document.getElementById('form-student');
             const teacherForm = document.getElementById('form-teacher');
+            const helpSection = document.getElementById('section-help');
+
+            const inactiveClass = 'flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap';
 
             if (role === 'student') {
-                studentTab.className = 'flex-1 py-2 px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-2 bg-white text-blue-600 shadow-sm cursor-pointer';
-                teacherTab.className = 'flex-1 py-2 px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-2 text-slate-500 hover:text-slate-800 cursor-pointer';
+                studentTab.className = 'flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-blue-600 shadow-sm cursor-pointer whitespace-nowrap';
+                teacherTab.className = inactiveClass;
+                helpTab.className = inactiveClass;
                 studentForm.classList.remove('hidden');
                 teacherForm.classList.add('hidden');
-            } else {
-                teacherTab.className = 'flex-1 py-2 px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-2 bg-white text-teal-600 shadow-sm cursor-pointer';
-                studentTab.className = 'flex-1 py-2 px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-2 text-slate-500 hover:text-slate-800 cursor-pointer';
+                helpSection.classList.add('hidden');
+            } else if (role === 'teacher') {
+                teacherTab.className = 'flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-teal-600 shadow-sm cursor-pointer whitespace-nowrap';
+                studentTab.className = inactiveClass;
+                helpTab.className = inactiveClass;
                 teacherForm.classList.remove('hidden');
                 studentForm.classList.add('hidden');
+                helpSection.classList.add('hidden');
+            } else if (role === 'help') {
+                helpTab.className = 'flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-indigo-600 shadow-sm cursor-pointer whitespace-nowrap';
+                studentTab.className = inactiveClass;
+                teacherTab.className = inactiveClass;
+                helpSection.classList.remove('hidden');
+                studentForm.classList.add('hidden');
+                teacherForm.classList.add('hidden');
             }
         }
 
