@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const { getStudentsDb, getVerificationDb, getAdminDb } = require('../libs/database');
 const { sendVerificationEmail } = require('../middleware/emailConfig');
 
@@ -5,6 +6,16 @@ const { sendVerificationEmail } = require('../middleware/emailConfig');
  * Helper to escape special regex characters from user input to prevent regex injection / ReDoS
  */
 const escapeRegex = (str) => (str || '').toString().trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * Helper to mask an email address for privacy (e.g. j***s@gmail.com)
+ */
+function maskEmail(email) {
+    if (!email || !email.includes('@')) return email || '';
+    const [user, domain] = email.split('@');
+    if (user.length <= 2) return `${user[0]}*@${domain}`;
+    return `${user[0]}***${user[user.length - 1]}@${domain}`;
+}
 
 /**
  * Helper function to search for a student across all course collections in the Students database
@@ -255,58 +266,155 @@ const handleLogin = async (req, res) => {
         }
     }
 
-    // 3. Student Login - Verify Enrollment in Students Database
+    // 3. Student Login - Authenticate using Enrollment Number + Password
     const targetEnrollment = (enrollmentNo || studentId || '').trim();
-    console.log(`Checking Students DB for enrollment: "${targetEnrollment}"`);
+    const enteredPassword = (req.body.password || '').trim();
+    console.log(`Authenticating Student: "${targetEnrollment}"`);
 
-    if (!targetEnrollment) {
+    if (!targetEnrollment || !enteredPassword) {
         return res.render('log_in_page_folder/log_in_page', {
-            error: 'Please enter your Enrollment Number.',
-            enteredEnrollment: ''
+            error: !targetEnrollment ? 'Please enter your Enrollment Number.' : 'Please enter your Password.',
+            enteredEnrollment: targetEnrollment
         });
     }
 
     try {
         const studentInfo = await searchStudentInAllCollections(targetEnrollment);
+        const verificationDb = getVerificationDb();
+        const verifiedCollection = verificationDb.collection('Verified_Student');
 
-        if (studentInfo) {
-            console.log('Student record found in Students database:', studentInfo.studentName);
+        const verifiedRecord = await verifiedCollection.findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(targetEnrollment)}$`, 'i')
+        });
 
-            // Generate 6-digit verification code
-            const verificationCode = generateVerificationCode();
-
-            // Save full student information + verification code into Verification.Verified_Student collection
-            await saveToVerifiedStudent(studentInfo, verificationCode);
-
-            // Send verification code email asynchronously
-            if (studentInfo.email) {
-                sendVerificationEmail({
-                    toEmail: studentInfo.email,
-                    studentName: studentInfo.studentName,
-                    verificationCode
-                }).catch(e => console.error('Background email error:', e));
-            } else {
-                console.warn(`[Warning] No email found for student ${targetEnrollment}`);
-            }
-
-            // Render verification page with the student's details
-            return res.render('verification_folder/verify_enrollment', {
-                student: {
-                    ...studentInfo,
-                    verificationCode
-                }
-            });
-        } else {
-            console.log(`Enrollment number "${targetEnrollment}" not found in any collection.`);
+        if (!studentInfo && !verifiedRecord) {
+            console.log(`Enrollment number "${targetEnrollment}" not found in student records.`);
             return res.render('log_in_page_folder/log_in_page', {
                 error: `Enrollment number "${targetEnrollment}" was not found in SDSF student records. Please check and try again.`,
                 enteredEnrollment: targetEnrollment
             });
         }
+
+        const effectiveStudent = studentInfo || {
+            raw: verifiedRecord,
+            studentName: verifiedRecord.studentName || 'Student',
+            enrollmentNo: verifiedRecord.enrollmentNo || targetEnrollment.toUpperCase(),
+            course: verifiedRecord.course || '',
+            email: verifiedRecord.email || '',
+            collectionName: verifiedRecord.originalCollection || ''
+        };
+
+        // Determine student's password from Verified_Student or Student collection
+        const existingHashedPassword = (verifiedRecord && verifiedRecord.password) || (effectiveStudent.raw && effectiveStudent.raw.password);
+
+        let passwordValid = false;
+
+        if (existingHashedPassword) {
+            passwordValid = await bcrypt.compare(enteredPassword, existingHashedPassword);
+        } else {
+            // First-time login: Default password is SDSF@1
+            if (enteredPassword === 'SDSF@1') {
+                passwordValid = true;
+                // Automatically hash SDSF@1 and save it to the DB so future logins are securely hashed
+                const initialHashedPassword = await bcrypt.hash('SDSF@1', 10);
+
+                await verifiedCollection.updateOne(
+                    { enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+                    { $set: { password: initialHashedPassword, updatedAt: new Date() } }
+                );
+
+                if (effectiveStudent.collectionName) {
+                    try {
+                        const studentsDb = getStudentsDb();
+                        await studentsDb.collection(effectiveStudent.collectionName).updateOne(
+                            {
+                                $or: [
+                                    { enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+                                    { enrollment_no: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') }
+                                ]
+                            },
+                            { $set: { password: initialHashedPassword } }
+                        );
+                    } catch (e) {
+                        console.error('Error saving initial hashed password to course collection:', e);
+                    }
+                }
+            } else {
+                return res.render('log_in_page_folder/log_in_page', {
+                    error: 'Invalid password. If this is your first time logging in, please use the default password "SDSF@1" or reset your password using Forgot Password.',
+                    enteredEnrollment: targetEnrollment
+                });
+            }
+        }
+
+        if (!passwordValid) {
+            console.log(`[Student Login Failed] Invalid password for student "${targetEnrollment}"`);
+            return res.render('log_in_page_folder/log_in_page', {
+                error: 'Invalid password. Please check your credentials or reset your password using Forgot Password.',
+                enteredEnrollment: targetEnrollment
+            });
+        }
+
+        console.log(`[Student Login Successful] Student ${effectiveStudent.enrollmentNo} (${effectiveStudent.studentName}) logged in.`);
+
+        // Ensure student is saved in Verified_Student with isVerified: true
+        const studentDataToSave = {
+            ...(effectiveStudent.raw || {}),
+            studentName: effectiveStudent.studentName,
+            enrollmentNo: effectiveStudent.enrollmentNo,
+            course: effectiveStudent.course,
+            email: effectiveStudent.email,
+            originalCollection: effectiveStudent.collectionName,
+            isVerified: true,
+            verifiedAt: new Date(),
+            updatedAt: new Date()
+        };
+        delete studentDataToSave._id;
+        delete studentDataToSave.verificationCode;
+        if (!studentDataToSave.password && existingHashedPassword) {
+            studentDataToSave.password = existingHashedPassword;
+        }
+
+        await verifiedCollection.updateOne(
+            { enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+            {
+                $set: studentDataToSave,
+                $setOnInsert: { createdAt: new Date(), isApproved: false }
+            },
+            { upsert: true }
+        );
+
+        // Fetch application states for dashboard
+        const approvedRecord = await verificationDb.collection('Approved_Student').findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i')
+        });
+        const requestedRecord = await verificationDb.collection('Requested_Student').findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i')
+        });
+        const previousSubmission = await verificationDb.collection('Students_Previous_Submissions').findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i')
+        });
+
+        const activeApplication = approvedRecord ? { ...approvedRecord, status: 'Approved' }
+                                : (requestedRecord ? { ...requestedRecord, status: 'Pending Approval' } : null);
+
+        // Render Student Portal Dashboard directly without OTP!
+        return res.render('student_verified/student_index', {
+            student: {
+                ...(verifiedRecord || {}),
+                ...effectiveStudent,
+                studentName: effectiveStudent.studentName,
+                enrollmentNo: effectiveStudent.enrollmentNo,
+                course: effectiveStudent.course,
+                email: effectiveStudent.email
+            },
+            activeApplication,
+            previousSubmission: previousSubmission || null
+        });
     } catch (err) {
         console.error('Error during student login verification:', err);
         return res.render('log_in_page_folder/log_in_page', {
-            error: 'A database error occurred while verifying enrollment. Please try again.',
+            error: 'A database error occurred while verifying student credentials. Please try again.',
             enteredEnrollment: targetEnrollment
         });
     }
@@ -779,6 +887,186 @@ const viewDocument = async (req, res) => {
     }
 };
 
+/**
+ * API: Student Requests Password Reset OTP to Registered Email
+ */
+const sendStudentPasswordOtp = async (req, res) => {
+    const { enrollmentNo } = req.body;
+    const cleanEnrollment = (enrollmentNo || '').trim();
+
+    if (!cleanEnrollment) {
+        return res.status(400).json({ success: false, message: 'Please enter your Enrollment Number.' });
+    }
+
+    try {
+        const studentInfo = await searchStudentInAllCollections(cleanEnrollment);
+        const verificationDb = getVerificationDb();
+        const verifiedCollection = verificationDb.collection('Verified_Student');
+        const verifiedRecord = await verifiedCollection.findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i')
+        });
+
+        if (!studentInfo && !verifiedRecord) {
+            return res.status(404).json({
+                success: false,
+                message: `Enrollment number "${cleanEnrollment}" was not found in SDSF student records.`
+            });
+        }
+
+        const studentName = (studentInfo && studentInfo.studentName) || (verifiedRecord && verifiedRecord.studentName) || 'Student';
+        const studentEmail = (studentInfo && studentInfo.email) || (verifiedRecord && verifiedRecord.email);
+        const course = (studentInfo && studentInfo.course) || (verifiedRecord && verifiedRecord.course) || '';
+        const collectionName = (studentInfo && studentInfo.collectionName) || (verifiedRecord && verifiedRecord.originalCollection) || '';
+
+        if (!studentEmail) {
+            return res.status(400).json({
+                success: false,
+                message: 'No registered email address found for this enrollment number. Please contact the department administrator.'
+            });
+        }
+
+        const otp = generateVerificationCode();
+        const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes validity
+
+        // Upsert OTP and expiry into Verified_Student
+        await verifiedCollection.updateOne(
+            { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+            {
+                $set: {
+                    studentName,
+                    enrollmentNo: cleanEnrollment.toUpperCase(),
+                    email: studentEmail,
+                    course,
+                    originalCollection: collectionName,
+                    resetPasswordOtp: otp,
+                    resetPasswordExpires: expiresAt,
+                    updatedAt: new Date()
+                },
+                $setOnInsert: { createdAt: new Date(), isApproved: false }
+            },
+            { upsert: true }
+        );
+
+        // Send OTP email with tailored password reset message
+        const emailResult = await sendVerificationEmail({
+            toEmail: studentEmail,
+            studentName,
+            verificationCode: otp,
+            purpose: 'password_reset'
+        });
+
+        console.log(`[Password Reset OTP] Dispatched OTP to ${studentEmail} for student ${cleanEnrollment} (result: ${emailResult.success})`);
+
+        return res.json({
+            success: true,
+            message: `Verification OTP has been sent to your registered email (${maskEmail(studentEmail)}).`,
+            maskedEmail: maskEmail(studentEmail)
+        });
+    } catch (err) {
+        console.error('Error in sendStudentPasswordOtp:', err);
+        return res.status(500).json({ success: false, message: 'Server error while sending verification OTP.' });
+    }
+};
+
+/**
+ * API: Student Verifies OTP and Resets / Changes Password
+ */
+const resetStudentPassword = async (req, res) => {
+    const { enrollmentNo, otp, newPassword, confirmPassword } = req.body;
+    const cleanEnrollment = (enrollmentNo || '').trim();
+    const cleanOtp = (otp || '').trim();
+    const cleanPassword = (newPassword || '').trim();
+
+    if (!cleanEnrollment) {
+        return res.status(400).json({ success: false, message: 'Enrollment Number is required.' });
+    }
+    if (!cleanOtp) {
+        return res.status(400).json({ success: false, message: 'Verification OTP is required.' });
+    }
+    if (!cleanPassword || cleanPassword.length < 6) {
+        return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long.' });
+    }
+    if (confirmPassword && cleanPassword !== confirmPassword.trim()) {
+        return res.status(400).json({ success: false, message: 'Passwords do not match.' });
+    }
+
+    try {
+        const verificationDb = getVerificationDb();
+        const verifiedCollection = verificationDb.collection('Verified_Student');
+
+        const record = await verifiedCollection.findOne({
+            enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i')
+        });
+
+        if (!record || !record.resetPasswordOtp) {
+            return res.status(400).json({
+                success: false,
+                message: 'No active password reset request found. Please request a new verification OTP.'
+            });
+        }
+
+        if (record.resetPasswordOtp.toString().trim() !== cleanOtp) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid verification OTP code. Please check your email and try again.'
+            });
+        }
+
+        if (record.resetPasswordExpires && new Date() > new Date(record.resetPasswordExpires)) {
+            return res.status(400).json({
+                success: false,
+                message: 'The verification OTP code has expired. Please request a new code.'
+            });
+        }
+
+        // Hash new password using bcrypt
+        const hashedPassword = await bcrypt.hash(cleanPassword, 10);
+
+        // Update password and clear OTP in Verified_Student
+        await verifiedCollection.updateOne(
+            { _id: record._id },
+            {
+                $set: {
+                    password: hashedPassword,
+                    updatedAt: new Date()
+                },
+                $unset: {
+                    resetPasswordOtp: '',
+                    resetPasswordExpires: ''
+                }
+            }
+        );
+
+        // Also update in student's course collection in Students DB if known
+        const targetCollection = record.originalCollection;
+        if (targetCollection) {
+            try {
+                const studentsDb = getStudentsDb();
+                await studentsDb.collection(targetCollection).updateOne(
+                    {
+                        $or: [
+                            { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+                            { enrollment_no: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') }
+                        ]
+                    },
+                    { $set: { password: hashedPassword } }
+                );
+            } catch (err) {
+                console.error('Error updating password in Students course collection:', err);
+            }
+        }
+
+        console.log(`[Password Reset Success] Password updated and hashed for student ${cleanEnrollment}`);
+        return res.json({
+            success: true,
+            message: 'Your password has been changed and securely saved! You can now log in with your new password.'
+        });
+    } catch (err) {
+        console.error('Error in resetStudentPassword:', err);
+        return res.status(500).json({ success: false, message: 'Server error while updating password.' });
+    }
+};
+
 module.exports = {
     showLoginPage,
     handleLogin,
@@ -792,5 +1080,7 @@ module.exports = {
     searchStudentInAllCollections,
     generateVerificationCode,
     saveToVerifiedStudent,
-    viewDocument
+    viewDocument,
+    sendStudentPasswordOtp,
+    resetStudentPassword
 };

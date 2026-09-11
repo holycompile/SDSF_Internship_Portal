@@ -694,6 +694,151 @@ document.addEventListener("DOMContentLoaded", function () {
         return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     }
 
+    // ================= Change Password in Student Dashboard =================
+    function showDashPassAlert(type, message) {
+        const alertBox = document.getElementById("dashPasswordAlert");
+        if (!alertBox) return;
+        alertBox.style.display = "block";
+        alertBox.style.backgroundColor = type === "error" ? "#fef2f2" : "#ecfdf5";
+        alertBox.style.color = type === "error" ? "#b91c1c" : "#047857";
+        alertBox.style.border = type === "error" ? "1px solid #fca5a5" : "1px solid #6ee7b7";
+        alertBox.innerHTML = `<i class="fas ${type === "error" ? "fa-exclamation-circle" : "fa-check-circle"}"></i> ${message}`;
+    }
+
+    function clearDashPassAlert() {
+        const alertBox = document.getElementById("dashPasswordAlert");
+        if (!alertBox) return;
+        alertBox.style.display = "none";
+        alertBox.innerHTML = "";
+    }
+
+    window.openStudentChangePasswordModal = function () {
+        const modal = document.getElementById("modalChangePassword");
+        if (!modal) return;
+        dashBackToStep1();
+        clearDashPassAlert();
+        modal.style.display = "flex";
+    };
+
+    window.closeStudentChangePasswordModal = function () {
+        const modal = document.getElementById("modalChangePassword");
+        if (!modal) return;
+        modal.style.display = "none";
+        clearDashPassAlert();
+    };
+
+    window.dashBackToStep1 = function () {
+        const step1 = document.getElementById("dashPassStep1");
+        const step2 = document.getElementById("dashPassStep2");
+        if (step1) step1.style.display = "block";
+        if (step2) step2.style.display = "none";
+        clearDashPassAlert();
+    };
+
+    window.handleDashSendOtp = async function () {
+        const enrollment = (document.getElementById("studentEnrollment") ? document.getElementById("studentEnrollment").value : "").trim();
+        const btn = document.getElementById("btnDashSendOtp");
+        clearDashPassAlert();
+
+        if (!enrollment) {
+            showDashPassAlert("error", "Student enrollment number not detected. Please refresh the page.");
+            return;
+        }
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
+        }
+
+        try {
+            const res = await fetch("/api/student/send-password-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ enrollmentNo: enrollment })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                document.getElementById("dashPassStep1").style.display = "none";
+                document.getElementById("dashPassStep2").style.display = "block";
+                document.getElementById("dashOtpInput").value = "";
+                document.getElementById("dashNewPass").value = "";
+                document.getElementById("dashConfirmPass").value = "";
+                showDashPassAlert("success", data.message || "OTP has been sent to your registered email.");
+                document.getElementById("dashOtpInput").focus();
+            } else {
+                showDashPassAlert("error", data.message || "Failed to send OTP.");
+            }
+        } catch (err) {
+            console.error("Error sending OTP in dashboard:", err);
+            showDashPassAlert("error", "Server error while sending OTP.");
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Verification OTP';
+            }
+        }
+    };
+
+    window.handleDashSubmitReset = async function () {
+        const enrollment = (document.getElementById("studentEnrollment") ? document.getElementById("studentEnrollment").value : "").trim();
+        const otp = document.getElementById("dashOtpInput") ? document.getElementById("dashOtpInput").value.trim() : "";
+        const newPassword = document.getElementById("dashNewPass") ? document.getElementById("dashNewPass").value : "";
+        const confirmPassword = document.getElementById("dashConfirmPass") ? document.getElementById("dashConfirmPass").value : "";
+        const btn = document.getElementById("btnDashSubmitPass");
+        clearDashPassAlert();
+
+        if (!otp || otp.length !== 6) {
+            showDashPassAlert("error", "Please enter a valid 6-digit OTP code.");
+            return;
+        }
+        if (!newPassword || newPassword.length < 6) {
+            showDashPassAlert("error", "New password must be at least 6 characters long.");
+            return;
+        }
+        if (newPassword !== confirmPassword) {
+            showDashPassAlert("error", "Passwords do not match.");
+            return;
+        }
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        }
+
+        try {
+            const res = await fetch("/api/student/reset-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    enrollmentNo: enrollment,
+                    otp: otp,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword
+                })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                showDashPassAlert("success", data.message || "Password updated successfully!");
+                setTimeout(() => {
+                    closeStudentChangePasswordModal();
+                    alert("Your password has been changed and securely saved!");
+                }, 1200);
+            } else {
+                showDashPassAlert("error", data.message || "Failed to update password.");
+            }
+        } catch (err) {
+            console.error("Error updating password in dashboard:", err);
+            showDashPassAlert("error", "Server error while updating password.");
+        } finally {
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Save Password';
+            }
+        }
+    };
+
     // Back to Top button
     const backToTopBtn = document.getElementById("sdsfBackToTop");
     if (backToTopBtn) {

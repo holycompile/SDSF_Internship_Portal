@@ -159,9 +159,28 @@
                             </label>
                             <div class="relative">
                                 <i class="fas fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base pointer-events-none"></i>
-                                <input type="text" name="enrollmentNo" value="<%= typeof enteredEnrollment !== 'undefined' ? enteredEnrollment : '' %>" placeholder="e.g. DE24XXXXX, DS24XXXXX, MB24XXXXX" class="portal-input uppercase tracking-wider" required autofocus>
+                                <input type="text" id="student-enrollment" name="enrollmentNo" value="<%= typeof enteredEnrollment !== 'undefined' ? enteredEnrollment : '' %>" placeholder="e.g. DE24XXXXX, DS24XXXXX, MB24XXXXX" class="portal-input uppercase tracking-wider" required autofocus>
                             </div>
                             <p class="text-xs text-slate-400 mt-1.5">Enter your registered SDSF Enrollment / Roll Number.</p>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    PASSWORD <span class="text-red-500">*</span>
+                                </label>
+                                <button type="button" onclick="openResetPasswordModal()" class="text-xs text-blue-600 hover:text-blue-800 font-semibold hover:underline cursor-pointer">
+                                    Forgot / Set Password?
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base pointer-events-none"></i>
+                                <input type="password" id="student-pass" name="password" placeholder="Enter your password (Default: SDSF@1)" class="portal-input" style="padding-right: 44px !important;" required>
+                                <i class="fas fa-eye absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-base cursor-pointer hover:text-slate-600 z-10" onclick="togglePass('student-pass', this)"></i>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-1.5">
+                                <span><i class="fas fa-info-circle text-blue-500 mr-1"></i> Default first-time login password: <strong class="text-slate-700 font-mono">SDSF@1</strong></span>
+                            </div>
                         </div>
 
                         <div class="pt-2">
@@ -349,6 +368,104 @@
         </div>
     </main>
 
+    <!-- Student Password Reset / OTP Verification Modal -->
+    <div id="modalResetPassword" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden transition-all transform scale-100">
+            <!-- Modal Header -->
+            <div class="bg-[#16223e] text-white px-5 py-4 border-b-4 border-[#f2b300] flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-[#f2b300]/20 flex items-center justify-center text-[#f2b300]">
+                        <i class="fas fa-key text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-base font-heading tracking-wide">Student Password Reset</h4>
+                        <p class="text-[11px] text-slate-300">Verify via registered email OTP</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeResetPasswordModal()" class="text-slate-400 hover:text-white transition text-lg cursor-pointer p-1">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <!-- Alert box for feedback -->
+                <div id="resetModalAlert" class="hidden mb-4 p-3 rounded-lg text-xs items-start gap-2"></div>
+
+                <!-- Step 1: Request OTP -->
+                <div id="resetStep1" class="space-y-4">
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Enter your registered <strong>SDSF Enrollment Number</strong>. A 6-digit verification code will be sent to your registered email address to set your new password.
+                    </p>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            ENROLLMENT NUMBER <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fas fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                            <input type="text" id="resetEnrollmentInput" placeholder="e.g. DE24XXXXX, DS24XXXXX" class="portal-input uppercase font-medium">
+                        </div>
+                    </div>
+
+                    <button type="button" id="btnSendOtp" onclick="handleSendOtp()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-md transition flex items-center justify-center gap-2 shadow-sm text-sm cursor-pointer">
+                        <i class="fas fa-paper-plane text-xs"></i> <span>Send Verification Code</span>
+                    </button>
+                </div>
+
+                <!-- Step 2: Enter OTP & New Password -->
+                <div id="resetStep2" class="space-y-4 hidden">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800 flex items-center gap-2">
+                        <i class="fas fa-envelope-open-text text-blue-600 text-base shrink-0"></i>
+                        <div>
+                            <span>OTP sent to: <strong id="resetMaskedEmail" class="font-mono">...</strong></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            6-DIGIT VERIFICATION OTP <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fas fa-shield-alt absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                            <input type="text" id="resetOtpInput" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP" class="portal-input font-mono tracking-widest uppercase">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            NEW PASSWORD <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fas fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                            <input type="password" id="resetNewPass" placeholder="Enter new password (min 6 chars)" class="portal-input" style="padding-right: 44px !important;">
+                            <i class="fas fa-eye absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm cursor-pointer hover:text-slate-600 z-10" onclick="togglePass('resetNewPass', this)"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            CONFIRM NEW PASSWORD <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fas fa-check-double absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"></i>
+                            <input type="password" id="resetConfirmPass" placeholder="Re-enter new password" class="portal-input" style="padding-right: 44px !important;">
+                            <i class="fas fa-eye absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm cursor-pointer hover:text-slate-600 z-10" onclick="togglePass('resetConfirmPass', this)"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 pt-1">
+                        <button type="button" onclick="backToStep1()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-3 rounded-md transition text-xs cursor-pointer">
+                            <i class="fas fa-arrow-left mr-1"></i> Back
+                        </button>
+                        <button type="button" id="btnSubmitReset" onclick="handleSubmitReset()" class="flex-[2] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-md transition flex items-center justify-center gap-2 shadow-sm text-xs cursor-pointer">
+                            <i class="fas fa-save"></i> <span>Update Password</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Official SDSF Website Footer -->
     <footer class="main-footer" role="contentinfo">
         <div class="footer-top-bar">
@@ -468,6 +585,158 @@
                 input.type = 'password';
                 el.classList.remove('fa-eye-slash');
                 el.classList.add('fa-eye');
+            }
+        }
+
+        // ================= Password Reset Modal Logic =================
+        function showResetAlert(type, message) {
+            const alertBox = document.getElementById('resetModalAlert');
+            alertBox.className = type === 'error' 
+                ? 'mb-4 p-3 rounded-lg text-xs flex items-start gap-2 bg-red-50 border border-red-200 text-red-700' 
+                : 'mb-4 p-3 rounded-lg text-xs flex items-start gap-2 bg-emerald-50 border border-emerald-200 text-emerald-800';
+            
+            const icon = type === 'error' ? 'fa-exclamation-circle text-red-500' : 'fa-check-circle text-emerald-600';
+            alertBox.innerHTML = `<i class="fas ${icon} text-sm mt-0.5 shrink-0"></i><div>${message}</div>`;
+            alertBox.classList.remove('hidden');
+        }
+
+        function clearResetAlert() {
+            const alertBox = document.getElementById('resetModalAlert');
+            alertBox.classList.add('hidden');
+            alertBox.innerHTML = '';
+        }
+
+        function openResetPasswordModal() {
+            const currentEnrollment = document.getElementById('student-enrollment') ? document.getElementById('student-enrollment').value.trim() : '';
+            const modal = document.getElementById('modalResetPassword');
+            const enrollmentInput = document.getElementById('resetEnrollmentInput');
+            
+            if (currentEnrollment) {
+                enrollmentInput.value = currentEnrollment;
+            }
+            
+            backToStep1();
+            clearResetAlert();
+            modal.classList.remove('hidden');
+            enrollmentInput.focus();
+        }
+
+        function closeResetPasswordModal() {
+            document.getElementById('modalResetPassword').classList.add('hidden');
+            clearResetAlert();
+        }
+
+        function backToStep1() {
+            document.getElementById('resetStep1').classList.remove('hidden');
+            document.getElementById('resetStep2').classList.add('hidden');
+            clearResetAlert();
+        }
+
+        async function handleSendOtp() {
+            const enrollment = document.getElementById('resetEnrollmentInput').value.trim();
+            const btn = document.getElementById('btnSendOtp');
+            clearResetAlert();
+
+            if (!enrollment) {
+                showResetAlert('error', 'Please enter your Enrollment Number.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> <span>Sending Verification Code...</span>';
+
+            try {
+                const response = await fetch('/api/student/send-password-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enrollmentNo: enrollment })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('resetMaskedEmail').textContent = data.maskedEmail || 'registered email';
+                    document.getElementById('resetStep1').classList.add('hidden');
+                    document.getElementById('resetStep2').classList.remove('hidden');
+                    document.getElementById('resetOtpInput').value = '';
+                    document.getElementById('resetNewPass').value = '';
+                    document.getElementById('resetConfirmPass').value = '';
+                    showResetAlert('success', data.message || 'Verification OTP sent to your registered email.');
+                    document.getElementById('resetOtpInput').focus();
+                } else {
+                    showResetAlert('error', data.message || 'Failed to send verification OTP.');
+                }
+            } catch (err) {
+                console.error('Error sending OTP:', err);
+                showResetAlert('error', 'Network or server error occurred while sending OTP.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane text-xs"></i> <span>Send Verification Code</span>';
+            }
+        }
+
+        async function handleSubmitReset() {
+            const enrollment = document.getElementById('resetEnrollmentInput').value.trim();
+            const otp = document.getElementById('resetOtpInput').value.trim();
+            const newPassword = document.getElementById('resetNewPass').value;
+            const confirmPassword = document.getElementById('resetConfirmPass').value;
+            const btn = document.getElementById('btnSubmitReset');
+            clearResetAlert();
+
+            if (!otp || otp.length !== 6) {
+                showResetAlert('error', 'Please enter a valid 6-digit verification OTP code.');
+                return;
+            }
+            if (!newPassword || newPassword.length < 6) {
+                showResetAlert('error', 'New password must be at least 6 characters long.');
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                showResetAlert('error', 'Passwords do not match. Please re-enter.');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> <span>Updating Password...</span>';
+
+            try {
+                const response = await fetch('/api/student/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        enrollmentNo: enrollment,
+                        otp: otp,
+                        newPassword: newPassword,
+                        confirmPassword: confirmPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showResetAlert('success', data.message || 'Password updated successfully!');
+                    
+                    // Autofill login inputs with new credentials
+                    if (document.getElementById('student-enrollment')) {
+                        document.getElementById('student-enrollment').value = enrollment;
+                    }
+                    if (document.getElementById('student-pass')) {
+                        document.getElementById('student-pass').value = newPassword;
+                    }
+
+                    setTimeout(() => {
+                        closeResetPasswordModal();
+                        alert('Your password has been changed and securely saved! You can now click "Log In".');
+                    }, 1200);
+                } else {
+                    showResetAlert('error', data.message || 'Failed to update password.');
+                }
+            } catch (err) {
+                console.error('Error resetting password:', err);
+                showResetAlert('error', 'Network or server error occurred while updating password.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> <span>Update Password</span>';
             }
         }
 

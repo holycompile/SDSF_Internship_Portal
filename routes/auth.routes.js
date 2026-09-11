@@ -32,6 +32,10 @@ router.post('/api/teacher/bulk-approve-students', authController.bulkApproveStud
 // API: Faculty Revokes / Disapproves Student NOC (Moves back to Requested_Student)
 router.post('/api/teacher/revoke-student', authController.revokeStudentNoc);
 
+// Student Password Management APIs
+router.post('/api/student/send-password-otp', authController.sendStudentPasswordOtp);
+router.post('/api/student/reset-password', authController.resetStudentPassword);
+
 // Legacy redirect
 router.post('/verify-enrollment', (req, res) => {
     res.redirect(307, '/login');
