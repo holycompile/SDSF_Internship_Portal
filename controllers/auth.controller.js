@@ -39,8 +39,16 @@ async function searchStudentInAllCollections(enrollmentNo) {
                     { EnrollmentNo: regex },
                     { "Enrollment No": regex },
                     { "Enrollment No.": regex },
+                    { enrolmentNo: regex },
+                    { enrolment_no: regex },
+                    { EnrolmentNo: regex },
+                    { "Enrolment No": regex },
+                    { "Enrolment No.": regex },
                     { rollNo: regex },
-                    { roll_no: regex }
+                    { roll_no: regex },
+                    { RollNo: regex },
+                    { "Roll No": regex },
+                    { "Roll No.": regex }
                 ]
             });
 
@@ -48,7 +56,7 @@ async function searchStudentInAllCollections(enrollmentNo) {
                 return {
                     raw: studentDoc,
                     studentName: studentDoc.studentName || studentDoc.name || studentDoc.StudentName || 'Student',
-                    enrollmentNo: studentDoc.enrollmentNo || studentDoc.enrollment_no || cleanEnrollment.toUpperCase(),
+                    enrollmentNo: studentDoc.enrollmentNo || studentDoc.enrollment_no || studentDoc.enrolmentNo || studentDoc.enrolment_no || studentDoc.EnrollmentNo || studentDoc.EnrolmentNo || cleanEnrollment.toUpperCase(),
                     course: studentDoc.course || col.name.replace(/_/g, ' '),
                     email: studentDoc.email || studentDoc.Email || studentDoc.studentEmail || studentDoc["Email ID"] || studentDoc["Email Address"] || studentDoc.mail || studentDoc.EMAIL || '',
                     NOC: studentDoc.NOC,
@@ -330,7 +338,11 @@ const handleLogin = async (req, res) => {
                             {
                                 $or: [
                                     { enrollmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
-                                    { enrollment_no: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') }
+                                    { enrollment_no: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+                                    { enrolmentNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+                                    { enrolment_no: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+                                    { rollNo: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') },
+                                    { roll_no: new RegExp(`^${escapeRegex(effectiveStudent.enrollmentNo)}$`, 'i') }
                                 ]
                             },
                             { $set: { password: initialHashedPassword } }
@@ -1046,7 +1058,11 @@ const resetStudentPassword = async (req, res) => {
                     {
                         $or: [
                             { enrollmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
-                            { enrollment_no: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') }
+                            { enrollment_no: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+                            { enrolmentNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+                            { enrolment_no: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+                            { rollNo: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') },
+                            { roll_no: new RegExp(`^${escapeRegex(cleanEnrollment)}$`, 'i') }
                         ]
                     },
                     { $set: { password: hashedPassword } }
