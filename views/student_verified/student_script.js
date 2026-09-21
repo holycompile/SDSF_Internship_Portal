@@ -81,13 +81,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const count = documentsListContainer.querySelectorAll(".doc-upload-row").length;
             const newRow = document.createElement("div");
             newRow.className = "doc-upload-row";
-            newRow.style.cssText = "display: flex; gap: 10px; align-items: center; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1;";
             newRow.innerHTML = `
-                <input type="file" class="internship-doc-file" accept=".pdf,.doc,.docx" required style="flex-grow: 1;">
-                <input type="text" class="internship-doc-label" placeholder="Label (e.g. Resume, Annexure)" value="Document ${count + 1}" style="width: 170px; padding: 7px; font-size: 12px; border: 1px solid #cbd5e1; border-radius: 4px;">
-                <button type="button" class="btn-remove-doc" style="background: #ef4444; color: white; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Remove document">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
+                <div class="doc-upload-file-wrapper">
+                    <input type="file" class="internship-doc-file" accept=".pdf,.doc,.docx" required>
+                </div>
+                <div class="doc-upload-inputs-wrapper">
+                    <input type="text" class="internship-doc-label" placeholder="Label (e.g. Resume, Annexure)" value="Document ${count + 1}">
+                    <button type="button" class="btn-remove-doc" style="display: flex;" title="Remove document">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
             `;
 
             newRow.querySelector(".btn-remove-doc").addEventListener("click", function () {

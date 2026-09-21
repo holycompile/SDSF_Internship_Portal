@@ -90,33 +90,33 @@
     </div>
 
     <!-- Institutional Header Strip -->
-    <header class="bg-white border-b border-slate-200 px-6 py-3.5 shadow-sm no-print">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <header class="bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 sm:py-3.5 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             
-            <div class="flex items-center gap-4">
-                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-16 w-auto object-contain shrink-0">
+            <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center sm:justify-start text-center sm:text-left">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-12 sm:h-16 w-auto object-contain shrink-0">
                 <div>
-                    <h1 class="text-sm sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
+                    <h1 class="text-xs sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
                         DEVI AHILYA VISHWAVIDYALAYA, INDORE
                     </h1>
-                    <h2 class="text-xs sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
+                    <h2 class="text-[11px] sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
                         School of Data Science and Forecasting (SDSF)
                     </h2>
-                    <p class="text-[11px] text-teal-700 font-semibold flex items-center gap-1.5 mt-0.5">
+                    <p class="text-[10px] sm:text-[11px] text-teal-700 font-semibold flex items-center justify-center sm:justify-start gap-1.5 mt-0.5">
                         <i class="fas fa-chalkboard-teacher"></i> Faculty Management & NOC Approval Portal
                     </p>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="text-right bg-slate-100 px-3.5 py-1.5 rounded-lg border border-slate-200">
+            <div class="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
+                <div class="text-left sm:text-right bg-slate-100 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg border border-slate-200 flex-1 sm:flex-initial">
                     <span class="block text-xs font-bold text-slate-800">
                         <i class="fas fa-user-shield text-teal-600 mr-1"></i> <%= typeof facultyId !== 'undefined' ? facultyId : 'Faculty' %>
                     </span>
-                    <span class="text-[11px] text-emerald-600 font-semibold">● Active Session</span>
+                    <span class="text-[10.5px] sm:text-[11px] text-emerald-600 font-semibold">● Active Session</span>
                 </div>
-                <a href="/login" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-4 py-2 rounded-md shadow-sm transition flex items-center gap-1.5">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                <a href="/login" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-3.5 py-2 sm:px-4 rounded-md shadow-sm transition flex items-center gap-1.5 shrink-0">
+                    <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                 </a>
             </div>
 
@@ -124,29 +124,29 @@
     </header>
 
     <!-- Main Teacher Section -->
-    <main class="max-w-7xl mx-auto w-full px-4 py-8 flex-grow">
+    <main class="max-w-7xl mx-auto w-full px-2.5 sm:px-4 py-4 sm:py-8 flex-grow">
 
         <div id="printableSection" class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
             
             <!-- Header Toolbar -->
-            <div class="bg-gradient-to-r from-[#16223e] to-[#0f172a] text-white p-6 border-b-4 border-[#f2b300] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 no-print">
+            <div class="bg-gradient-to-r from-[#16223e] to-[#0f172a] text-white p-4 sm:p-6 border-b-4 border-[#f2b300] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 sm:gap-4 no-print">
                 <div>
-                    <h2 class="text-xl sm:text-2xl font-bold font-heading uppercase tracking-wider text-white">Faculty Records & NOC Approvals</h2>
-                    <p class="text-slate-300 text-xs mt-1">Real-time student verification data from MongoDB (Verified, Requested & Approved)</p>
+                    <h2 class="text-lg sm:text-2xl font-bold font-heading uppercase tracking-wider text-white">Faculty Records & NOC Approvals</h2>
+                    <p class="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1">Real-time student verification data from MongoDB (Verified, Requested & Approved)</p>
                 </div>
 
                 <!-- 3 Main Tabs Navigation -->
-                <div class="flex items-center gap-2 bg-slate-800/60 p-1.5 rounded-lg border border-slate-700">
-                    <button type="button" onclick="switchTab('tabVerified')" id="btnTabVerified" class="tab-btn active px-3.5 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                        <i class="fas fa-user-check text-emerald-400"></i> Verified Students
+                <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-800/60 p-1 sm:p-1.5 rounded-lg border border-slate-700 w-full md:w-auto overflow-x-auto no-scrollbar">
+                    <button type="button" onclick="switchTab('tabVerified')" id="btnTabVerified" class="tab-btn active flex-1 md:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap">
+                        <i class="fas fa-user-check text-emerald-400 text-xs"></i> <span>Verified</span>
                         <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof verifiedStudents !== 'undefined' ? verifiedStudents.length : 0 %></span>
                     </button>
-                    <button type="button" onclick="switchTab('tabRequested')" id="btnTabRequested" class="tab-btn px-3.5 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                        <i class="fas fa-clock text-amber-400"></i> Requested NOCs
+                    <button type="button" onclick="switchTab('tabRequested')" id="btnTabRequested" class="tab-btn flex-1 md:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap">
+                        <i class="fas fa-clock text-amber-400 text-xs"></i> <span>Requested</span>
                         <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof requestedStudents !== 'undefined' ? requestedStudents.length : 0 %></span>
                     </button>
-                    <button type="button" onclick="switchTab('tabApproved')" id="btnTabApproved" class="tab-btn px-3.5 py-1.5 text-xs font-bold rounded-md transition flex items-center gap-1.5 cursor-pointer text-slate-300 hover:text-white">
-                        <i class="fas fa-check-double text-teal-400"></i> Approved Students
+                    <button type="button" onclick="switchTab('tabApproved')" id="btnTabApproved" class="tab-btn flex-1 md:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap">
+                        <i class="fas fa-check-double text-teal-400 text-xs"></i> <span>Approved</span>
                         <span class="bg-teal-500/20 text-teal-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof approvedStudents !== 'undefined' ? approvedStudents.length : 0 %></span>
                     </button>
                 </div>
@@ -160,18 +160,18 @@
             </div>
 
             <!-- Filter Controls & Export Toolbar -->
-            <div class="p-5 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 no-print">
-                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <div class="p-3 sm:p-5 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 no-print">
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto">
                     <!-- Quick Search -->
-                    <div class="relative min-w-[240px]">
+                    <div class="relative w-full sm:w-auto min-w-0 sm:min-w-[240px] flex-1">
                         <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                         <input type="text" id="filterSearch" oninput="filterCurrentTable()" placeholder="Search name or enrollment..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none">
                     </div>
 
                     <!-- Course Filter Dropdown -->
-                    <div class="flex items-center gap-1.5 bg-white border border-slate-300 rounded-md px-2.5 py-1 shadow-2xs">
-                        <i class="fas fa-graduation-cap text-teal-600 text-xs"></i>
-                        <select id="filterCourse" onchange="filterCurrentTable()" class="bg-transparent text-xs text-slate-700 font-medium focus:outline-none cursor-pointer">
+                    <div class="flex items-center gap-1.5 bg-white border border-slate-300 rounded-md px-2.5 py-1 shadow-2xs w-full sm:w-auto">
+                        <i class="fas fa-graduation-cap text-teal-600 text-xs shrink-0"></i>
+                        <select id="filterCourse" onchange="filterCurrentTable()" class="bg-transparent text-xs text-slate-700 font-medium focus:outline-none cursor-pointer w-full">
                             <option value="all">All Courses / Programs</option>
                             <option value="ai">M.Tech (Artificial Intelligence & Data Science)</option>
                             <option value="bigdata">M.Tech (Big Data Analytics)</option>
@@ -190,192 +190,207 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <button type="button" id="btnBulkApprove" onclick="bulkApproveSelected()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-md shadow-sm transition items-center gap-1.5 cursor-pointer">
+                <div class="flex items-center justify-end gap-2 w-full md:w-auto flex-wrap">
+                    <button type="button" id="btnBulkApprove" onclick="bulkApproveSelected()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-md shadow-sm transition items-center gap-1.5 cursor-pointer flex-1 sm:flex-initial justify-center">
                         <i class="fas fa-check-double"></i> Bulk Approve (<span id="bulkCount">0</span>)
                     </button>
-                    <button type="button" onclick="exportCurrentTableToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="exportCurrentTableToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial">
                         <i class="fas fa-file-excel"></i> Export CSV
                     </button>
-                    <button type="button" onclick="triggerPrint()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3.5 py-1.5 rounded-md shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                    <button type="button" onclick="triggerPrint()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial">
                         <i class="fas fa-print"></i> Print Records
                     </button>
                 </div>
             </div>
 
             <!-- TAB 1: VERIFIED STUDENTS TABLE -->
-            <div id="tabVerified" class="tab-pane block overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead>
-                        <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider">
-                            <th class="py-3 px-4">#</th>
-                            <th class="py-3 px-4">Student Name</th>
-                            <th class="py-3 px-4">Enrollment No</th>
-                            <th class="py-3 px-4">Course / Program</th>
-                            <th class="py-3 px-4">Email ID</th>
-                            <th class="py-3 px-4">Verification Code</th>
-                            <th class="py-3 px-4">Verified Time</th>
-                            <th class="py-3 px-4">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableVerifiedBody" class="divide-y divide-slate-200">
-                        <% if (typeof verifiedStudents !== 'undefined' && verifiedStudents.length > 0) { %>
-                            <% verifiedStudents.forEach((st, idx) => { %>
-                                <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
-                                    <td class="py-3 px-4 font-mono text-slate-500"><%= idx + 1 %></td>
-                                    <td class="py-3 px-4 font-bold text-slate-800"><%= st.studentName %></td>
-                                    <td class="py-3 px-4 font-mono font-semibold text-blue-700 uppercase"><%= st.enrollmentNo %></td>
-                                    <td class="py-3 px-4 text-slate-600"><%= st.course || 'SDSF Department' %></td>
-                                    <td class="py-3 px-4 text-slate-600"><%= st.email || '—' %></td>
-                                    <td class="py-3 px-4 font-mono font-bold text-teal-700 bg-teal-50/50"><%= st.verificationCode || '—' %></td>
-                                    <td class="py-3 px-4 text-slate-500 text-[11px]">
-                                        <%= st.verifiedAt ? new Date(st.verifiedAt).toLocaleString() : (st.updatedAt ? new Date(st.updatedAt).toLocaleString() : 'Recent') %>
-                                    </td>
-                                    <td class="py-3 px-4">
-                                        <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
-                                            <i class="fas fa-check-circle text-[10px]"></i> Verified
-                                        </span>
+            <div id="tabVerified" class="tab-pane block">
+                <div class="block md:hidden px-3 py-1.5 bg-slate-100 border-b border-slate-200 text-[11px] text-slate-500 text-center">
+                    <i class="fas fa-arrows-left-right mr-1 text-slate-400"></i> Swipe table horizontally to view complete student records
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs min-w-[720px]">
+                        <thead>
+                            <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider whitespace-nowrap">
+                                <th class="py-3 px-3 sm:px-4">#</th>
+                                <th class="py-3 px-3 sm:px-4">Student Name</th>
+                                <th class="py-3 px-3 sm:px-4">Enrollment No</th>
+                                <th class="py-3 px-3 sm:px-4">Course / Program</th>
+                                <th class="py-3 px-3 sm:px-4">Email ID</th>
+                                <th class="py-3 px-3 sm:px-4">Verification Code</th>
+                                <th class="py-3 px-3 sm:px-4">Verified Time</th>
+                                <th class="py-3 px-3 sm:px-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableVerifiedBody" class="divide-y divide-slate-200">
+                            <% if (typeof verifiedStudents !== 'undefined' && verifiedStudents.length > 0) { %>
+                                <% verifiedStudents.forEach((st, idx) => { %>
+                                    <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
+                                        <td class="py-3 px-3 sm:px-4 font-mono text-slate-500"><%= idx + 1 %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 whitespace-nowrap"><%= st.studentName %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-mono font-semibold text-blue-700 uppercase whitespace-nowrap"><%= st.enrollmentNo %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-600"><%= st.course || 'SDSF Department' %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-600"><%= st.email || '—' %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-mono font-bold text-teal-700 bg-teal-50/50 whitespace-nowrap"><%= st.verificationCode || '—' %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-500 text-[11px] whitespace-nowrap">
+                                            <%= st.verifiedAt ? new Date(st.verifiedAt).toLocaleString() : (st.updatedAt ? new Date(st.updatedAt).toLocaleString() : 'Recent') %>
+                                        </td>
+                                        <td class="py-3 px-3 sm:px-4 whitespace-nowrap">
+                                            <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                                <i class="fas fa-check-circle text-[10px]"></i> Verified
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="8" class="text-center py-8 text-slate-400">
+                                        <i class="fas fa-users text-3xl mb-2 block"></i> No verified students in database yet.
                                     </td>
                                 </tr>
-                            <% }); %>
-                        <% } else { %>
-                            <tr>
-                                <td colspan="8" class="text-center py-8 text-slate-400">
-                                    <i class="fas fa-users text-3xl mb-2 block"></i> No verified students in database yet.
-                                </td>
-                            </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- TAB 2: REQUESTED STUDENTS TABLE (WITH VIEW DOCUMENT & PREVIEW NOC & APPROVE) -->
-            <div id="tabRequested" class="tab-pane hidden overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead>
-                        <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider">
-                            <th class="py-3 px-3 w-8 text-center"><input type="checkbox" id="selectAllRequested" onchange="toggleSelectAllRequested(this)" class="rounded text-teal-600 focus:ring-teal-500 cursor-pointer" title="Select all visible requests"></th>
-                            <th class="py-3 px-3">#</th>
-                            <th class="py-3 px-4">Student Name</th>
-                            <th class="py-3 px-4">Enrollment No</th>
-                            <th class="py-3 px-4">Course</th>
-                            <th class="py-3 px-4">Semester</th>
-                            <th class="py-3 px-4">Company Name</th>
-                            <th class="py-3 px-4">Mode</th>
-                            <th class="py-3 px-4">Offer Document</th>
-                            <th class="py-3 px-4 text-center">Faculty Review & Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableRequestedBody" class="divide-y divide-slate-200">
-                        <% if (typeof requestedStudents !== 'undefined' && requestedStudents.length > 0) { %>
-                            <% requestedStudents.forEach((st, idx) => { %>
-                                <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
-                                    <td class="py-3 px-3 text-center"><input type="checkbox" class="requested-checkbox rounded text-teal-600 focus:ring-teal-500 cursor-pointer" value="<%= st.enrollmentNo %>" onchange="updateBulkApproveBtn()"></td>
-                                    <td class="py-3 px-3 font-mono text-slate-500"><%= idx + 1 %></td>
-                                    <td class="py-3 px-4 font-bold text-slate-800"><%= st.studentName %></td>
-                                    <td class="py-3 px-4 font-mono font-semibold text-blue-700 uppercase"><%= st.enrollmentNo %></td>
-                                    <td class="py-3 px-4 text-slate-600"><%= st.course %></td>
-                                    <td class="py-3 px-4 text-slate-600"><%= st.semester || 'Sem I' %></td>
-                                    <td class="py-3 px-4 font-semibold text-slate-800"><%= st.companyName || '—' %></td>
-                                    <td class="py-3 px-4"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[11px]"><%= st.internshipMode || 'Off Campus' %></span></td>
-                                    <td class="py-3 px-4">
-                                        <button type="button" onclick="viewOfferDocByEnrollment('<%= st.enrollmentNo %>')" class="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-2 cursor-pointer bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md border border-blue-200 transition shadow-xs max-w-[240px]" title="Click to review uploaded offer documents">
-                                            <i class="fas fa-file-pdf text-red-500 text-base shrink-0"></i>
-                                            <div class="truncate text-left leading-tight">
-                                                <span class="block font-bold text-slate-800 truncate max-w-[170px] text-[11.5px]"><%= st.docName || (st.documents && st.documents[0] && st.documents[0].docName) || 'Offer Document.pdf' %></span>
-                                                <% if (st.documents && st.documents.length > 1) { %>
-                                                    <span class="text-[10px] text-blue-600 font-semibold">+<%= st.documents.length - 1 %> more attachment<%= (st.documents.length - 1) > 1 ? 's' : '' %></span>
-                                                <% } else { %>
-                                                    <span class="text-[10px] text-slate-500">Student Uploaded File</span>
-                                                <% } %>
+            <div id="tabRequested" class="tab-pane hidden">
+                <div class="block md:hidden px-3 py-1.5 bg-slate-100 border-b border-slate-200 text-[11px] text-slate-500 text-center">
+                    <i class="fas fa-arrows-left-right mr-1 text-slate-400"></i> Swipe table horizontally to review documents & approve
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs min-w-[950px]">
+                        <thead>
+                            <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider whitespace-nowrap">
+                                <th class="py-3 px-3 w-8 text-center"><input type="checkbox" id="selectAllRequested" onchange="toggleSelectAllRequested(this)" class="rounded text-teal-600 focus:ring-teal-500 cursor-pointer" title="Select all visible requests"></th>
+                                <th class="py-3 px-3">#</th>
+                                <th class="py-3 px-3 sm:px-4">Student Name</th>
+                                <th class="py-3 px-3 sm:px-4">Enrollment No</th>
+                                <th class="py-3 px-3 sm:px-4">Course</th>
+                                <th class="py-3 px-3 sm:px-4">Semester</th>
+                                <th class="py-3 px-3 sm:px-4">Company Name</th>
+                                <th class="py-3 px-3 sm:px-4">Mode</th>
+                                <th class="py-3 px-3 sm:px-4">Offer Document</th>
+                                <th class="py-3 px-3 sm:px-4 text-center">Faculty Review & Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableRequestedBody" class="divide-y divide-slate-200">
+                            <% if (typeof requestedStudents !== 'undefined' && requestedStudents.length > 0) { %>
+                                <% requestedStudents.forEach((st, idx) => { %>
+                                    <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
+                                        <td class="py-3 px-3 text-center"><input type="checkbox" class="requested-checkbox rounded text-teal-600 focus:ring-teal-500 cursor-pointer" value="<%= st.enrollmentNo %>" onchange="updateBulkApproveBtn()"></td>
+                                        <td class="py-3 px-3 font-mono text-slate-500"><%= idx + 1 %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 whitespace-nowrap"><%= st.studentName %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-mono font-semibold text-blue-700 uppercase whitespace-nowrap"><%= st.enrollmentNo %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-600"><%= st.course %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-600 whitespace-nowrap"><%= st.semester || 'Sem I' %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-semibold text-slate-800"><%= st.companyName || '—' %></td>
+                                        <td class="py-3 px-3 sm:px-4 whitespace-nowrap"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[11px]"><%= st.internshipMode || 'Off Campus' %></span></td>
+                                        <td class="py-3 px-3 sm:px-4">
+                                            <button type="button" onclick="viewOfferDocByEnrollment('<%= st.enrollmentNo %>')" class="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-2 cursor-pointer bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md border border-blue-200 transition shadow-xs max-w-[240px]" title="Click to review uploaded offer documents">
+                                                <i class="fas fa-file-pdf text-red-500 text-base shrink-0"></i>
+                                                <div class="truncate text-left leading-tight">
+                                                    <span class="block font-bold text-slate-800 truncate max-w-[170px] text-[11.5px]"><%= st.docName || (st.documents && st.documents[0] && st.documents[0].docName) || 'Offer Document.pdf' %></span>
+                                                    <% if (st.documents && st.documents.length > 1) { %>
+                                                        <span class="text-[10px] text-blue-600 font-semibold">+<%= st.documents.length - 1 %> more attachment<%= (st.documents.length - 1) > 1 ? 's' : '' %></span>
+                                                    <% } else { %>
+                                                        <span class="text-[10px] text-slate-500">Student Uploaded File</span>
+                                                    <% } %>
+                                                </div>
+                                            </button>
+                                        </td>
+                                        <td class="py-3 px-3 sm:px-4 text-center whitespace-nowrap">
+                                            <div class="inline-flex items-center gap-1.5">
+                                                <button type="button" onclick="previewNocByEnrollment('<%= st.enrollmentNo %>')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2.5 py-1 rounded-md shadow-sm transition inline-flex items-center gap-1 cursor-pointer" title="Preview NOC Document">
+                                                    <i class="fas fa-file-signature"></i> <span>Preview NOC</span>
+                                                </button>
+                                                <button type="button" onclick="approveStudentNOC('<%= st.enrollmentNo %>')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded-md shadow-sm transition inline-flex items-center gap-1 cursor-pointer" title="Approve NOC">
+                                                    <i class="fas fa-check"></i> <span>Approve</span>
+                                                </button>
                                             </div>
-                                        </button>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <div class="inline-flex items-center gap-1.5">
-                                            <button type="button" onclick="previewNocByEnrollment('<%= st.enrollmentNo %>')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-2.5 py-1 rounded-md shadow-sm transition inline-flex items-center gap-1 cursor-pointer" title="Preview NOC Document">
-                                                <i class="fas fa-file-signature"></i> Preview NOC
-                                            </button>
-                                            <button type="button" onclick="approveStudentNOC('<%= st.enrollmentNo %>')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1 rounded-md shadow-sm transition inline-flex items-center gap-1 cursor-pointer" title="Approve NOC">
-                                                <i class="fas fa-check"></i> Approve
-                                            </button>
-                                        </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="10" class="text-center py-10 text-slate-400">
+                                        <i class="fas fa-inbox text-3xl mb-2 block text-slate-300"></i>
+                                        <span>No pending NOC requests at the moment.</span>
                                     </td>
                                 </tr>
-                            <% }); %>
-                        <% } else { %>
-                            <tr>
-                                <td colspan="9" class="text-center py-10 text-slate-400">
-                                    <i class="fas fa-inbox text-3xl mb-2 block text-slate-300"></i>
-                                    <span>No pending NOC requests at the moment.</span>
-                                </td>
-                            </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- TAB 3: APPROVED STUDENTS TABLE -->
-            <div id="tabApproved" class="tab-pane hidden overflow-x-auto">
-                <table class="w-full text-left border-collapse text-xs">
-                    <thead>
-                        <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider">
-                            <th class="py-3 px-4">#</th>
-                            <th class="py-3 px-4">Student Name</th>
-                            <th class="py-3 px-4">Enrollment No</th>
-                            <th class="py-3 px-4">Course</th>
-                            <th class="py-3 px-4">Semester</th>
-                            <th class="py-3 px-4">Company Name</th>
-                            <th class="py-3 px-4">Student Documents</th>
-                            <th class="py-3 px-4">Approval Date</th>
-                            <th class="py-3 px-4">Status</th>
-                            <th class="py-3 px-4 text-center">NOC Certificate</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableApprovedBody" class="divide-y divide-slate-200">
-                        <% if (typeof approvedStudents !== 'undefined' && approvedStudents.length > 0) { %>
-                            <% approvedStudents.forEach((st, idx) => { %>
-                                <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
-                                    <td class="py-3 px-4 font-mono text-slate-500"><%= idx + 1 %></td>
-                                    <td class="py-3 px-4 font-bold text-slate-800"><%= st.studentName %></td>
-                                    <td class="py-3 px-4 font-mono font-semibold text-blue-700 uppercase"><%= st.enrollmentNo %></td>
-                                    <td class="py-3 px-4 text-slate-600"><%= st.course %></td>
-                                    <td class="py-3 px-4 text-slate-600"><%= st.semester || 'Sem I' %></td>
-                                    <td class="py-3 px-4 font-semibold text-slate-800"><%= st.companyName || '—' %></td>
-                                    <td class="py-3 px-4">
-                                        <button type="button" onclick="viewOfferDocByEnrollment('<%= st.enrollmentNo %>')" class="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-1.5 cursor-pointer bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded border border-blue-200 transition text-[11px]" title="View student uploaded documents">
-                                            <i class="fas fa-file-pdf text-red-500"></i>
-                                            <span class="truncate max-w-[120px]"><%= st.docName || 'View PDF' %></span>
-                                        </button>
-                                    </td>
-                                    <td class="py-3 px-4 text-slate-500 text-[11px]"><%= st.approvedAt ? new Date(st.approvedAt).toLocaleString() : 'Recent' %></td>
-                                    <td class="py-3 px-4">
-                                        <span class="inline-flex items-center gap-1 bg-teal-100 text-teal-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
-                                            <i class="fas fa-check-double text-[10px]"></i> Approved
-                                        </span>
-                                    </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <div class="inline-flex items-center gap-1.5">
-                                            <button type="button" onclick="previewNocByEnrollment('<%= st.enrollmentNo %>')" class="text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 font-semibold px-2.5 py-1 rounded border border-teal-200 transition inline-flex items-center gap-1 cursor-pointer">
-                                                <i class="fas fa-certificate text-teal-600"></i> View / Print NOC
+            <div id="tabApproved" class="tab-pane hidden">
+                <div class="block md:hidden px-3 py-1.5 bg-slate-100 border-b border-slate-200 text-[11px] text-slate-500 text-center">
+                    <i class="fas fa-arrows-left-right mr-1 text-slate-400"></i> Swipe table horizontally to view & print NOCs
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs min-w-[950px]">
+                        <thead>
+                            <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider whitespace-nowrap">
+                                <th class="py-3 px-3 sm:px-4">#</th>
+                                <th class="py-3 px-3 sm:px-4">Student Name</th>
+                                <th class="py-3 px-3 sm:px-4">Enrollment No</th>
+                                <th class="py-3 px-3 sm:px-4">Course</th>
+                                <th class="py-3 px-3 sm:px-4">Semester</th>
+                                <th class="py-3 px-3 sm:px-4">Company Name</th>
+                                <th class="py-3 px-3 sm:px-4">Student Documents</th>
+                                <th class="py-3 px-3 sm:px-4">Approval Date</th>
+                                <th class="py-3 px-3 sm:px-4">Status</th>
+                                <th class="py-3 px-3 sm:px-4 text-center">NOC Certificate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableApprovedBody" class="divide-y divide-slate-200">
+                            <% if (typeof approvedStudents !== 'undefined' && approvedStudents.length > 0) { %>
+                                <% approvedStudents.forEach((st, idx) => { %>
+                                    <tr class="hover:bg-slate-50 transition data-row" data-name="<%= (st.studentName || '').toLowerCase() %>" data-enrollment="<%= (st.enrollmentNo || '').toLowerCase() %>" data-course="<%= (st.course || '').toLowerCase() %>">
+                                        <td class="py-3 px-3 sm:px-4 font-mono text-slate-500"><%= idx + 1 %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-bold text-slate-800 whitespace-nowrap"><%= st.studentName %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-mono font-semibold text-blue-700 uppercase whitespace-nowrap"><%= st.enrollmentNo %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-600"><%= st.course %></td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-600 whitespace-nowrap"><%= st.semester || 'Sem I' %></td>
+                                        <td class="py-3 px-3 sm:px-4 font-semibold text-slate-800"><%= st.companyName || '—' %></td>
+                                        <td class="py-3 px-3 sm:px-4">
+                                            <button type="button" onclick="viewOfferDocByEnrollment('<%= st.enrollmentNo %>')" class="text-blue-700 hover:text-blue-900 font-semibold inline-flex items-center gap-1.5 cursor-pointer bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded border border-blue-200 transition text-[11px]" title="View student uploaded documents">
+                                                <i class="fas fa-file-pdf text-red-500"></i>
+                                                <span class="truncate max-w-[120px]"><%= st.docName || 'View PDF' %></span>
                                             </button>
-                                            <button type="button" onclick="revokeStudentApproval('<%= st.enrollmentNo %>')" class="text-rose-700 hover:text-rose-900 bg-rose-50 hover:bg-rose-100 font-semibold px-2.5 py-1 rounded border border-rose-200 transition inline-flex items-center gap-1 cursor-pointer" title="Revert to Not Approved / Requested">
-                                                <i class="fas fa-undo text-rose-500"></i> Revert / Not Approved
-                                            </button>
-                                        </div>
+                                        </td>
+                                        <td class="py-3 px-3 sm:px-4 text-slate-500 text-[11px] whitespace-nowrap"><%= st.approvedAt ? new Date(st.approvedAt).toLocaleString() : 'Recent' %></td>
+                                        <td class="py-3 px-3 sm:px-4 whitespace-nowrap">
+                                            <span class="inline-flex items-center gap-1 bg-teal-100 text-teal-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                                <i class="fas fa-check-double text-[10px]"></i> Approved
+                                            </span>
+                                        </td>
+                                        <td class="py-3 px-3 sm:px-4 text-center whitespace-nowrap">
+                                            <div class="inline-flex items-center gap-1.5">
+                                                <button type="button" onclick="previewNocByEnrollment('<%= st.enrollmentNo %>')" class="text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 font-semibold px-2.5 py-1 rounded border border-teal-200 transition inline-flex items-center gap-1 cursor-pointer">
+                                                    <i class="fas fa-certificate text-teal-600"></i> <span>View / Print NOC</span>
+                                                </button>
+                                                <button type="button" onclick="revokeStudentApproval('<%= st.enrollmentNo %>')" class="text-rose-700 hover:text-rose-900 bg-rose-50 hover:bg-rose-100 font-semibold px-2.5 py-1 rounded border border-rose-200 transition inline-flex items-center gap-1 cursor-pointer" title="Revert to Not Approved / Requested">
+                                                    <i class="fas fa-undo text-rose-500"></i> <span>Revert</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="10" class="text-center py-10 text-slate-400">
+                                        <i class="fas fa-clipboard-check text-3xl mb-2 block text-slate-300"></i>
+                                        <span>No approved students yet.</span>
                                     </td>
                                 </tr>
-                            <% }); %>
-                        <% } else { %>
-                            <tr>
-                                <td colspan="9" class="text-center py-10 text-slate-400">
-                                    <i class="fas fa-clipboard-check text-3xl mb-2 block text-slate-300"></i>
-                                    <span>No approved students yet.</span>
-                                </td>
-                            </tr>
-                        <% } %>
-                    </tbody>
-                </table>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -383,15 +398,15 @@
     </main>
 
     <!-- MULTI-DOCUMENT SELECTOR MODAL (Opens document directly in new tab) -->
-    <div id="multiDocModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'multiDocModal')">
-        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden" onclick="event.stopPropagation()">
-            <div class="bg-[#16223e] text-white px-5 py-4 flex items-center justify-between border-b-4 border-[#f2b300]">
-                <h3 class="font-heading font-bold text-sm uppercase tracking-wider flex items-center gap-2">
-                    <i class="fas fa-folder-open text-amber-400"></i> Student Attached Documents
+    <div id="multiDocModal" class="modal-overlay p-3 sm:p-4" onclick="closeModalOnOverlay(event, 'multiDocModal')">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden my-auto max-h-[92vh] flex flex-col" onclick="event.stopPropagation()">
+            <div class="bg-[#16223e] text-white px-4 py-3 sm:px-5 sm:py-4 flex items-center justify-between border-b-4 border-[#f2b300] shrink-0">
+                <h3 class="font-heading font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
+                    <i class="fas fa-folder-open text-amber-400"></i> <span>Student Attached Documents</span>
                 </h3>
-                <button type="button" onclick="closeModal('multiDocModal')" class="text-slate-300 hover:text-white text-lg font-bold">&times;</button>
+                <button type="button" onclick="closeModal('multiDocModal')" class="text-slate-300 hover:text-white text-lg font-bold p-1 cursor-pointer">&times;</button>
             </div>
-            <div class="p-5 space-y-4">
+            <div class="p-4 sm:p-5 space-y-3.5 sm:space-y-4 overflow-y-auto">
                 <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-700">
                     <div>Student: <strong id="multiDocStudentName" class="text-slate-900"></strong> (<span id="multiDocEnrollment" class="font-mono font-semibold text-blue-700"></span>)</div>
                     <p class="text-slate-500 mt-1">Select a document below to view it directly in a full-screen new tab:</p>
@@ -401,7 +416,7 @@
                     <!-- Dynamic doc list injected here -->
                 </div>
 
-                <div class="pt-3 border-t border-slate-200 flex justify-between items-center">
+                <div class="pt-3 border-t border-slate-200 flex flex-wrap gap-2 justify-between items-center">
                     <button type="button" id="btnOpenAllDocs" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-3 py-1.5 rounded text-xs inline-flex items-center gap-1.5 cursor-pointer">
                         <i class="fas fa-external-link-alt text-[10px]"></i> Open All in New Tabs
                     </button>

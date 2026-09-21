@@ -76,28 +76,28 @@
     </div>
 
     <!-- Clean White Institutional Header Strip -->
-    <header class="bg-white border-b border-slate-200 shadow-sm py-3.5 px-6 sm:px-12">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <header class="bg-white border-b border-slate-200 shadow-sm py-3 px-4 sm:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             
             <!-- Left Side: DAVV Logo & Department Names -->
-            <div class="flex items-center gap-4">
-                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-16 w-auto object-contain shrink-0">
+            <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center sm:justify-start text-center sm:text-left">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-12 sm:h-16 w-auto object-contain shrink-0">
                 <div>
-                    <h1 class="text-sm sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
+                    <h1 class="text-xs sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
                         DEVI AHILYA VISHWAVIDYALAYA, INDORE
                     </h1>
-                    <h2 class="text-xs sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
+                    <h2 class="text-[11px] sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
                         School of Data Science and Forecasting (SDSF)
                     </h2>
-                    <p class="text-[11px] text-slate-500">Takshila Campus, Khandwa Road, Indore - 452001 (M.P.)</p>
+                    <p class="text-[10px] sm:text-[11px] text-slate-500">Takshila Campus, Khandwa Road, Indore - 452001 (M.P.)</p>
                 </div>
             </div>
 
             <!-- Right Side: Department Logo & Back Button -->
-            <div class="flex items-center gap-6">
-                <img src="/photoes/deplogo.png" onerror="this.src='/photoes/departmentlogo_transparent.png'" alt="SDSF Logo" class="h-14 w-auto object-contain hidden md:block">
-                <a href="https://dsf.dauniv.ac.in/" class="inline-flex items-center gap-2 bg-[#162b57] hover:bg-[#0b132b] text-white text-xs font-semibold px-4 py-2.5 rounded-md shadow-sm transition">
-                    <i class="fas fa-arrow-left"></i> Back to Main Website
+            <div class="flex items-center justify-center sm:justify-end gap-3 sm:gap-6 w-full sm:w-auto">
+                <img src="/photoes/deplogo.png" onerror="this.src='/photoes/departmentlogo_transparent.png'" alt="SDSF Logo" class="h-12 sm:h-14 w-auto object-contain hidden md:block">
+                <a href="https://dsf.dauniv.ac.in/" class="inline-flex items-center justify-center gap-2 bg-[#162b57] hover:bg-[#0b132b] text-white text-xs font-semibold px-4 py-2 sm:py-2.5 rounded-md shadow-sm transition w-full sm:w-auto text-center">
+                    <i class="fas fa-arrow-left"></i> <span>Back to Main Website</span>
                 </a>
             </div>
 
@@ -105,38 +105,38 @@
     </header>
 
     <!-- Main Internship Portal Section -->
-    <main class="py-8 px-4 flex items-center justify-center flex-grow">
+    <main class="py-5 sm:py-8 px-3 sm:px-4 flex items-center justify-center flex-grow">
         <div class="portal-card w-full max-w-[720px] bg-white rounded-lg shadow-xl border border-slate-200 overflow-hidden flex flex-col">
             
             <!-- Top Dark Navy Card Banner -->
-            <div class="bg-[#16223e] text-white py-4 px-6 text-center border-b-4 border-[#f2b300]">
-                <span class="inline-block bg-[#f2b300]/15 border border-[#f2b300]/40 text-[#f2b300] text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
+            <div class="bg-[#16223e] text-white py-3.5 px-4 sm:py-4 sm:px-6 text-center border-b-4 border-[#f2b300]">
+                <span class="inline-block bg-[#f2b300]/15 border border-[#f2b300]/40 text-[#f2b300] text-[10.5px] sm:text-[11px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider mb-1">
                     <i class="fas fa-briefcase mr-1"></i> SDSF WORKSPACE
                 </span>
-                <h2 class="text-2xl sm:text-[28px] font-bold tracking-wider uppercase font-heading text-white leading-tight">INTERNSHIP PORTAL</h2>
-                <p class="text-slate-300 text-xs">Welcome to the School of Data Science and Forecasting Internship Gateway</p>
+                <h2 class="text-xl sm:text-[28px] font-bold tracking-wider uppercase font-heading text-white leading-tight">INTERNSHIP PORTAL</h2>
+                <p class="text-slate-300 text-[11px] sm:text-xs">Welcome to the School of Data Science and Forecasting Internship Gateway</p>
             </div>
 
             <!-- Card Content Panel -->
-            <div class="px-6 py-6 sm:px-10">
+            <div class="px-3.5 py-5 sm:px-10 sm:py-6">
                 
                 <!-- Role Selector Tabs -->
-                <div class="flex bg-slate-100 p-1.5 rounded-lg mb-6 max-w-lg mx-auto border border-slate-200 gap-1.5">
-                    <button type="button" id="tab-student" onclick="switchTab('student')" class="flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-blue-600 shadow-sm cursor-pointer whitespace-nowrap">
-                        <i class="fas fa-user-graduate"></i> Student Login
+                <div class="flex bg-slate-100 p-1 sm:p-1.5 rounded-lg mb-5 sm:mb-6 max-w-lg mx-auto border border-slate-200 gap-1 sm:gap-1.5">
+                    <button type="button" id="tab-student" onclick="switchTab('student')" class="flex-1 py-2 px-1.5 sm:px-3.5 text-[11px] sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1 sm:gap-2 bg-white text-blue-600 shadow-sm cursor-pointer whitespace-nowrap">
+                        <i class="fas fa-user-graduate text-xs sm:text-sm"></i> <span>Student Login</span>
                     </button>
-                    <button type="button" id="tab-teacher" onclick="switchTab('teacher')" class="flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap">
-                        <i class="fas fa-chalkboard-teacher"></i> Teacher Login
+                    <button type="button" id="tab-teacher" onclick="switchTab('teacher')" class="flex-1 py-2 px-1.5 sm:px-3.5 text-[11px] sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap">
+                        <i class="fas fa-chalkboard-teacher text-xs sm:text-sm"></i> <span>Teacher Login</span>
                     </button>
-                    <button type="button" id="tab-help" onclick="switchTab('help')" class="flex-1 py-2 px-2.5 sm:px-3.5 text-xs sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1.5 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap">
-                        <i class="fas fa-headset"></i> Help Desk
+                    <button type="button" id="tab-help" onclick="switchTab('help')" class="flex-1 py-2 px-1.5 sm:px-3.5 text-[11px] sm:text-sm font-semibold rounded-md transition flex items-center justify-center gap-1 sm:gap-2 text-slate-500 hover:text-slate-800 cursor-pointer whitespace-nowrap">
+                        <i class="fas fa-headset text-xs sm:text-sm"></i> <span>Help Desk</span>
                     </button>
                 </div>
 
                 <!-- Student Login Form -->
                 <div id="form-student" class="portal-form-box max-w-md mx-auto block">
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-slate-800 font-heading">Student Portal Log In</h3>
+                    <div class="text-center mb-5 sm:mb-6">
+                        <h3 class="text-xl sm:text-2xl font-bold text-slate-800 font-heading">Student Portal Log In</h3>
                         <p class="text-slate-500 text-xs sm:text-sm mt-1">Access your internship applications and submission dashboard</p>
                         <p class="text-blue-600 text-xs sm:text-sm font-semibold mt-1"> Eligible for Final Year students only </p>
                     </div>
@@ -165,7 +165,7 @@
                         </div>
 
                         <div>
-                            <div class="flex items-center justify-between mb-1.5">
+                            <div class="flex flex-wrap items-center justify-between gap-1 mb-1.5">
                                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">
                                     PASSWORD <span class="text-red-500">*</span>
                                 </label>
@@ -369,17 +369,17 @@
     </main>
 
     <!-- Student Password Reset / OTP Verification Modal -->
-    <div id="modalResetPassword" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden transition-all transform scale-100">
+    <div id="modalResetPassword" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden transition-all transform scale-100 my-auto max-h-[95vh] flex flex-col">
             <!-- Modal Header -->
-            <div class="bg-[#16223e] text-white px-5 py-4 border-b-4 border-[#f2b300] flex items-center justify-between">
+            <div class="bg-[#16223e] text-white px-4 py-3 sm:px-5 sm:py-4 border-b-4 border-[#f2b300] flex items-center justify-between shrink-0">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-full bg-[#f2b300]/20 flex items-center justify-center text-[#f2b300]">
                         <i class="fas fa-key text-sm"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-base font-heading tracking-wide">Student Password Reset</h4>
-                        <p class="text-[11px] text-slate-300">Verify via registered email OTP</p>
+                        <h4 class="font-bold text-sm sm:text-base font-heading tracking-wide">Student Password Reset</h4>
+                        <p class="text-[10px] sm:text-[11px] text-slate-300">Verify via registered email OTP</p>
                     </div>
                 </div>
                 <button type="button" onclick="closeResetPasswordModal()" class="text-slate-400 hover:text-white transition text-lg cursor-pointer p-1">
@@ -388,7 +388,7 @@
             </div>
 
             <!-- Modal Body -->
-            <div class="p-6">
+            <div class="p-4 sm:p-6 overflow-y-auto">
                 <!-- Alert box for feedback -->
                 <div id="resetModalAlert" class="hidden mb-4 p-3 rounded-lg text-xs items-start gap-2"></div>
 

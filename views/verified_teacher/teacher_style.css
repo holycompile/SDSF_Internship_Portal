@@ -567,3 +567,23 @@ h1, h2, h3, h4 {
     color: #0f172a;
     border-color: #94a3b8;
 }
+
+/* Responsive enhancements for mobile viewports */
+@media (max-width: 640px) {
+    .teacher-container {
+        width: 100%;
+        padding: 0 8px;
+        margin: 10px auto 30px auto;
+    }
+    .teacher-card {
+        padding: 16px 12px;
+        border-radius: 8px;
+    }
+    .pdf-modal-overlay {
+        padding: 8px;
+    }
+    .pdf-modal-container {
+        height: 92vh;
+        border-radius: 6px;
+    }
+}

@@ -469,10 +469,20 @@
     .footer-container {
         grid-template-columns: 1fr;
         gap: 25px;
+        padding: 20px 0 35px 0;
     }
     .footer-bottom-container {
         flex-direction: column;
         gap: 12px;
         text-align: center;
     }
+}
+
+/* Touch-friendly horizontal scroll utility without scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

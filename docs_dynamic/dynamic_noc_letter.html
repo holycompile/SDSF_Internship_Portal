@@ -186,6 +186,63 @@
             background: #475569;
         }
 
+        @media (max-width: 640px) {
+            body {
+                padding: 12px 8px;
+            }
+            .page-container {
+                padding: 24px 16px;
+                border-radius: 6px;
+            }
+            .letterhead {
+                gap: 8px;
+            }
+            .logo-davv, .logo-sdsf {
+                height: 46px;
+            }
+            .header-text h1 {
+                font-size: 13px;
+            }
+            .header-text h2 {
+                font-size: 11px;
+            }
+            .header-text p {
+                font-size: 10px;
+            }
+            .meta-row {
+                flex-direction: column;
+                gap: 4px;
+                font-size: 12px;
+                margin: 12px 0;
+            }
+            .cert-title-box h3 {
+                font-size: 13px;
+            }
+            .cert-body {
+                font-size: 13.5px;
+                line-height: 1.6;
+            }
+            .signature-section {
+                flex-direction: column;
+                gap: 35px;
+                margin-top: 40px;
+            }
+            .sig-col.right {
+                text-align: left;
+            }
+            .sig-col.right .sig-line {
+                margin-left: 0;
+            }
+            .print-toolbar {
+                justify-content: stretch;
+            }
+            .btn-action {
+                flex: 1;
+                justify-content: center;
+                padding: 9px 12px;
+            }
+        }
+
         @media print {
             body {
                 background: white;
