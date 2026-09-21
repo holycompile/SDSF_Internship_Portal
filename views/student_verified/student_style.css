@@ -207,6 +207,52 @@ h1, h2, h3, h4 {
     }
 }
 
+@media (max-width: 480px) {
+    .student-brand-title {
+        font-size: 11px;
+    }
+    .student-brand-subtitle {
+        font-size: 9.5px;
+    }
+    .student-brand-meta {
+        font-size: 9.5px;
+    }
+    .student-user-name {
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .sidebar-tab {
+        padding: 8px 4px !important;
+        font-size: 10.5px !important;
+        gap: 5px !important;
+    }
+    .sidebar-tab i {
+        font-size: 11px !important;
+    }
+    .student-content-panel {
+        padding: 14px 10px !important;
+    }
+    .btn-submit-noc {
+        font-size: 13.5px;
+        padding: 12px 14px;
+    }
+    .prev-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .prev-card-action-row {
+        width: 100%;
+        justify-content: stretch;
+    }
+    .btn-prev-view-letter {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 /* Page Container */
 .noc-container {
     max-width: 1150px;

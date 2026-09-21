@@ -257,14 +257,14 @@
     </footer>
 
     <!-- Change Password Modal inside Dashboard -->
-    <div id="modalChangePassword" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 16px;">
-        <div style="background: #ffffff; border-radius: 12px; max-width: 440px; width: 100%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); overflow: hidden; border: 1px solid #cbd5e1; font-family: 'Poppins', sans-serif;">
+    <div id="modalChangePassword" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 12px; overflow-y: auto;">
+        <div style="background: #ffffff; border-radius: 12px; max-width: 440px; width: 100%; max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); overflow: hidden; border: 1px solid #cbd5e1; font-family: 'Poppins', sans-serif; margin: auto;">
             <!-- Header -->
-            <div style="background: #16223e; color: #ffffff; padding: 16px 20px; border-bottom: 4px solid #f2b300; display: flex; justify-content: space-between; align-items: center;">
+            <div style="background: #16223e; color: #ffffff; padding: 14px 18px; border-bottom: 4px solid #f2b300; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-shield-alt" style="color: #f2b300; font-size: 18px; margin-top: 2px;"></i>
                     <div>
-                        <h4 style="margin: 0; font-size: 15px; font-weight: 700; text-transform: uppercase;">Change Account Password</h4>
+                        <h4 style="margin: 0; font-size: 14px; font-weight: 700; text-transform: uppercase;">Change Account Password</h4>
                         <p style="margin: 2px 0 0 0; font-size: 11px; color: #94a3b8;">Verify with 6-digit OTP sent to registered email</p>
                     </div>
                 </div>
@@ -274,7 +274,7 @@
             </div>
 
             <!-- Body -->
-            <div style="padding: 20px;">
+            <div style="padding: 16px 18px; overflow-y: auto;">
                 <div id="dashPasswordAlert" style="display: none; padding: 10px 14px; border-radius: 6px; font-size: 12px; margin-bottom: 14px;"></div>
 
                 <div id="dashPassStep1">

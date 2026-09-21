@@ -91,31 +91,31 @@
 
     <!-- Institutional Header Strip -->
     <header class="bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 sm:py-3.5 shadow-sm no-print">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-4">
             
-            <div class="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-center sm:justify-start text-center sm:text-left">
-                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-12 sm:h-16 w-auto object-contain shrink-0">
-                <div>
+            <div class="flex items-center gap-2.5 sm:gap-4 w-full sm:w-auto justify-start text-left">
+                <img src="/photoes/davvLogo.png" alt="DAVV Logo" class="h-11 sm:h-16 w-auto object-contain shrink-0">
+                <div class="min-w-0 flex-1 sm:flex-initial">
                     <h1 class="text-xs sm:text-base font-bold text-[#162b57] font-heading tracking-wide uppercase leading-tight">
                         DEVI AHILYA VISHWAVIDYALAYA, INDORE
                     </h1>
-                    <h2 class="text-[11px] sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase">
+                    <h2 class="text-[10px] sm:text-sm font-semibold text-slate-700 font-heading tracking-wide uppercase leading-tight mt-0.5">
                         School of Data Science and Forecasting (SDSF)
                     </h2>
-                    <p class="text-[10px] sm:text-[11px] text-teal-700 font-semibold flex items-center justify-center sm:justify-start gap-1.5 mt-0.5">
+                    <p class="text-[9px] sm:text-[11px] text-teal-700 font-semibold flex items-center justify-start gap-1.5 mt-0.5">
                         <i class="fas fa-chalkboard-teacher"></i> Faculty Management & NOC Approval Portal
                     </p>
                 </div>
             </div>
 
-            <div class="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
-                <div class="text-left sm:text-right bg-slate-100 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-lg border border-slate-200 flex-1 sm:flex-initial">
-                    <span class="block text-xs font-bold text-slate-800">
+            <div class="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3 w-full sm:w-auto">
+                <div class="text-left sm:text-right bg-slate-100 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg border border-slate-200 flex-1 sm:flex-initial">
+                    <span class="block text-xs font-bold text-slate-800 truncate">
                         <i class="fas fa-user-shield text-teal-600 mr-1"></i> <%= typeof facultyId !== 'undefined' ? facultyId : 'Faculty' %>
                     </span>
-                    <span class="text-[10.5px] sm:text-[11px] text-emerald-600 font-semibold">● Active Session</span>
+                    <span class="text-[10px] sm:text-[11px] text-emerald-600 font-semibold">● Active Session</span>
                 </div>
-                <a href="/login" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-3.5 py-2 sm:px-4 rounded-md shadow-sm transition flex items-center gap-1.5 shrink-0">
+                <a href="/login" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-3 sm:px-4 py-1.5 sm:py-2 rounded-md shadow-sm transition flex items-center gap-1.5 shrink-0 min-h-[36px]">
                     <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                 </a>
             </div>
@@ -124,29 +124,29 @@
     </header>
 
     <!-- Main Teacher Section -->
-    <main class="max-w-7xl mx-auto w-full px-2.5 sm:px-4 py-4 sm:py-8 flex-grow">
+    <main class="max-w-7xl mx-auto w-full px-2 sm:px-4 py-3 sm:py-8 flex-grow">
 
         <div id="printableSection" class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
             
             <!-- Header Toolbar -->
-            <div class="bg-gradient-to-r from-[#16223e] to-[#0f172a] text-white p-4 sm:p-6 border-b-4 border-[#f2b300] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 sm:gap-4 no-print">
+            <div class="bg-gradient-to-r from-[#16223e] to-[#0f172a] text-white p-3.5 sm:p-6 border-b-4 border-[#f2b300] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 sm:gap-4 no-print">
                 <div>
-                    <h2 class="text-lg sm:text-2xl font-bold font-heading uppercase tracking-wider text-white">Faculty Records & NOC Approvals</h2>
-                    <p class="text-slate-300 text-[11px] sm:text-xs mt-0.5 sm:mt-1">Real-time student verification data from MongoDB (Verified, Requested & Approved)</p>
+                    <h2 class="text-base sm:text-2xl font-bold font-heading uppercase tracking-wider text-white">Faculty Records & NOC Approvals</h2>
+                    <p class="text-slate-300 text-[10.5px] sm:text-xs mt-0.5 sm:mt-1">Real-time student verification data from MongoDB (Verified, Requested & Approved)</p>
                 </div>
 
                 <!-- 3 Main Tabs Navigation -->
-                <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-800/60 p-1 sm:p-1.5 rounded-lg border border-slate-700 w-full md:w-auto overflow-x-auto no-scrollbar">
-                    <button type="button" onclick="switchTab('tabVerified')" id="btnTabVerified" class="tab-btn active flex-1 md:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap">
-                        <i class="fas fa-user-check text-emerald-400 text-xs"></i> <span>Verified</span>
+                <div class="flex items-center gap-1 sm:gap-2 bg-slate-800/60 p-1 sm:p-1.5 rounded-lg border border-slate-700 w-full md:w-auto overflow-x-auto no-scrollbar">
+                    <button type="button" onclick="switchTab('tabVerified')" id="btnTabVerified" class="tab-btn active flex-1 md:flex-initial px-2 sm:px-3.5 py-1.5 sm:py-1.5 text-[10.5px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap min-w-0 min-h-[36px]">
+                        <i class="fas fa-user-check text-emerald-400 text-xs shrink-0"></i> <span>Verified</span>
                         <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof verifiedStudents !== 'undefined' ? verifiedStudents.length : 0 %></span>
                     </button>
-                    <button type="button" onclick="switchTab('tabRequested')" id="btnTabRequested" class="tab-btn flex-1 md:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap">
-                        <i class="fas fa-clock text-amber-400 text-xs"></i> <span>Requested</span>
+                    <button type="button" onclick="switchTab('tabRequested')" id="btnTabRequested" class="tab-btn flex-1 md:flex-initial px-2 sm:px-3.5 py-1.5 sm:py-1.5 text-[10.5px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap min-w-0 min-h-[36px]">
+                        <i class="fas fa-clock text-amber-400 text-xs shrink-0"></i> <span>Requested</span>
                         <span class="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof requestedStudents !== 'undefined' ? requestedStudents.length : 0 %></span>
                     </button>
-                    <button type="button" onclick="switchTab('tabApproved')" id="btnTabApproved" class="tab-btn flex-1 md:flex-initial px-2.5 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap">
-                        <i class="fas fa-check-double text-teal-400 text-xs"></i> <span>Approved</span>
+                    <button type="button" onclick="switchTab('tabApproved')" id="btnTabApproved" class="tab-btn flex-1 md:flex-initial px-2 sm:px-3.5 py-1.5 sm:py-1.5 text-[10.5px] sm:text-xs font-bold rounded-md transition flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer text-slate-300 hover:text-white whitespace-nowrap min-w-0 min-h-[36px]">
+                        <i class="fas fa-check-double text-teal-400 text-xs shrink-0"></i> <span>Approved</span>
                         <span class="bg-teal-500/20 text-teal-300 text-[10px] px-1.5 py-0.2 rounded-full"><%= typeof approvedStudents !== 'undefined' ? approvedStudents.length : 0 %></span>
                     </button>
                 </div>
@@ -160,16 +160,16 @@
             </div>
 
             <!-- Filter Controls & Export Toolbar -->
-            <div class="p-3 sm:p-5 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 no-print">
-                <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full md:w-auto">
+            <div class="p-3 sm:p-5 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 sm:gap-4 no-print">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full md:w-auto">
                     <!-- Quick Search -->
                     <div class="relative w-full sm:w-auto min-w-0 sm:min-w-[240px] flex-1">
                         <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                        <input type="text" id="filterSearch" oninput="filterCurrentTable()" placeholder="Search name or enrollment..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                        <input type="text" id="filterSearch" oninput="filterCurrentTable()" placeholder="Search name or enrollment..." class="w-full pl-8 pr-3 py-2 sm:py-1.5 bg-white border border-slate-300 rounded-md text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none min-h-[38px]">
                     </div>
 
                     <!-- Course Filter Dropdown -->
-                    <div class="flex items-center gap-1.5 bg-white border border-slate-300 rounded-md px-2.5 py-1 shadow-2xs w-full sm:w-auto">
+                    <div class="flex items-center gap-1.5 bg-white border border-slate-300 rounded-md px-2.5 py-1.5 sm:py-1 shadow-2xs w-full sm:w-auto min-h-[38px]">
                         <i class="fas fa-graduation-cap text-teal-600 text-xs shrink-0"></i>
                         <select id="filterCourse" onchange="filterCurrentTable()" class="bg-transparent text-xs text-slate-700 font-medium focus:outline-none cursor-pointer w-full">
                             <option value="all">All Courses / Programs</option>
@@ -184,21 +184,21 @@
                     </div>
 
                     <!-- Default Semester Badge -->
-                    <div class="hidden sm:flex items-center gap-1.5 bg-slate-200/80 border border-slate-300 rounded-md px-2.5 py-1 text-xs text-slate-700 font-semibold" title="Default Semester for all students">
+                    <div class="hidden sm:flex items-center gap-1.5 bg-slate-200/80 border border-slate-300 rounded-md px-2.5 py-1 text-xs text-slate-700 font-semibold min-h-[38px]" title="Default Semester for all students">
                         <i class="fas fa-layer-group text-slate-500"></i>
                         <span>Semester: <strong class="text-slate-900 font-mono">Semester X</strong></span>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-end gap-2 w-full md:w-auto flex-wrap">
-                    <button type="button" id="btnBulkApprove" onclick="bulkApproveSelected()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-md shadow-sm transition items-center gap-1.5 cursor-pointer flex-1 sm:flex-initial justify-center">
+                    <button type="button" id="btnBulkApprove" onclick="bulkApproveSelected()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-2 rounded-md shadow-sm transition items-center gap-1.5 cursor-pointer flex-1 sm:flex-initial justify-center min-h-[38px]">
                         <i class="fas fa-check-double"></i> Bulk Approve (<span id="bulkCount">0</span>)
                     </button>
-                    <button type="button" onclick="exportCurrentTableToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial">
-                        <i class="fas fa-file-excel"></i> Export CSV
+                    <button type="button" onclick="exportCurrentTableToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 sm:py-1.5 rounded-md shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial min-h-[38px]">
+                        <i class="fas fa-file-excel"></i> <span>Export CSV</span>
                     </button>
-                    <button type="button" onclick="triggerPrint()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial">
-                        <i class="fas fa-print"></i> Print Records
+                    <button type="button" onclick="triggerPrint()" class="bg-slate-700 hover:bg-slate-800 text-white text-xs font-semibold px-3 py-2 sm:py-1.5 rounded-md shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-initial min-h-[38px]">
+                        <i class="fas fa-print"></i> <span>Print Records</span>
                     </button>
                 </div>
             </div>
@@ -212,14 +212,14 @@
                     <table class="w-full text-left border-collapse text-xs min-w-[720px]">
                         <thead>
                             <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider whitespace-nowrap">
-                                <th class="py-3 px-3 sm:px-4">#</th>
-                                <th class="py-3 px-3 sm:px-4">Student Name</th>
-                                <th class="py-3 px-3 sm:px-4">Enrollment No</th>
-                                <th class="py-3 px-3 sm:px-4">Course / Program</th>
-                                <th class="py-3 px-3 sm:px-4">Email ID</th>
-                                <th class="py-3 px-3 sm:px-4">Verification Code</th>
-                                <th class="py-3 px-3 sm:px-4">Verified Time</th>
-                                <th class="py-3 px-3 sm:px-4">Status</th>
+                                <th class="py-3 px-3 sm:px-4 w-10">#</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Student Name</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[120px]">Enrollment No</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[160px]">Course / Program</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[160px]">Email ID</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[120px]">Verification Code</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[130px]">Verified Time</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[90px]">Status</th>
                             </tr>
                         </thead>
                         <tbody id="tableVerifiedBody" class="divide-y divide-slate-200">
@@ -264,15 +264,15 @@
                         <thead>
                             <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider whitespace-nowrap">
                                 <th class="py-3 px-3 w-8 text-center"><input type="checkbox" id="selectAllRequested" onchange="toggleSelectAllRequested(this)" class="rounded text-teal-600 focus:ring-teal-500 cursor-pointer" title="Select all visible requests"></th>
-                                <th class="py-3 px-3">#</th>
-                                <th class="py-3 px-3 sm:px-4">Student Name</th>
-                                <th class="py-3 px-3 sm:px-4">Enrollment No</th>
-                                <th class="py-3 px-3 sm:px-4">Course</th>
-                                <th class="py-3 px-3 sm:px-4">Semester</th>
-                                <th class="py-3 px-3 sm:px-4">Company Name</th>
-                                <th class="py-3 px-3 sm:px-4">Mode</th>
-                                <th class="py-3 px-3 sm:px-4">Offer Document</th>
-                                <th class="py-3 px-3 sm:px-4 text-center">Faculty Review & Action</th>
+                                <th class="py-3 px-3 w-10">#</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Student Name</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[120px]">Enrollment No</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Course</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[90px]">Semester</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Company Name</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[100px]">Mode</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[180px]">Offer Document</th>
+                                <th class="py-3 px-3 sm:px-4 text-center min-w-[170px]">Faculty Review & Action</th>
                             </tr>
                         </thead>
                         <tbody id="tableRequestedBody" class="divide-y divide-slate-200">
@@ -334,16 +334,16 @@
                     <table class="w-full text-left border-collapse text-xs min-w-[950px]">
                         <thead>
                             <tr class="bg-[#16223e] text-slate-200 border-b border-slate-300 uppercase font-heading tracking-wider whitespace-nowrap">
-                                <th class="py-3 px-3 sm:px-4">#</th>
-                                <th class="py-3 px-3 sm:px-4">Student Name</th>
-                                <th class="py-3 px-3 sm:px-4">Enrollment No</th>
-                                <th class="py-3 px-3 sm:px-4">Course</th>
-                                <th class="py-3 px-3 sm:px-4">Semester</th>
-                                <th class="py-3 px-3 sm:px-4">Company Name</th>
-                                <th class="py-3 px-3 sm:px-4">Student Documents</th>
-                                <th class="py-3 px-3 sm:px-4">Approval Date</th>
-                                <th class="py-3 px-3 sm:px-4">Status</th>
-                                <th class="py-3 px-3 sm:px-4 text-center">NOC Certificate</th>
+                                <th class="py-3 px-3 sm:px-4 w-10">#</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Student Name</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[120px]">Enrollment No</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Course</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[90px]">Semester</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[140px]">Company Name</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[150px]">Student Documents</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[125px]">Approval Date</th>
+                                <th class="py-3 px-3 sm:px-4 min-w-[90px]">Status</th>
+                                <th class="py-3 px-3 sm:px-4 text-center min-w-[140px]">NOC Certificate</th>
                             </tr>
                         </thead>
                         <tbody id="tableApprovedBody" class="divide-y divide-slate-200">
@@ -677,17 +677,17 @@
 
             rawDocs.forEach((doc, idx) => {
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between p-3 bg-slate-50 hover:bg-blue-50/60 border border-slate-200 rounded-lg transition';
+                row.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-2.5 sm:p-3 bg-slate-50 hover:bg-blue-50/60 border border-slate-200 rounded-lg transition';
                 row.innerHTML = `
-                    <div class="flex items-center gap-2.5 truncate mr-3">
+                    <div class="flex items-center gap-2.5 truncate w-full sm:w-auto">
                         <i class="fas fa-file-pdf text-red-500 text-lg shrink-0"></i>
-                        <div class="truncate text-left">
+                        <div class="truncate text-left flex-1 min-w-0">
                             <span class="block text-xs font-bold text-slate-800 truncate">${doc.label || ('Document ' + (idx + 1))}</span>
                             <span class="block text-[11px] text-slate-500 truncate">${doc.docName || 'Attachment.pdf'}</span>
                         </div>
                     </div>
-                    <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-3 py-1.5 rounded-md shadow-xs transition shrink-0 flex items-center gap-1.5 cursor-pointer">
-                        <i class="fas fa-external-link-alt text-[10px]"></i> Open in New Tab
+                    <button type="button" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-3 py-1.5 rounded-md shadow-xs transition shrink-0 flex items-center justify-center gap-1.5 cursor-pointer min-h-[34px]">
+                        <i class="fas fa-external-link-alt text-[10px]"></i> <span>Open Document</span>
                     </button>
                 `;
                 row.querySelector('button').onclick = () => openDocInNewTab(enrollmentNo, idx);
